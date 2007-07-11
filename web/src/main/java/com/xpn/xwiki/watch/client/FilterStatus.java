@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ldubost
- * Date: 11 janv. 2007
- * Time: 11:55:22
- * To change this template use File | Settings | File Templates.
- */
 public class FilterStatus {
     protected Watch watch;
     private int flagged;

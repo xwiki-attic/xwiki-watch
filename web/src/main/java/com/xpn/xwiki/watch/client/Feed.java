@@ -6,14 +6,6 @@ import com.xpn.xwiki.gwt.api.client.XObject;
 import java.util.List;
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ldubost
- * Date: 7 janv. 2007
- * Time: 12:30:56
- * To change this template use File | Settings | File Templates.
- */
-
 public class Feed {
     private String pageName;
     private String name;
