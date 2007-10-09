@@ -63,7 +63,7 @@
   </build>
   <properties>
     <!-- Version of the Tools Platform used in XE -->
-    <platform.tools.version>1.5</platform.tools.version>
+    <platform.tools.version>1.7-SNAPSHOT</platform.tools.version>
   </properties>
 </project>
 
