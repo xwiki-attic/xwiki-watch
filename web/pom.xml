@@ -33,16 +33,19 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <description>XWiki Watch</description>
+  <properties>
+    <gwtVersion>1.3.3</gwtVersion>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
-      <version>1.3.3</version>
+      <version>${gwtVersion}</version>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>1.3.3</version>
+      <version>${gwtVersion}</version>
     </dependency>
     <dependency>
       <groupId>gwt-widgets</groupId>
@@ -55,16 +58,132 @@
       <version>0.2.2</version>
     </dependency>  
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+    </dependency> 
+   <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>${platform.core.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-gwt</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>${platform.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform</groupId>
+      <artifactId>xwiki-web-gwt</artifactId>
+      <version>${platform.web.version}</version>
+      <classifier>sources</classifier>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <!-- Download and unpack the GWT compiler -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>dependency-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unzip-gwt-compiler</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.google.gwt</groupId>
+                  <artifactId>${gwtArtifactId}</artifactId>
+                  <version>1.3.3</version>
+                  <type>zip</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${java.io.tmpdir}/xwiki/gwt</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.totsp.gwt</groupId>
+        <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+        <version>1.5.3-SNAPSHOT</version>
+        <configuration>
+          <logLevel>WARN</logLevel> <!-- ERROR, WARN, INFO, TRACE, DEBUG, SPAM, ALL -->
+          <style>OBF</style> <!-- OBF[USCATED], PRETTY, DETAILED -->
+          <runTarget>com.xpn.xwiki.watch/Watch.html</runTarget>
+          <gwtHome>${java.io.tmpdir}/xwiki/gwt/${gwtArtifactId}-${gwtVersion}</gwtHome>
+          <compileTarget>
+            <value>com.xpn.xwiki.watch.Watch</value>
+          </compileTarget>
+          <extraJvmArgs>-Xmx1024m</extraJvmArgs>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <name>linux</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-linux</gwtArtifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>solaris</id>
+      <activation>
+        <os>
+          <name>SunOS</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-linux</gwtArtifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-mac</gwtArtifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <name>windows</name>
+        </os>
+      </activation>
+      <properties>
+        <gwtArtifactId>gwt-windows</gwtArtifactId>
+      </properties>
+    </profile>
+  </profiles>
 </project>
 
