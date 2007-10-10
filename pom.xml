@@ -46,7 +46,7 @@
     <platform.tools.version>1.7-SNAPSHOT</platform.tools.version>
     <platform.core.version>1.1-SNAPSHOT</platform.core.version>
     <platform.web.version>1.1-SNAPSHOT</platform.web.version>
-    <products.enterprise.wiki.version>1.1-SNAPSHOT</products.enterprise.wiki.version>
+    <product.enterprise.version>1.1-SNAPSHOT</products.enterprise.wiki.version>
   </properties>
   <modules>
     <module>web</module>
