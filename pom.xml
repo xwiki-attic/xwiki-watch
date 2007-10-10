@@ -51,6 +51,8 @@
   <modules>
     <module>web</module>
     <module>wiki</module>
+    <module>database</module>
+    <module>distribution</module>
   </modules>
   <build>
     <extensions>
