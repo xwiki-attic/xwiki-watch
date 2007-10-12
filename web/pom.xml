@@ -29,10 +29,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-watch</artifactId>
-  <name>XWiki Watch</name>
+  <name>XWiki Products - Watch - Web</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
-  <description>XWiki Watch</description>
+  <description>XWiki Products - Watch - Web</description>
   <properties>
     <gwtVersion>1.3.3</gwtVersion>
   </properties>
