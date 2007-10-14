@@ -1,18 +1,3 @@
-package com.xpn.xwiki.watch.client.ui.dialog;
-
-import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
-import com.xpn.xwiki.watch.client.Feed;
-import com.xpn.xwiki.watch.client.Watch;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Iterator;
-
 /**
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +16,18 @@ import java.util.Iterator;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client.ui.dialog;
+
+import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
+import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.watch.client.Watch;
+import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.Map;
+import java.util.Iterator;
 
 public class AddKeywordDialog extends Dialog {
     protected TextBox keywordTextBox = new TextBox();
@@ -110,7 +104,7 @@ public class AddKeywordDialog extends Dialog {
             String groupname = (String) it.next();
             if (!groupname.equals(all)) {
                 String grouptitle = (String) groupMap.get(groupname);
-                groupListBox.addItem(groupname, grouptitle);
+                groupListBox.addItem(grouptitle,groupname);
                 if (group.equals(groupname)) {
                     selected = true;
                     groupListBox.setItemSelected(groupListBox.getItemCount(), true);
@@ -129,14 +123,16 @@ public class AddKeywordDialog extends Dialog {
         if (updateData()) {
             setCurrentResult(keyword);
             ((Watch)app).addKeyword(keyword, group, new AsyncCallback() {
-                public void onFailure(Throwable throwable) {
+                public void onFailure(Throwable throwable)
+                {
                     // There should already have been an error display
-                    ((Watch)app).refreshConfig();
                 }
-
-                public void onSuccess(Object object) {
+                
+                public void onSuccess(Object object) 
+                {
                     endDialog2();
-                    ((Watch)app).refreshConfig();
+                    // We don't need to refresh keywords here as it as been taken care by the addKeyword call
+                    //((Watch)app).refreshOnNewKeyword()
                 }
             });
         }

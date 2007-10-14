@@ -253,14 +253,19 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         newArticlesMonitoring.stopBlinking();
     }
 
-    public void refreshConfig() {
+    /**
+     * Refresh the feed tree UI.
+     * First refresh the configuration that holds the state of feeds lists and group
+     * Then refresh the user interface that displays the feed tree
+     */
+    public void refreshFeedTree() {
         config.refreshConfig(new XWikiAsyncCallback(this) {
             public void onSuccess(Object object) {
                 super.onSuccess(object);
+                // Refresh the feed tree with refreshed config data
                 userInterface.refreshData("feedtree");
                 // Load the number of articles for each feed
                 config.refreshArticleNumber();
-                // Refresh tag cloud aynchronously
             }
         });        
     }
@@ -346,15 +351,20 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     }
 
     public void refreshOnNewFeed() {
-        refreshConfig();        
+        refreshFeedTree();        
     }
 
     public void refreshOnNewKeyword() {
-        refreshConfig();
+        config.refreshConfig(new XWikiAsyncCallback(this) {
+            public void onSuccess(Object object) {
+                super.onSuccess(object);
+                userInterface.refreshData("keywords");
+            }
+        });
     }
 
     public void refreshOnNewGroup() {
-        refreshConfig();
+        refreshFeedTree();
     }
 
     public void refreshOnResetFilter() {

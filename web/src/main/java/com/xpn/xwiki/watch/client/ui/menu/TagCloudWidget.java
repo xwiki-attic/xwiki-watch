@@ -1,15 +1,3 @@
-package com.xpn.xwiki.watch.client.ui.menu;
-
-import com.google.gwt.user.client.ui.*;
-import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
-
 /**
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,9 +16,18 @@ import java.util.Iterator;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client.ui.menu;
+
+import com.google.gwt.user.client.ui.*;
+import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
+
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class TagCloudWidget extends WatchWidget {
     private Map tagsLink = new HashMap();

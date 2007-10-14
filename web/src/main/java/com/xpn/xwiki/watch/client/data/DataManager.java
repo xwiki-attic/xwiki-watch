@@ -80,7 +80,7 @@ public class DataManager {
                         if (!((Boolean)object).booleanValue())
                             cb.onFailure(null);
                         else
-                            cb.onSuccess(pageName);
+                            cb.onSuccess(pageName);                        
                     }
                 });
             }

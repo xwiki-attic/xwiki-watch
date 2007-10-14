@@ -95,12 +95,12 @@ public class AddGroupDialog extends Dialog {
             ((Watch)app).addGroup(group, new AsyncCallback() {
                 public void onFailure(Throwable throwable) {
                     // There should already have been an error display
-                    ((Watch)app).refreshConfig();
+                    ((Watch)app).refreshFeedTree();
                 }
 
                 public void onSuccess(Object object) {
                     endDialog2();
-                    ((Watch)app).refreshConfig();
+                    ((Watch)app).refreshFeedTree();
                 }
             });
         }

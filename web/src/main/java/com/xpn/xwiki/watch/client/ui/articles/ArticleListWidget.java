@@ -1,26 +1,4 @@
 package com.xpn.xwiki.watch.client.ui.articles;
-
-import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.xpn.xwiki.watch.client.ui.menu.ActionBarWidget;
-import com.xpn.xwiki.watch.client.ui.menu.NavigationBarWidget;
-import com.xpn.xwiki.watch.client.ui.dialog.CommentAddDialog;
-import com.xpn.xwiki.watch.client.ui.dialog.EditTagsDialog;
-import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.FilterStatus;
-import com.xpn.xwiki.watch.client.Constants;
-import com.xpn.xwiki.watch.client.Feed;
-import com.xpn.xwiki.watch.client.data.FeedArticle;
-import com.xpn.xwiki.watch.client.data.FeedArticleComment;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.Document;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import java.util.List;
-
-
 /**
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -42,6 +20,26 @@ import java.util.List;
  *
  * @author ldubost
  */
+
+import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.xpn.xwiki.watch.client.ui.menu.ActionBarWidget;
+import com.xpn.xwiki.watch.client.ui.menu.NavigationBarWidget;
+import com.xpn.xwiki.watch.client.ui.dialog.CommentAddDialog;
+import com.xpn.xwiki.watch.client.ui.dialog.EditTagsDialog;
+import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.FilterStatus;
+import com.xpn.xwiki.watch.client.Constants;
+import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.FeedArticle;
+import com.xpn.xwiki.watch.client.data.FeedArticleComment;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
+import com.xpn.xwiki.gwt.api.client.Document;
+import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.List;
 
 public class ArticleListWidget extends WatchWidget {
 

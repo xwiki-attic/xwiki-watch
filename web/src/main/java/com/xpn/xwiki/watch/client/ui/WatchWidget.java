@@ -1,10 +1,3 @@
-package com.xpn.xwiki.watch.client.ui;
-
-import com.xpn.xwiki.watch.client.Watch;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.FlowPanel;
-
 /**
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,10 +16,17 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client.ui;
 
+import com.xpn.xwiki.watch.client.Watch;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.FlowPanel;
+
+/**
+ * Watch base user interface Widget.
+ */
 public class WatchWidget extends Composite {
     protected Watch watch;
     protected Panel panel = new FlowPanel();
