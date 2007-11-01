@@ -250,6 +250,8 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
      */
     public void refreshArticleList() {
         userInterface.refreshData("articlelist");
+        //refresh article number which will refresh the feedtree as well.
+        config.refreshArticleNumber();
         newArticlesMonitoring.stopBlinking();
     }
 
