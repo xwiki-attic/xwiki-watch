@@ -171,8 +171,9 @@
           </resourceBundles>
           <properties>
             <xwikiCfgPlugins>
-              com.xpn.xwiki.plugin.feed.FeedPlugin,
-	      com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
+              com.xpn.xwiki.plugin.feed.FeedPlugin,\
+	      com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
+	      com.xpn.xwiki.plugin.packaging.PackagePlugin
             </xwikiCfgPlugins>
           </properties>
         </configuration>
