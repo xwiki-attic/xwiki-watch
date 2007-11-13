@@ -138,11 +138,12 @@ public class Config {
 
      public void refreshArticleNumber() {
          // Load the article counts
-        watch.getDataManager().getArticleCount(new AsyncCallback() {
+        watch.getDataManager().getArticleCount(new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable throwable) {
                 // Silent error
             }
             public void onSuccess(Object result) {
+                super.onSuccess(result);
                 // Update the article list with the current results
                 updateArticleNumbers((List) result);
                 watch.getUserInterface().refreshData("feedtree");

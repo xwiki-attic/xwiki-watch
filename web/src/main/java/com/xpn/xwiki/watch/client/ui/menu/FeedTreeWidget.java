@@ -287,16 +287,23 @@ public class FeedTreeWidget  extends WatchWidget {
                 Hyperlink deleteHyperlink = new Hyperlink("delete", "");
                 deleteHyperlink.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
-                       watch.getDataManager().removeFeed(feed, new XWikiAsyncCallback(watch) {
-                           public void onFailure(Throwable caught) {
-                               super.onFailure(caught);
-                           }
-                           public void onSuccess(Object result) {
-                               super.onSuccess(result);
-                               // We need to refreshData the tree
-                               watch.refreshOnNewFeed();
-                           }
-                       });                       
+                       String confirmString = watch.getTranslation("removefeed.confirm", 
+                                                                   new String[] {feed.getName()});
+                       boolean confirm = com.google.gwt.user.client.Window.confirm(confirmString);
+                       if (confirm) {
+                           watch.getDataManager().removeFeed(feed, new XWikiAsyncCallback(watch) {
+                               public void onFailure(Throwable caught) {
+                                   super.onFailure(caught);
+                               }
+                               public void onSuccess(Object result) {
+                                   super.onSuccess(result);
+                                   // We need to refreshData the tree
+                                   watch.refreshOnNewFeed();
+                               }
+                           });
+                       } else {
+                           //nothing
+                       }
                    } 
                 });
                 ((HyperlinkComposite)widget).add(new HyperlinkComposite(deleteHyperlink));
