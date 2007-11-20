@@ -62,11 +62,13 @@ public class KeywordsWidget extends WatchWidget {
     public void resetSelections() {
         Iterator it = keywordsLink.keySet().iterator();
         String keywordactive = watch.getFilterStatus().getKeyword();
+        String groupactive = watch.getFilterStatus().getGroup();
         while (it.hasNext()) {
             Keyword keyword  = (Keyword) it.next();
             Hyperlink link = (Hyperlink) keywordsLink.get(keyword);
             if (link!=null) {
-                if (keyword.getName().equals(keywordactive)) {
+                if (keyword.getName().equals(keywordactive) 
+                    && keyword.getGroup().equals(groupactive)) {
                     link.addStyleName(watch.getStyleName("keyword", "link-active"));
                 } else {
                     link.removeStyleName(watch.getStyleName("keyword", "link-active"));
