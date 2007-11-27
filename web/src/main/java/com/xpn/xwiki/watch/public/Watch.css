@@ -216,6 +216,20 @@ div.watch-feedtree-link a{
 	white-space: normal;
 }
 
+.watch-feedtree-feedaction {
+	float: right;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+div.watch-feedtree-editfeed {
+	background-color: #FFAA00;
+}
+
+div.watch-feedtree-deletefeed {
+	background-color: #FF0000;
+}
+
 #Watch div.watch-main div.watch-feedtree div.watch-feedtree-groups div span div table tbody tr td  {
 	white-space: normal;
 }

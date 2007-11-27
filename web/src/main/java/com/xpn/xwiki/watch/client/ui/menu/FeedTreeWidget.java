@@ -257,7 +257,7 @@ public class FeedTreeWidget  extends WatchWidget {
             if (selected) {
                 widget = new HyperlinkComposite(link);
                 //create the inner item
-                Hyperlink editHyperlink = new Hyperlink("edit", "");
+                Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("feedtree.edit"), "");
                 editHyperlink.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
                         FeedDialog feedDialog = new StandardFeedDialog(watch, "standardfeed", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, feed);
@@ -283,8 +283,9 @@ public class FeedTreeWidget  extends WatchWidget {
                         feedDialog.show();                    
                     }
                 });
-                ((HyperlinkComposite)widget).add(new HyperlinkComposite(editHyperlink));
-                Hyperlink deleteHyperlink = new Hyperlink("delete", "");
+                HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
+                
+                Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("feedtree.delete"), "");
                 deleteHyperlink.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
                        String confirmString = watch.getTranslation("removefeed.confirm", 
@@ -306,7 +307,17 @@ public class FeedTreeWidget  extends WatchWidget {
                        }
                    } 
                 });
-                ((HyperlinkComposite)widget).add(new HyperlinkComposite(deleteHyperlink));
+                HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
+                //set styles
+                editHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
+                    + " " + watch.getStyleName("feedtree", "editfeed"));
+                deleteHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
+                    + " " + watch.getStyleName("feedtree", "deletefeed"));
+                
+                //add the two actions to the hyperlink composite, in reverse order since they will
+                //be floated to the right
+                ((HyperlinkComposite)widget).add(deleteHyperlinkComposite);
+                ((HyperlinkComposite)widget).add(editHyperlinkComposite);
             }
             return widget;
         }

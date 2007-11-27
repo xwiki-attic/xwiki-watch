@@ -2,7 +2,6 @@ package com.xpn.xwiki.watch.client.ui.menu;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Panel;
 
@@ -15,7 +14,7 @@ public class HyperlinkComposite extends Composite
         this.mainWidget = mainWidget;
         this.hyperlinksPanel = new FlowPanel();
         
-        Panel compositePanel = new HorizontalPanel();
+        Panel compositePanel = new FlowPanel();
         compositePanel.add(this.mainWidget);
         compositePanel.add(this.hyperlinksPanel);
         //every composite has to call initWidget in their constructors
