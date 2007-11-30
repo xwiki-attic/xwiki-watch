@@ -8,60 +8,17 @@
 <translation>0</translation>
 <parent></parent>
 <creator>XWiki.LudovicDubost</creator>
-<author>XWiki.LudovicDubost</author>
+<author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.LudovicDubost</contentAuthor>
+<contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1182282771000</creationDate>
-<date>1182284275000</date>
-<contentUpdateDate>1182284275000</contentUpdateDate>
-<version>1.8</version>
+<date>1195556529000</date>
+<contentUpdateDate>1195556529000</contentUpdateDate>
+<version>1.5</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>1 $msg.get("watch.feedarticle")
-
-$doc.use("XWiki.FeedEntryClass")
-
-&lt;table width="90%"&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.articletitle")&lt;/b&gt;&lt;/td&gt;
-&lt;td colspan="3"&gt;$doc.display("title")&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.url")&lt;/b&gt;&lt;/td&gt;
-&lt;td colspan="3"&gt; $doc.display("url") &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.feedname")&lt;/b&gt;&lt;/td&gt;
-&lt;td colspan="3"&gt;$doc.display("feedname")&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.feedurl")&lt;/b&gt;&lt;/td&gt;
-&lt;td colspan="3"&gt; $doc.display("feedurl") &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.author")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;$doc.display("author")&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.date")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;$doc.display("date")&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.category")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;$doc.display("category")&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.tags")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;$doc.display("tags")&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.flag")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;#if($doc.display("flag")=="1")$msg.get("watch.yes")#else$msg.get("watch.no")#end&lt;/td&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.read")&lt;/b&gt;&lt;/td&gt;
-&lt;td&gt;#if($doc.display("read")=="1")$msg.get("watch.yes")#else$msg.get("watch.no")#end&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;b&gt;$msg.get("watch.content")&lt;/b&gt;&lt;/td&gt;
-&lt;td colspan="3"&gt;$doc.display("content")&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;</content>
+<content>#includeForm("WatchSheets.FeedArticleSheet")</content>
 </xwikidoc>

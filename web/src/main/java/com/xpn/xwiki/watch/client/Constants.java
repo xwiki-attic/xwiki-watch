@@ -49,6 +49,11 @@ public class Constants {
     public static final String QUERY_PAGE_TAGSLIST = "TagsList";
     public static final String QUERY_PAGE_NEWARTICLES = "NewArticles";
     public static final String QUERY_PAGE_ARTICLENUMBER = "ArticleNumber";
+    
+    //Sheets
+    public static final String SHEET_FEED = "FeedSheet";
+    public static final String SHEET_GROUP = "GroupSheet";
+    public static final String SHEET_KEYWORD = "KeywordSheet";
 
     // Analysis actions
     public static final String PAGE_PRESSREVIEW = "PressReview";

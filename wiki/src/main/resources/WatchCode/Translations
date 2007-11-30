@@ -301,5 +301,23 @@ watch.email.notimplemented=This feature is not available in the Beta version in 
 watch.pressreviewforspace=XWiki Watch Press Review for Space
 
 watch.yes=Yes
-watch.no=No</content>
+watch.no=No
+
+watch.wiki.aggregator.title=Articles for feed 
+
+watch.wiki.feeds=Feeds
+watch.wiki.articles=Articles
+watch.wiki.articles.flagged=Latest flagged articles
+watch.wiki.articles.unread=Latest unread articles
+watch.wiki.articles.tags =Articles tagged "{0}"
+watch.wiki.articles.display=latest {0} items
+watch.wiki.keywords = Keywords
+watch.wiki.tags = Tags
+
+watch.wiki.keyword.articles = Articles for keyword "{0}"
+watch.wiki.keyword.noKeyword = This document does not contain a keyword!
+watch.wiki.group.articles=Feeds in group "{0}"
+watch.wiki.group.noGroup=This document does not contain a group
+
+watch.wiki.reader.goto=Go to the {0}</content>
 </xwikidoc>

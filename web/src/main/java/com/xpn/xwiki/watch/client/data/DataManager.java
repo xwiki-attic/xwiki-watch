@@ -76,13 +76,25 @@ public class DataManager {
                     }
 
                     public void onSuccess(Object object) {
-                        // We return the page name
-                        if (!((Boolean)object).booleanValue())
-                            cb.onFailure(null);
-                        else
-                            cb.onSuccess(pageName);                        
+                        //save the content of the feed -- should make sure that the sheet exists
+                        String feedDefaultContent = "#includeForm(\"" 
+                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_FEED + "\")";
+                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, feedDefaultContent, 
+                            new XWikiAsyncCallback(watch) {
+                                public void onFailure(Throwable throwable) {
+                                    cb.onFailure(throwable);
+                                }
+                                public void onSuccess(Object object) {
+                                    super.onSuccess(object);
+                                    // We return the page name
+                                    if (!((Boolean)object).booleanValue())
+                                        cb.onFailure(null);
+                                    else
+                                        cb.onSuccess(pageName);                            
+                                }
+                        });                        
                     }
-                });
+                });                
             }
         });
     }
@@ -143,10 +155,23 @@ public class DataManager {
                     }
 
                     public void onSuccess(Object object) {
-                        if (!((Boolean)object).booleanValue())
-                            cb.onFailure(null);
-                        else
-                            cb.onSuccess(pageName);
+                        //save the content of the keyword -- should make sure that the sheet exists
+                        String keywordDefaultContent = "#includeForm(\"" 
+                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_KEYWORD + "\")";
+                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, keywordDefaultContent, 
+                            new XWikiAsyncCallback(watch) {
+                                public void onFailure(Throwable throwable) {
+                                    cb.onFailure(throwable);
+                                }
+                                public void onSuccess(Object object) {
+                                    super.onSuccess(object);
+                                    // We return the page name
+                                    if (!((Boolean)object).booleanValue())
+                                        cb.onFailure(null);
+                                    else
+                                        cb.onSuccess(pageName);                            
+                                }
+                        });
                     }
                 });
             }
@@ -179,13 +204,26 @@ public class DataManager {
                         cb.onFailure(throwable);
                     }
                     public void onSuccess(Object object) {
-                        // We return the pageName
-                        if (!((Boolean)object).booleanValue())
-                            cb.onFailure(null);
-                        else
-                            cb.onSuccess(pageName);
+                        //save the content of the group -- should make sure that the sheet exists
+                        String groupDefaultContent = "#includeForm(\"" 
+                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_GROUP + "\")";
+                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, groupDefaultContent, 
+                            new XWikiAsyncCallback(watch) {
+                                public void onFailure(Throwable throwable) {
+                                    cb.onFailure(throwable);
+                                }
+                                public void onSuccess(Object object) {
+                                    super.onSuccess(object);
+                                    // We return the page name
+                                    if (!((Boolean)object).booleanValue())
+                                        cb.onFailure(null);
+                                    else
+                                        cb.onSuccess(pageName);                            
+                                }
+                        });
                     }
                 });
+                
             }
         });
     }
