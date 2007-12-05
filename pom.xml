@@ -38,8 +38,8 @@
   <description>XWiki Products - Watch - Parent POM</description>
   <scm>
     <connection>scm:svn:http://svnmirror.xwiki.org/svn/mirror/xwiki/xwiki-products/xwiki-watch/trunk</connection>
-    <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk</developerConnection>
-    <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-products/xwiki-watch/trunk</url>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk</url>
   </scm>
   <properties>
     <!-- Versions of XWiki dependencies used in Watch modules -->
