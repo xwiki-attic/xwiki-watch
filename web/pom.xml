@@ -26,11 +26,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-watch-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-milestone-2</version>
   </parent>
   <artifactId>xwiki-watch</artifactId>
   <name>XWiki Products - Watch - Web</name>
-  <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <description>XWiki Products - Watch - Web</description>
   <properties>
@@ -124,7 +123,7 @@
       <plugin>
         <groupId>com.totsp.gwt</groupId>
         <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-        <version>1.5.3-SNAPSHOT</version>
+        <version>1.5.2</version>
         <configuration>
           <logLevel>WARN</logLevel> <!-- ERROR, WARN, INFO, TRACE, DEBUG, SPAM, ALL -->
           <style>OBF</style> <!-- OBF[USCATED], PRETTY, DETAILED -->
