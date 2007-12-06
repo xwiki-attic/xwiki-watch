@@ -37,9 +37,9 @@
   <version>1.0-milestone-2</version>
   <description>XWiki Products - Watch - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svnmirror.xwiki.org/svn/mirror/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</connection>
-    <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</developerConnection>
-    <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/tags/xwiki-watch-1.0-milestone-2</url>
   </scm>
   <properties>
     <!-- Versions of XWiki dependencies used in Watch modules -->
