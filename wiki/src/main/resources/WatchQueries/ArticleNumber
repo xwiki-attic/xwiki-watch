@@ -53,5 +53,5 @@
 <tags/>
 </property>
 </object>
-<content>select entry.feedname, count(*) from XWiki.FeedEntryClass as entry, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=entry.id and doc.web='${request.space}' and (entry.read is null or entry.read=0) group by entry.feedname</content>
+<content>select entry.feedname, sum(1-coalesce(entry.read,0)) from XWiki.FeedEntryClass as entry, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=entry.id and doc.web='${request.space}' group by entry.feedname</content>
 </xwikidoc>
