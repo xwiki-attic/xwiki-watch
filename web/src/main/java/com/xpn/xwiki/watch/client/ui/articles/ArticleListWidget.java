@@ -63,20 +63,9 @@ public class ArticleListWidget extends WatchWidget {
     }
 
     public void refreshData() {
-        FilterStatus fstatus = watch.getFilterStatus();
-        watch.getDataManager().getArticles(fstatus, watch.getArticleNbParam(), fstatus.getStart(), new XWikiAsyncCallback(watch) {
-            public void onFailure(Throwable caught) {
-                super.onFailure(caught);
-            }
-
-            public void onSuccess(Object result) {
-                super.onSuccess(result);
-                // Load article list
-                List list = (List) result;
-                showArticles(list);
-                resizeWindow();
-            }
-        });
+        List articlesList = watch.getConfig().getArticles();
+        showArticles(articlesList);
+        resizeWindow();        
     }
 
 

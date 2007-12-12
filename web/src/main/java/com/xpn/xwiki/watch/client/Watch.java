@@ -18,6 +18,8 @@ import com.google.gwt.core.client.GWT;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -202,7 +204,7 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
                 userInterface.init();
                 userInterface.refreshData("feedtree");
                 // Load the number of articles for each feed
-                config.refreshArticleNumber();
+                refreshArticleNumber();
                 // Refresh tag cloud aynchronously
                 refreshTagCloud();
                 refreshKeywords();
@@ -220,6 +222,24 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
 
     public void refreshTagCloud() {
         userInterface.refreshData("tagcloud");
+    }
+    
+    /**
+     * Refreshes the article number and handles the interface refresh triggered by this 
+     * data update, if necessary.
+     */
+    public void refreshArticleNumber() {
+        getConfig().refreshArticleNumber(new AsyncCallback() {
+            public void onSuccess(Object arg0)
+            {
+                //update the interface objects affected by this change
+                userInterface.refreshData("feedtree");
+            }
+            public void onFailure(Throwable arg0)
+            {
+                //silent failure
+            }
+        });
     }
 
     public void refreshOnTagActivated(String tagName) {
@@ -249,8 +269,18 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
      * Refresh the Article List
      */
     public void refreshArticleList() {
-        userInterface.refreshData("articlelist");
-        newArticlesMonitoring.stopBlinking();
+        config.refreshArticleList(new XWikiAsyncCallback(this) {
+            public void onFailure(Throwable caught)
+            {
+                super.onFailure(caught);
+            }
+            public void onSuccess(Object result)
+            {
+                super.onSuccess(result);
+                userInterface.refreshData("articlelist");
+                newArticlesMonitoring.stopBlinking();
+            }
+        });
     }
 
     /**
@@ -265,7 +295,7 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
                 // Refresh the feed tree with refreshed config data
                 userInterface.refreshData("feedtree");
                 // Load the number of articles for each feed
-                config.refreshArticleNumber();
+                refreshArticleNumber();
             }
         });        
     }

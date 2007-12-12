@@ -91,7 +91,7 @@ public class NewArticlesMonitoring {
                                     lastChange = new Date();
                                     startBlinking(watch.getTranslation("newarticles", args1), watch.getTranslation("articles", args2));
                                     // let's refresh the article numbers
-                                    watch.getConfig().refreshArticleNumber();
+                                    watch.refreshArticleNumber();
                                 }
                             }
                         }

@@ -35,6 +35,7 @@ public class Config {
     private Map feedsByGroupList;
     private List keywords;
     private Map groups;
+    private List articles;
 
     public Config() {
     }
@@ -65,6 +66,7 @@ public class Config {
         feedsByGroupList = new HashMap();
         keywords = new ArrayList();
         groups = new HashMap();
+        articles = new ArrayList();
     }
 
     /**
@@ -83,6 +85,33 @@ public class Config {
                  cb.onSuccess(result);
             }
         });
+    }
+    
+    public void refreshArticleList(final AsyncCallback cb) {
+        FilterStatus fstatus = watch.getFilterStatus();
+        watch.getDataManager().getArticles(fstatus, watch.getArticleNbParam(), fstatus.getStart(), new AsyncCallback() {
+            public void onFailure(Throwable caught) {
+                if (cb != null) {
+                    cb.onFailure(caught);
+                }
+            }
+
+            public void onSuccess(Object result) {
+                //update the article list
+                updateArticleList((List)result);
+                if (cb != null) {
+                    cb.onSuccess(result);
+                }
+            }
+        });
+    }
+    
+    private void updateArticleList(List result) {
+        this.articles.clear();
+        //update the articles list
+        for (Iterator rIt = result.iterator(); rIt.hasNext();) {
+            this.articles.add(rIt.next());
+        }
     }
 
     private void addToGroup(String group, String groupTitle, Feed feed) {
@@ -136,16 +165,21 @@ public class Config {
 
     }
 
-     public void refreshArticleNumber() {
+     public void refreshArticleNumber(final AsyncCallback cb) {
          // Load the article counts
         watch.getDataManager().getArticleCount(new AsyncCallback() {
             public void onFailure(Throwable throwable) {
-                // Silent error
+                if (cb != null) {
+                    cb.onFailure(throwable);
+                }
             }
             public void onSuccess(Object result) {
                 // Update the article list with the current results
                 updateArticleNumbers((List) result);
-                watch.getUserInterface().refreshData("feedtree");
+                //call the cb.onSuccess if cb exists
+                if (cb != null) {
+                    cb.onSuccess(result);
+                }
             }
         });
      }
@@ -163,6 +197,11 @@ public class Config {
             }
         }
         // watch.refreshFeedTreeUI();
+    }
+
+    public List getArticles()
+    {
+        return articles;
     }
 
 }
