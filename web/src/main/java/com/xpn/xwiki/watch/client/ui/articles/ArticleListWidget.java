@@ -81,8 +81,8 @@ public class ArticleListWidget extends WatchWidget {
         panel.add(new NavigationBarWidget(watch));
         
         for (int i=0;i<feedentries.size();i++) {
-            Document article = (Document) feedentries.get(i);
-            showArticle(new FeedArticle(article));
+            FeedArticle article = (FeedArticle)feedentries.get(i);
+            showArticle(article);
         }
     }
 

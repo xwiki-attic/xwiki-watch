@@ -3,6 +3,7 @@ package com.xpn.xwiki.watch.client;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
+import com.xpn.xwiki.watch.client.data.FeedArticle;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -110,7 +111,7 @@ public class Config {
         this.articles.clear();
         //update the articles list
         for (Iterator rIt = result.iterator(); rIt.hasNext();) {
-            this.articles.add(rIt.next());
+            this.articles.add(new FeedArticle((Document)rIt.next()));
         }
     }
 
