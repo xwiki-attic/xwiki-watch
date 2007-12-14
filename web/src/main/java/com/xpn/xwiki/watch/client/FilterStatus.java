@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.google.gwt.http.client.URL;
+
 public class FilterStatus {
     protected Watch watch;
     private int flagged;
@@ -217,7 +219,7 @@ public class FilterStatus {
         qs.append("&amp;trashed=" + getTrashed());
         qs.append("&amp;read=" + getRead());
         if (getFeed() !=null)
-            qs.append("&amp;feed=" + getFeed().getUrl());
+            qs.append("&amp;feed=" + URL.encodeComponent(getFeed().getUrl()));
         if (getGroup() !=null)
             qs.append("&amp;group=" + getGroup());
         if (getTags().size()>0) {
