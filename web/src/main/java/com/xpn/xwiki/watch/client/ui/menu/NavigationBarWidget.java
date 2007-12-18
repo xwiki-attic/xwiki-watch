@@ -63,15 +63,24 @@ public class NavigationBarWidget extends WatchWidget {
                 watch.refreshOnNext();
             }
         });
-        previous.addStyleName(watch.getStyleName("navbar","next"));
+        next.addStyleName(watch.getStyleName("navbar","next"));
         panel.add(previous);
         panel.add(nbarticles);
         panel.add(next);
     }
 
     public void refreshData() {
-        previous.removeStyleName(watch.getStyleName("navbar","previous-active"));
-        next.addStyleName(watch.getStyleName("navbar","next-active"));
+        if (watch.getFilterStatus().getStart() != 0) {
+            this.previous.addStyleName(watch.getStyleName("navbar", "previous-active"));
+        } else {
+            this.previous.removeStyleName(watch.getStyleName("navbar", "previous-active"));
+        }
+        //get the next
+        if (watch.getConfig().isLastPage()) {
+            this.next.removeStyleName(watch.getStyleName("navbar", "next-active"));
+        } else {
+            this.next.addStyleName(watch.getStyleName("navbar", "next-active"));
+        }
     }
 
     private void setPreviousActive(boolean active) {

@@ -247,21 +247,30 @@ div.watch-feedtree-deletefeed {
 
 
 
-.watch-navbar {
+.watch-navbar, .watch-navbar-bottom {
  clear: both;
  padding: 8px 0 5px 0;
   text-align: center;
 
 }
-.watch-navbar div{
+.watch-navbar div, .watch-navbar-bottom div {
   display: inline;
   margin: 5px 20px;
 }
-.watch-navbar div a{
+.watch-navbar div a, .watch-navbar-bottom div a{
 text-decoration: none;
 text-transform: uppercase;
 color: #000;
 font-weight: bold;
+}
+
+.watch-navbar div.watch-navbar-previous, .watch-navbar div.watch-navbar-next, 
+.watch-navbar-bottom div.watch-navbar-previous, .watch-navbar-bottom div.watch-navbar-next {
+  display:none;
+}
+.watch-navbar div.watch-navbar-previous-active, .watch-navbar div.watch-navbar-next-active,
+.watch-navbar-bottom div.watch-navbar-previous-active, .watch-navbar-bottom div.watch-navbar-next-active {
+  display:inline;
 }
 
 .watch-articlelist {

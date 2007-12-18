@@ -37,6 +37,7 @@ public class Config {
     private List keywords;
     private Map groups;
     private List articles;
+    private boolean lastPage; 
 
     public Config() {
     }
@@ -68,6 +69,7 @@ public class Config {
         keywords = new ArrayList();
         groups = new HashMap();
         articles = new ArrayList();
+        this.lastPage = false;
     }
 
     /**
@@ -90,7 +92,9 @@ public class Config {
     
     public void refreshArticleList(final AsyncCallback cb) {
         FilterStatus fstatus = watch.getFilterStatus();
-        watch.getDataManager().getArticles(fstatus, watch.getArticleNbParam(), fstatus.getStart(), new AsyncCallback() {
+        //hack to test the existance of next articles: ask for one more: 
+        //if we get it, then we have more articles
+        watch.getDataManager().getArticles(fstatus, watch.getArticleNbParam() + 1, fstatus.getStart(), new AsyncCallback() {
             public void onFailure(Throwable caught) {
                 if (cb != null) {
                     cb.onFailure(caught);
@@ -98,8 +102,20 @@ public class Config {
             }
 
             public void onSuccess(Object result) {
+                //test the size of the list
+                List resultList = (List)result;
+                if (resultList.size() == (watch.getArticleNbParam() + 1)) {
+                    //we have next
+                    lastPage = false;
+                } else {
+                    lastPage = true;
+                }
+                //remove the last element if fetched for next
+                if (!lastPage) {
+                    resultList.remove(resultList.size() - 1);
+                }
                 //update the article list
-                updateArticleList((List)result);
+                updateArticleList(resultList);
                 if (cb != null) {
                     cb.onSuccess(result);
                 }
@@ -203,6 +219,11 @@ public class Config {
     public List getArticles()
     {
         return articles;
+    }
+
+    public boolean isLastPage()
+    {
+        return lastPage;
     }
 
 }

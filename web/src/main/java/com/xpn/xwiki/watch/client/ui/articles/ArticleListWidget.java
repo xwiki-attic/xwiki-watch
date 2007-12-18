@@ -27,13 +27,11 @@ import com.xpn.xwiki.watch.client.ui.menu.NavigationBarWidget;
 import com.xpn.xwiki.watch.client.ui.dialog.CommentAddDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.EditTagsDialog;
 import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.data.FeedArticle;
 import com.xpn.xwiki.watch.client.data.FeedArticleComment;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
@@ -65,6 +63,9 @@ public class ArticleListWidget extends WatchWidget {
     public void refreshData() {
         List articlesList = watch.getConfig().getArticles();
         showArticles(articlesList);
+        //and refresh the contained nav-bar widgets
+        watch.getUserInterface().refreshData("navbar");
+        watch.getUserInterface().refreshData("navbar-bottom");
         resizeWindow();        
     }
 
@@ -84,6 +85,13 @@ public class ArticleListWidget extends WatchWidget {
             FeedArticle article = (FeedArticle)feedentries.get(i);
             showArticle(article);
         }
+        //put the navbar at the bottom as well
+        panel.add(new NavigationBarWidget(watch) {
+            public String getName()
+            {
+                return "navbar-bottom";
+            }
+        });
     }
 
     protected Widget getTitlePanel(FeedArticle article, Widget articlePanel, Widget contentZonePanel) {
