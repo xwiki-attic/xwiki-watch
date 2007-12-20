@@ -304,6 +304,8 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         FilterStatus fstatus = getFilterStatus();
         fstatus.setKeyword(text);
         refreshArticleList();
+        //set the search box selection
+        userInterface.resetSelections("search");
     }
 
     /**

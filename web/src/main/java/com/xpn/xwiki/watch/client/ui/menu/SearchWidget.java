@@ -62,4 +62,11 @@ public class SearchWidget extends WatchWidget {
         });
         panel.add(okButton);
     }
+
+    public void resetSelections()
+    {
+        super.resetSelections();
+        //put the keyword text in the text input
+        this.searchBox.setText(watch.getFilterStatus().getKeyword());
+    }
 }

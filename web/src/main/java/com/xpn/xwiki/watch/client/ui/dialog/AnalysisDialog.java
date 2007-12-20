@@ -1,11 +1,14 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.*;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.Constants;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -54,11 +57,29 @@ public class AnalysisDialog extends Dialog {
 
     protected Widget getAnalysisPanel() {
         analysisHTML = new HTML();
-        Watch watch = (Watch) app;
+        final Watch watch = (Watch) app;
         watch.getDataManager().getAnalysisHTML(watch.getFilterStatus(), new XWikiAsyncCallback(watch) {
             public void onSuccess(Object result) {
                 super.onSuccess(result);
                 analysisHTML.setHTML((String) result);
+                //get Element
+                Element DOMEl = analysisHTML.getElement();
+                DOM.sinkEvents(DOMEl, Event.ONCLICK);
+                DOM.setEventListener(DOMEl, new EventListener() {
+                    public void onBrowserEvent(Event event)
+                    {
+                        if (DOM.eventGetType(event) == Event.ONCLICK) {
+                            Element eventTarget = DOM.eventGetTarget(event);
+                            //the ugly way of testing if the eventTarget is an anchor
+                            if (eventTarget.toString().toLowerCase().startsWith("<a ")) {
+                                //close the dialog
+                                AnalysisDialog.this.cancelDialog();
+                                //search
+                                watch.refreshOnSearch(DOM.getInnerText(eventTarget));
+                            }
+                        }
+                    }
+                });
             }
         });
         analysisHTML.setStyleName(getCssPrefix() + "-html");

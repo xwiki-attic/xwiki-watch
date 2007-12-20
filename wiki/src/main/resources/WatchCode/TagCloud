@@ -56,8 +56,8 @@
 <content>{pre}
 &lt;style&gt;
 &lt;% 
-for(size in 10..60) {
-println ".tagline a.f$size { font-size: ${size}px; line-height: ${size}px; }"
+for(size in 12..64) {
+println ".tagline a.f$size { font-size: ${size}px; line-height: ${size}px; cursor: pointer;}"
 }
 %&gt;
 &lt;/style&gt;
