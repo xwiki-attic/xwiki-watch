@@ -331,10 +331,10 @@ public class DataManager {
             }
         }
 
-        if ((filterStatus.getKeyword() !=null)&&(!filterStatus.getKeyword().trim().equals(""))) {
-            wheresql  += " and (feedentry.title like '%" + skeyword + "%' "
-                    + " or feedentry.content like '%" + skeyword + "%' "
-                    + " or feedentry.fullContent like '%" + skeyword + "%') ";
+        if ((skeyword != null) && (!skeyword.trim().equals(""))) {
+            wheresql  += " and (lower(feedentry.title) like '%" + skeyword.toLowerCase() + "%' "
+                    + " or lower(feedentry.content) like '%" + skeyword.toLowerCase() + "%' "
+                    + " or lower(feedentry.fullContent) like '%" + skeyword.toLowerCase() + "%') ";
         }
 
         if (filterStatus.getFlagged() ==1) {

@@ -39,7 +39,7 @@ String skeyword = skeyword.replaceAll("'", "''");
 String sql = ", BaseObject as obj, XWiki.FeedEntryClass as feedentry ";
 String wheresql = "where doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' and obj.id=feedentry.id ";
 if (!(skeyword.trim()=="")) {
-   wheresql  += " and (feedentry.title like '%" + skeyword + "%' or feedentry.content like '%" + skeyword + "%' or feedentry.fullContent like '%" + skeyword + "%') ";
+   wheresql  += " and (lower(feedentry.title) like '%" + skeyword.toLowerCase() + "%' or lower(feedentry.content) like '%" + skeyword.toLowerCase() + "%' or lower(feedentry.fullContent) like '%" + skeyword.toLowerCase() + "%') ";
 }
 
 if (request.flagged=="1") {
