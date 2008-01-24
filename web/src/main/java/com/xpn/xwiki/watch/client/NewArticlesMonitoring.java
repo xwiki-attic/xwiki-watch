@@ -74,7 +74,8 @@ public class NewArticlesMonitoring {
                     queryActive = false;
                     if (object!=null) {
                         List nblist= (List) ((List) object).get(0);
-                        Integer nb = (nblist==null) ? null : (Integer) nblist.get(0);
+                        Integer nb = (nblist==null) ? null 
+                                     : new Integer(nblist.get(0).toString());
                         if (nb!=null) {
                             int newNbArticles = nb.intValue();
                             if (currentNbArticles==-1)

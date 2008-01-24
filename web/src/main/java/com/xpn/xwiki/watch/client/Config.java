@@ -205,8 +205,12 @@ public class Config {
         if (list!=null) {
             for (int i=0;i<list.size();i++) {
                 List result = (List) list.get(i);
-                String feedname = (String) result.get(0);
-                Integer count = (Integer)result.get(1);
+                //get the values from Strings rather than rely on a specific 
+                //type returned (direct object cast causes problems in 
+                //1.3 snaphshot due to the long value returned for the 
+                //count on position 1) 
+                String feedname = (String) result.get(0).toString();
+                Integer count = new Integer(result.get(1).toString());
                 Feed feed = (Feed) feedsList.get(feedname);
                 if (feed!=null) {
                    feed.setNb(count);

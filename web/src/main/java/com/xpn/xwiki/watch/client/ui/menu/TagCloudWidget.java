@@ -80,7 +80,7 @@ public class TagCloudWidget extends WatchWidget {
             for (int i=0;i<list.size();i++) {
                 List result = (List) list.get(i);
                 final String name = (String) result.get(0);
-                int count = ((Integer)result.get(1)).intValue();
+                int count = (new Integer(result.get(1).toString())).intValue();
                 Hyperlink link = new Hyperlink(name, "");
                 int pixels = 9 + count;
                 if (pixels>15)

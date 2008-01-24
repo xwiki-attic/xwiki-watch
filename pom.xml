@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <version>7</version>
+    <version>9-SNAPSHOT</version>
     <relativePath>../xwiki-platform-pom</relativePath>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
@@ -44,9 +44,9 @@
   <properties>
     <!-- Versions of XWiki dependencies used in Watch modules -->
     <platform.tools.version>1.8-SNAPSHOT</platform.tools.version>
-    <platform.core.version>1.1-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.1-SNAPSHOT</platform.web.version>
-    <product.enterprise.version>1.1-SNAPSHOT</product.enterprise.version>
+    <platform.core.version>1.3-SNAPSHOT</platform.core.version>
+    <platform.web.version>1.3-SNAPSHOT</platform.web.version>
+    <product.enterprise.version>1.3-SNAPSHOT</product.enterprise.version>
   </properties>
   <modules>
     <module>web</module>
@@ -54,6 +54,14 @@
     <module>database</module>
     <module>distribution</module>
   </modules>
+  <profiles>
+    <profile>
+      <id>mysql</id>
+      <properties>
+        <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;sessionVariables=sql_mode=''</xwiki.db.connection.url>
+      </properties>
+    </profile>
+  </profiles>
   <build>
     <extensions>
       <extension>
