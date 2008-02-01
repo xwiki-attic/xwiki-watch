@@ -42,6 +42,7 @@
     </dependency>
   </dependencies>
   <build>
+  <!--
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
@@ -50,5 +51,6 @@
         </excludes>
       </resource>
     </resources>
+  -->
   </build>
 </project>

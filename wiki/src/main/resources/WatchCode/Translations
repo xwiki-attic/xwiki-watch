@@ -324,5 +324,18 @@ watch.wiki.group.articles=Feeds in group "{0}"
 watch.wiki.group.noGroup=This document does not contain a group
 
 watch.wiki.reader=XWiki Watch Reader
-watch.wiki.reader.goto=Go to the {0}</content>
+watch.wiki.reader.goto=Go to the {0}
+
+watch.filter.dates.title = Date filters
+watch.filter.dates.startDate = From date: 
+watch.filter.dates.endDate = To date: 
+watch.filter.dates.months.next = Next month
+watch.filter.dates.months.previous = Previous month
+watch.filter.dates.years.next = Next year
+watch.filter.dates.years.previous = Previous year
+watch.filter.dates.months = January, February, March, April, May, June, July, August, September, October, November, December
+watch.filter.dates.days = S, M, T, W, T, F, S
+watch.filter.dates.firstDayOfWeek = 0
+
+</content>
 </xwikidoc>

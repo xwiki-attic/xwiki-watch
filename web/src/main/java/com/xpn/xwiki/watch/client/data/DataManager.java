@@ -360,16 +360,25 @@ public class DataManager {
                 + "and obj.id = groupProp.id and groupProp.name='" + filterStatus.getGroup().replaceAll("'", "''") + "')";            
         }
 
-        if (filterStatus.getDate() !=null) {
-            wheresql += " and feedentry.date >= '" + filterStatus.getDate() + "' ";
+        if (filterStatus.getDateStart() !=null) {
+            //format date
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String sdate = format.format(filterStatus.getDateStart());
+            wheresql += " and feedentry.date >= '" + sdate + "' ";
         } else {
             if ("1".equals(watch.getParam("withdatelimit"))) {
                 Date date = new Date();
                 date = new Date(date.getTime() - 3 * 24 * 60 * 60 * 1000);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
                 String sdate = format.format(date);
                 wheresql += " and feedentry.date >= '" + sdate + "' ";
             }
+        }
+
+        if (filterStatus.getDateEnd() != null) {
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String sdate = format.format(filterStatus.getDateEnd());
+            wheresql += " and feedentry.date < '" + sdate + "'";
         }
 
         if (filterStatus.getRead() ==1) {

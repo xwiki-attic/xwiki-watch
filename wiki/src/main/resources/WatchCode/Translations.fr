@@ -323,5 +323,18 @@ watch.wiki.group.articles=Flux dans group "{0}"
 watch.wiki.group.noGroup=Ce document ne contient pas de group
 
 watch.wiki.reader=Lecteur de flux
-watch.wiki.reader.goto=Accéder au {0}</content>
+watch.wiki.reader.goto=Accéder au {0}
+
+watch.filter.dates.title = Filtrer sur les dates
+watch.filter.dates.startDate = Date de début:
+watch.filter.dates.endDate = Date de fin: 
+watch.filter.dates.months.next = Mois suivant
+watch.filter.dates.months.previous = Mois précédent 
+watch.filter.dates.years.next = Année suivante
+watch.filter.dates.years.previous = Année précédent
+watch.filter.dates.months = Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Aôut, Septembre, Octobre, Novembre, Decembre
+watch.filter.dates.days = D, L, M, M, J, V, S
+watch.filter.dates.firstDayOfWeek = 1
+
+</content>
 </xwikidoc>

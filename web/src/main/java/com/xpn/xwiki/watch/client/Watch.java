@@ -18,8 +18,6 @@ import com.google.gwt.core.client.GWT;
 
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -409,6 +407,8 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         fstatus.setStart(0);
         fstatus.setTags(new ArrayList());
         fstatus.setTrashed(-1);
+        fstatus.setDateStart(null);
+        fstatus.setDateEnd(null);
         refreshArticleList();
         userInterface.resetSelections();        
     }
@@ -587,6 +587,20 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     public void refreshOnNotShowOnlyTrashedArticles() {
         FilterStatus fstatus = getFilterStatus();
         fstatus.setTrashed(-1);
+        fstatus.setStart(0);
+        refreshArticleList();
+    }
+
+    public void refreshOnDateStartChange(Date newDate) {
+        FilterStatus fstatus = getFilterStatus();
+        fstatus.setDateStart(newDate);
+        fstatus.setStart(0);
+        refreshArticleList();
+    }
+
+    public void refreshOnDateEndChange(Date newDate) {
+        FilterStatus fstatus = getFilterStatus();
+        fstatus.setDateEnd(newDate);
         fstatus.setStart(0);
         refreshArticleList();
     }

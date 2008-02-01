@@ -1,5 +1,6 @@
 package com.xpn.xwiki.watch.client.ui.menu;
 
+import org.gwtwidgets.client.ui.cal.CalendarDate;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.google.gwt.user.client.ui.*;
@@ -49,6 +50,7 @@ public class FilterBarWidget  extends WatchWidget {
         panel.add(getFilterPanel());
         panel.add(getKeywordsPanel());
         panel.add(getTagCloudPanel());
+        panel.add(getDatesPanel());
     }
 
     public void refreshData() {
@@ -61,6 +63,7 @@ public class FilterBarWidget  extends WatchWidget {
         panel.add(getFilterPanel());
         panel.add(getKeywordsPanel());
         panel.add(getTagCloudPanel());
+        panel.add(getDatesPanel());
     }
 
     private Widget getTagCloudPanel() {
@@ -161,6 +164,39 @@ public class FilterBarWidget  extends WatchWidget {
             }
         });
         p.add(titleHTML);
+        return p;
+    }
+    
+    private Widget getDatesPanel() {
+        FlowPanel p = new FlowPanel();
+        FlowPanel titlePanel = new FlowPanel();
+        titlePanel.setStyleName(watch.getStyleName("filter", "dates-title"));
+        HTML titleHTML = new HTML(watch.getTranslation("filter.dates.title"));
+        titleHTML.setStyleName(watch.getStyleName("filter", "title-dates-text"));
+        titlePanel.add(titleHTML);
+        p.add(titlePanel);
+        String startLabel = watch.getTranslation("filter.dates.startDate");
+        DatePickerWidget startDateWidget = new DatePickerWidget(watch, startLabel) {
+            public void onDateClick(CalendarDate date) {
+                super.onDateClick(date);
+                watch.refreshOnDateStartChange(date.getDate());
+            }
+            public String getName() {
+                return "datestartwidget";
+            }
+        };
+        String endLabel = watch.getTranslation("filter.dates.endDate");
+        DatePickerWidget endDateWidget = new DatePickerWidget(watch, endLabel) {
+            public void onDateClick(CalendarDate date) {
+                super.onDateClick(date);
+                watch.refreshOnDateEndChange(date.getDate());
+            }
+            public String getName() {
+                return "dateendwidget";
+            }
+        };
+        p.add(startDateWidget);
+        p.add(endDateWidget);
         return p;
     }
 

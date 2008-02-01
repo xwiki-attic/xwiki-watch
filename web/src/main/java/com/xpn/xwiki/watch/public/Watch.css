@@ -457,7 +457,7 @@ div.watch-filter-init {
 	padding: 1.5em 0;
 }
 
-div.watch-filter-seeonly-title, div.watch-filter-keywords-title, div.watch-filter-tagcloud-title {
+div.watch-filter-seeonly-title, div.watch-filter-keywords-title, div.watch-filter-tagcloud-title, div.watch-filter-dates-title {
 	padding: 3px 0 0 10px;
 	font-weight: bold;
 	border-bottom: 1px solid #000;
@@ -809,5 +809,21 @@ font-weight: bold;
 color: orange;
 	text-decoration: underline;
 }
+/*
+filter styles
+*/
+button.watch-filter-date-month-button, button.watch-filter-date-year-button {
+	padding: 0px;
+}
 
+button.watch-filter-date-month-button:hover, button.watch-filter-date-year-button:hover {
+	padding: 0px;
+}
 
+div.watch-filter-date-year-label, div.watch-filter-date-month-label, div.watch-filter-date-title-label, div.watch-filter-date-label {
+	display: inline;
+}
+
+table.calendar-panel, button.watch-filter-date-month-button, button.watch-filter-date-year-button {
+	background-color: #E0B0FF; /* mauve, baby! */
+}

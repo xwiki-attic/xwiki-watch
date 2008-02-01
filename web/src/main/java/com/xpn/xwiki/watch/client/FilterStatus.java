@@ -1,9 +1,12 @@
 package com.xpn.xwiki.watch.client;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+
+import org.gwtwidgets.client.util.SimpleDateFormat;
 
 import com.google.gwt.http.client.URL;
 
@@ -14,9 +17,10 @@ public class FilterStatus {
     private int read;
     private List tags = new ArrayList();
     private String keyword;
-    private String date;
     private Feed feed;
     private String group;
+    private Date dateStart;
+    private Date dateEnd;
     private int start;
     private int total;
     private String query;
@@ -36,9 +40,10 @@ public class FilterStatus {
         read = 0;
         tags = new ArrayList();
         keyword = null;
-        date = null;
         feed = null;
         group = null;
+        dateStart = null;
+        dateEnd = null;
         start = 0;
     }
 
@@ -98,11 +103,19 @@ public class FilterStatus {
                 status += " - ";
             status += watch.getTranslation("readoff");
         }
-        if (date!=null) {
-            if (!status.equals(""))
+        if (dateStart != null) {
+            if (!status.equals("")) {
                 status += " - ";
-            status += watch.getTranslation("limitfrom");
-            status += date;
+            }
+            status += watch.getTranslation("filter.dates.startDate");
+            status += dateStart; 
+        }
+        if (dateEnd != null) {
+            if (!status.equals("")) {
+                status += " - ";
+            }
+            status += watch.getTranslation("filter.dates.endDate");
+            status += dateEnd; 
         }
         return status;
     }
@@ -163,14 +176,6 @@ public class FilterStatus {
         this.keyword = keyword;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public Feed getFeed() {
         return feed;
     }
@@ -208,8 +213,17 @@ public class FilterStatus {
             map.put("tags", getTags());
         if (getKeyword() !=null)
             map.put("keyword",getKeyword());
-        if (getDate() !=null)
-            map.put("date",getDate());
+        if (getDateStart() != null) {
+            //format date first
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String fDate = format.format(getDateStart());
+            map.put("dateStart", fDate);
+        }
+        if (getDateEnd() != null) {
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String fDate = format.format(getDateEnd());
+            map.put("dateEnd", fDate);
+        }
         return map;
     }
 
@@ -230,9 +244,38 @@ public class FilterStatus {
         }
         if (getKeyword() !=null)
             qs.append("&amp;keyword=" + getKeyword());
-        if (getDate() !=null)
-            qs.append("&amp;date=" + getDate());
+        if (getDateStart() != null) {
+            //format the date first
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String fDate = format.format(getDateStart());
+            qs.append("&amp;dateStart=" + URL.encodeComponent(fDate));
+        }
+        if (getDateEnd() != null) {
+            SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            String fDate = format.format(getDateEnd());
+            qs.append("&amp;dateEnd=" + URL.encodeComponent(fDate));
+        }
         return qs.toString();
+    }
+
+    public Date getDateEnd()
+    {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd)
+    {
+        this.dateEnd = dateEnd;
+    }
+
+    public Date getDateStart()
+    {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart)
+    {
+        this.dateStart = dateStart;
     }
 
 }
