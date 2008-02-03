@@ -40,9 +40,14 @@
       <version>${product.enterprise.version}</version>
       <type>xar</type>
     </dependency>
+	<dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+	  <artifactId>xwiki-watch-gwt</artifactId>
+	  <version>${pom.version}</version>
+	  <type>zip</type>
+	</dependency>
   </dependencies>
   <build>
-  <!--
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
@@ -51,6 +56,55 @@
         </excludes>
       </resource>
     </resources>
-  -->
+	<plugins>
+	  <!--
+        Step 1: copy the GWT zip to the target directory
+	  -->
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-dependency-plugin</artifactId>
+		<executions>
+		  <execution>
+		    <goals>
+			  <goal>copy</goal>
+			</goals>
+			<configuration>
+			  <artifactItems>
+			    <artifactItem>
+				  <groupId>com.xpn.xwiki.products</groupId>
+				  <artifactId>xwiki-watch-gwt</artifactId>
+				  <version>${pom.version}</version>
+				  <type>zip</type>
+				  <overWrite>true</overWrite>
+				  <outputDirectory>${project.build.directory}/gwt</outputDirectory>
+				  <destFileName>watch.zip</destFileName>
+				</artifactItem>
+			  </artifactItems>
+			</configuration>
+		  </execution>
+		</executions>
+	  </plugin>
+      <plugin>
+	  <!--
+		Step 2: Attach watch JS-compiled code and resources zip
+                to WatchCode.GWT document.
+      -->
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-doc-plugin</artifactId>
+        <executions>
+	      <execution>
+            <phase>generate-resources</phase>
+			<id>attach-watch-zip</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+			<configuration>
+              <file>${project.build.directory}/gwt/watch.zip</file>
+              <document>${basedir}/src/main/resources/WatchCode/GWT</document>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>

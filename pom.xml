@@ -49,7 +49,8 @@
     <product.enterprise.version>1.3-SNAPSHOT</product.enterprise.version>
   </properties>
   <modules>
-    <module>web</module>
+    <module>gwt</module>
+	<module>tools</module>
     <module>wiki</module>
     <module>database</module>
     <module>distribution</module>
@@ -69,7 +70,7 @@
         <artifactId>xwiki-build-xar-handlers</artifactId>
         <version>${platform.tools.version}</version>
       </extension>
-    </extensions>
+	</extensions>
     <plugins>
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>

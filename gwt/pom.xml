@@ -5,10 +5,10 @@
     <artifactId>xwiki-watch-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-watch</artifactId>
-  <name>XWiki Products - Watch - Web</name>
-  <packaging>war</packaging>
-  <description>XWiki Products - Watch - Web</description>
+  <artifactId>xwiki-watch-gwt</artifactId>
+  <name>XWiki Products - Watch - GWT</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Watch - GWT</description>
   <properties>
     <gwtVersion>1.3.3</gwtVersion>
   </properties>
@@ -38,12 +38,6 @@
       <artifactId>junit</artifactId>
       <version>3.8.2</version>
     </dependency> 
-   <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-core</artifactId>
-      <version>${platform.core.version}</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-gwt</artifactId>
@@ -55,14 +49,15 @@
       <version>${platform.web.version}</version>
       <classifier>sources</classifier>
     </dependency>
-    <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-web-standard</artifactId>
-      <version>${platform.web.version}</version>
-      <type>war</type>
-    </dependency>
   </dependencies>
   <build>
+    <extensions>
+      <extension>
+	    <groupId>com.xpn.xwiki.products</groupId>
+        <artifactId>xwiki-watch-build-zip-plugin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	  </extension>
+	</extensions>
     <plugins>
       <!-- Download and unpack the GWT compiler -->
       <plugin>
@@ -92,10 +87,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.4</source>
-          <target>1.4</target>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <configuration>
+              <source>1.4</source>
+              <target>1.4</target>
+            </configuration>
+           </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>com.totsp.gwt</groupId>
@@ -119,58 +119,31 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Inject XWiki's configuration (only xwiki.cfg, not hibernate.cfg.xml) -->
-      <plugin>
+	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- The remote resources plugin adds its output directory as a resource directory
-                 so that the Maven resources plugin copies these resources to target/classes.
-                 However copying them to target/classes will make them appear in WEB-INF/classes
-                 in the generated WAR since the WAR plugin copies resources in target/classes in
-                 WEB-INF/classes. Thus to prevent this we're binding this execution to a phase
-                 that comes after the execution of the resources plugin (which executes in the
-                 process-resources phase). Thus this remote resources plugin will execute just
-                 after the resources plugin and the resources won't be copied, which is why we're
-                 adding a webResource configuration element below in the WAR plugin's
-                 configuration. -->
-            <phase>process-resources</phase>
-            <goals>
-              <goal>process</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:${platform.tools.version}</resourceBundle>
-          </resourceBundles>
-          <properties>
-            <xwikiCfgPlugins>
-              com.xpn.xwiki.plugin.feed.FeedPlugin,\
-	      com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-	      com.xpn.xwiki.plugin.packaging.PackagePlugin,\
-	      com.xpn.xwiki.plugin.autotag.AutoTagPlugin
-            </xwikiCfgPlugins>
-          </properties>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <webResources>
-            <resource>
-              <directory>${project.build.directory}/maven-shared-archive-resources</directory>
-              <targetPath>WEB-INF</targetPath>
-              <includes>
-                <include>xwiki.cfg</include>
-              </includes>
-            </resource>
-          </webResources>
-        </configuration>
-      </plugin>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<executions>
+		  <execution>
+		    <phase>package</phase>
+			<goals>
+			  <goal>assembly</goal>
+			</goals>
+   	        <configuration>
+		      <descriptors>
+		        <descriptor>src/assemble/watch.xml</descriptor>
+		      </descriptors>
+		    </configuration>
+		  </execution>
+	    </executions>
+	  </plugin>
     </plugins>
+	<!--
+    <resources>
+      <resource>
+        <directory>${basedir}/target/${pom.artifactId}-${pom.version}</directory>
+      </resource>
+    </resources>
+	-->
   </build>
   <profiles>
     <profile>
