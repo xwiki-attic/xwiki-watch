@@ -89,8 +89,8 @@
 		Step 2: Attach watch JS-compiled code and resources zip
                 to WatchCode.GWT document.
       -->
-        <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-doc-plugin</artifactId>
+        <groupId>com.xpn.xwiki.products</groupId>
+        <artifactId>xwiki-watch-build-doc-plugin</artifactId>
         <executions>
 	      <execution>
             <phase>generate-resources</phase>
