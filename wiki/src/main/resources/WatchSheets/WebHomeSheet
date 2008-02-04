@@ -24,7 +24,7 @@
 ## use the generated watch JS code
 ## TODO: move that code to a place it can be accessed trough the api
 ##
-#set($watchbaseurl =  "/xwiki/com.xpn.xwiki.watch.Watch")
+#set($watchbaseurl =  $xwiki.getAttachmentURL("WatchCode.GWT", "watch.zip"))
 &lt;meta name='gwt:module' content='$watchbaseurl/com.xpn.xwiki.watch.Watch'&gt;
 #if($request.space)
 #set($space = $request.space)

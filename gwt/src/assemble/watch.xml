@@ -27,7 +27,7 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-  	  <directory>${basedir}/target/${pom.artifactId}-${pom.version}</directory>
+  	  <directory>${basedir}/target/${pom.artifactId}-${pom.version}/com.xpn.xwiki.watch.Watch/</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
   </fileSets>
