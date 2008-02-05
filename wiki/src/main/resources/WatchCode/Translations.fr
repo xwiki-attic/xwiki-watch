@@ -291,6 +291,7 @@ watch.email.dialogtitle=Résultat de l'envoi
 watch.chooseproutput.noselection=Vous n'avez pas choisi le format de la revue de presse
 watch.email.noaddress=Vous n'avez renseigné aucune adresse mail
 watch.email.error=L'envoi email de la revue de presse a echoué pour la raison suivante:
+watch.email.articleswithcontent = Inclure le contenu des articles dans la revue de presse
 
 watch.pressreviewforspace=XWiki Watch Revue de Presse pour l'espace
 

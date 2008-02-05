@@ -34,6 +34,7 @@ public class PressReviewMailDialog extends Dialog {
     protected TextBox mailSubjectTextBox;
     protected TextBox mailToTextBox;
     protected TextArea mailContentTextArea;
+    protected CheckBox articlesContentCheckBox;
     
     public PressReviewMailDialog(Watch watch, String dialogName, int buttonModes) {
         super(watch, dialogName, buttonModes);
@@ -86,6 +87,13 @@ public class PressReviewMailDialog extends Dialog {
         mailContentTextArea.setStyleName(getCSSName("mailcontent"));
         mailContentTextArea.setText(app.getTranslation(getDialogTranslationName() + ".mailcontentdefault"));
         paramsPanel.add(mailContentTextArea);
+        
+        articlesContentCheckBox = new CheckBox();
+        articlesContentCheckBox.setText(app.getTranslation(getDialogTranslationName() 
+                                           + ".articleswithcontent"));
+        articlesContentCheckBox.setStyleName(getCSSName("withcontent"));
+        paramsPanel.add(articlesContentCheckBox);
+        
         return paramsPanel;
     }
     
@@ -104,9 +112,10 @@ public class PressReviewMailDialog extends Dialog {
             String[] emailsArray = this.mailToTextBox.getText().trim().split(", ");
             String mailSubject = this.mailSubjectTextBox.getText();
             String mailContent = this.mailContentTextArea.getText();
+            boolean withContent = this.articlesContentCheckBox.isChecked();
             ((Watch)app).getDataManager().sendEmail(((Watch)app).getFilterStatus(),
                     Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_EMAIL_PRESSREVIEW, 
-                    mailSubject, emailsArray, mailContent, new XWikiAsyncCallback(app) {
+                    mailSubject, emailsArray, mailContent, withContent, new XWikiAsyncCallback(app) {
                 public void onSuccess(Object result) {
                     super.onSuccess(result);
                     setCurrentResult(result);

@@ -461,12 +461,16 @@ public class DataManager {
     }
 
     public void sendEmail(FilterStatus filterStatus, String sendEmailPage, String mailSubject, 
-                          String[] mailTo, String mailContent, AsyncCallback cb) {
+                          String[] mailTo, String mailContent, boolean withArticlesContent, 
+                          AsyncCallback cb) {
         Map map = filterStatus.getMap();
         map.put("space", watch.getWatchSpace());
         map.put("address", mailTo);
         map.put("subject", mailSubject);
         map.put("content", mailContent);
+        if (withArticlesContent) {
+            map.put("withcontent", "1");
+        }
         watch.getXWikiServiceInstance().getDocumentContent(sendEmailPage, true, map, cb);
     }
 }

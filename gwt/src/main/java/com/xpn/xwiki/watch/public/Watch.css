@@ -693,6 +693,16 @@ textarea.watch-email-mailcontent
 	width: 380px;
 	margin: 0 10px;
 }
+span.watch-email-withcontent {
+	margin: 0 10px;
+	width: 380px;
+}
+span.watch-email-withcontent label {
+	margin: 10px 0 0 10px;
+}
+span.watch-email-withcontent input {
+	margin: 10px 0 0 0;
+}
 select.gwt-ListBox
 {
 	width: 380px;
