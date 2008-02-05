@@ -298,6 +298,12 @@ watch.email.mailto=Type the email addresses of recipients (comma separated)
 watch.email.mailcontent=Edit the content that will be sent along the Press Review
 watch.email.mailcontentdefault=You have received a Press Review from XWiki Watch. It includes the following articles:
 watch.email.notimplemented=This feature is not available in the Beta version in order to protect recipients from spam.
+watch.email.invitation=Please insert data about the Press Review email
+watch.email.success=Press review email was successfully sent through email to the following addresses:
+watch.email.dialogtitle=Press Review Email result
+watch.chooseproutput.noselection=You have not selected any output
+watch.email.noaddress=There are no addresses to send email to
+watch.email.error=Press Review email sending failed due to the following reason:
 
 watch.pressreviewforspace=XWiki Watch Press Review for Space
 

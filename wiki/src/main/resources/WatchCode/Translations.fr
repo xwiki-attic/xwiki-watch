@@ -285,6 +285,12 @@ watch.email.mailto=Entrez les adresses email des personnes à qui la Revue de Pre
 watch.email.mailcontent=Editez le contenu qui sera envoyé avec la Revue de Presse
 watch.email.mailcontentdefault=Vous avez reçu une Revue de Presse depuis XWiki Watch. Elle inclut les articles suivants:
 watch.email.notimplemented=Cette fonction n'est pas disponible dans la version Beta afin d'empêcher le spam.
+watch.email.invitation=Veuillez renseigner les données relatives a votre email
+watch.email.success=La revue de presse a été envoyé avec succès aux adresses email suivantes:
+watch.email.dialogtitle=Résultat de l'envoi
+watch.chooseproutput.noselection=Vous n'avez pas choisi le format de la revue de presse
+watch.email.noaddress=Vous n'avez renseigné aucune adresse mail
+watch.email.error=L'envoi email de la revue de presse a echoué pour la raison suivante:
 
 watch.pressreviewforspace=XWiki Watch Revue de Presse pour l'espace
 

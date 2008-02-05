@@ -1,6 +1,9 @@
-package com.xpn.xwiki.watch.client.ui.wizard;
+package com.xpn.xwiki.watch.client.ui.dialog;
 
+import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
@@ -78,15 +81,50 @@ public class PressReviewMailDialog extends Dialog {
 
         mailContentTextArea = new TextArea();
         mailContentTextArea.setVisibleLines(5);
+        mailContentTextArea.setWidth("60");
         mailContentTextArea.setName("mailcontent");
         mailContentTextArea.setStyleName(getCSSName("mailcontent"));
         mailContentTextArea.setText(app.getTranslation(getDialogTranslationName() + ".mailcontentdefault"));
         paramsPanel.add(mailContentTextArea);
         return paramsPanel;
     }
+    
+    protected boolean validateEmailDialog() {    
+        if (this.mailToTextBox.getText().trim() == "") {
+            Window.alert(app.getTranslation(getDialogTranslationName() + ".noaddress"));
+            return false;
+        }
+        return true;
+    }
 
     protected void endDialog() {
-        Window.alert(app.getTranslation(getDialogTranslationName() + ".notimplemented"));
+        if(validateEmailDialog()) {
+            //send email, all is ok
+            //parse emails
+            String[] emailsArray = this.mailToTextBox.getText().trim().split(", ");
+            String mailSubject = this.mailSubjectTextBox.getText();
+            String mailContent = this.mailContentTextArea.getText();
+            ((Watch)app).getDataManager().sendEmail(((Watch)app).getFilterStatus(),
+                    Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_EMAIL_PRESSREVIEW, 
+                    mailSubject, emailsArray, mailContent, new XWikiAsyncCallback(app) {
+                public void onSuccess(Object result) {
+                    super.onSuccess(result);
+                    setCurrentResult(result);
+                    String resultText = (String) result;
+                    endDialog2();
+                    ModalMessageDialogBox mmdb = new ModalMessageDialogBox(app, 
+                        app.getTranslation(getDialogTranslationName() + ".dialogtitle"), 
+                        resultText);
+                }
+                public void onFailure(Throwable caught) {
+                    super.onFailure(caught);
+                }
+            });
+        }
+    }
+    
+    protected void endDialog2() {
+        super.endDialog();
     }
 
 }

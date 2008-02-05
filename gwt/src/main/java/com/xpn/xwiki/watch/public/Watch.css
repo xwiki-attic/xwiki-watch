@@ -685,7 +685,10 @@ input.watch-googleblog-query,
 input.watch-technoratitag-feedname ,
 input.watch-technoratitag-query,
 input.watch-feedster-feedname ,
-input.watch-feedster-query
+input.watch-feedster-query,
+input.watch-email-mailsubject,
+input.watch-email-mailto,
+textarea.watch-email-mailcontent
 {
 	width: 380px;
 	margin: 0 10px;
@@ -704,7 +707,9 @@ div.groups-label ,
 div.group-label,
 div.mailsubject-label,
 div.feedurl-label,
-div.query-label
+div.query-label,
+div.mailto-label,
+div.mailcontent-label
 {
 	margin: 10px 10px 0 10px;
 }
@@ -825,5 +830,5 @@ div.watch-filter-date-year-label, div.watch-filter-date-month-label, div.watch-f
 }
 
 table.calendar-panel, button.watch-filter-date-month-button, button.watch-filter-date-year-button {
-	background-color: #E0B0FF; /* mauve, baby! */
+	background-color: #E6EAEE;
 }

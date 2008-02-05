@@ -92,20 +92,23 @@ for(item in xwiki.searchDocuments(sql, limit, 0)) {
   atitle = itemdoc.display("title")
   url = itemdoc.display("url")
   feedname = itemdoc.display("feedname")
-  println "&lt;h2&gt;&lt;a href=\"${url}\"&gt;${atitle}&lt;/a&gt; $msg.get("watch.pressreview.in") ${feedname}&lt;/h2&gt;"
-  println "&lt;p&gt;"
+  println "&lt;div class='article'&gt;&lt;span class='article-title'&gt;&lt;a class='article-url' href=\"${url}\"&gt;${atitle}&lt;/a&gt; $msg.get("watch.pressreview.in") ${feedname}&lt;/span&gt;"
+  if ("1".equals(request.withcontent)) {
+    println "&lt;p class='article-content'&gt;"
+    println itemdoc.display("content")
+    println "&lt;/p&gt;"
+  }
   def comments = itemdoc.getComments(true)
   if (comments.size()&gt;0) {
+   println "&lt;ul class='article-comments'&gt;"
    for (comment in comments) { 
     itemdoc.use(comment)
     author = xwiki.getLocalUserName(itemdoc.display("author", "view"))  
-    println itemdoc.display("comment", "view")
+    println "&lt;li&gt;" + itemdoc.display("comment", "view") + "&lt;/li&gt;"
+   }
+   println "&lt;/ul&gt;"
   }
-  }
-  if ("1".equals(request.withcontent)) {
-    println itemdoc.display("content")
-  }
-  println "&lt;/p&gt;"
+  println "&lt;/div&gt;"
  }
  println "{/pre}"
 }
