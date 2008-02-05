@@ -34,6 +34,6 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Watch - Tools</description>
   <modules>
-    <module>build-doc-plugin</module>
+    <module>build-xmldoc-update-plugin</module>
   </modules>
 </project>

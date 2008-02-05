@@ -48,17 +48,44 @@
 	</dependency>
   </dependencies>
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <excludes>
-          <exclude>**/Translations.fr</exclude>
-        </excludes>
-      </resource>
-    </resources>
-	<plugins>
+   <plugins>
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>xar</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                 <exclude>**/Translations.fr</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+		  <!--
+           unxar XE wiki. This would normally be done by the xar goal
+           at package time, but since we need to alter the XWiki.XWikiPreferences
+           to inject the Watch translations in the i18n doc bundles,
+           we need to unxar it at resources generation time.
+		   -->
+          <execution>
+            <phase>generate-resources</phase>
+            <id>unxar-xe</id>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>com.xpn.xwiki.products</groupId>
+              <artifactId>xwiki-enterprise-wiki</artifactId>
+              <outputDirectory>${basedir}/target/classes</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 	  <!--
-        Step 1: copy the GWT zip to the target directory
+           copy the GWT zip to the target directory
 	  -->
 	  <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
@@ -84,23 +111,39 @@
 		  </execution>
 		</executions>
 	  </plugin>
-      <plugin>
 	  <!--
-		Step 2: Attach watch JS-compiled code and resources zip
-                to WatchCode.GWT document.
-      -->
+	   Attach watch JS-compiled code and resources zip
+           to WatchCode.GWT document.
+          -->
+      <plugin>
         <groupId>com.xpn.xwiki.products</groupId>
-        <artifactId>xwiki-watch-build-doc-plugin</artifactId>
+        <artifactId>xwiki-build-xmldoc-update-plugin</artifactId>
         <executions>
-	      <execution>
+          <execution>
             <phase>generate-resources</phase>
-			<id>attach-watch-zip</id>
+            <id>attach-watch-zip</id>
             <goals>
               <goal>attach</goal>
             </goals>
-			<configuration>
+            <configuration>
               <file>${project.build.directory}/gwt/watch.zip</file>
-              <document>${basedir}/src/main/resources/WatchCode/GWT</document>
+              <sourceDocument>${basedir}/src/main/resources/WatchCode/GWT</sourceDocument>
+            </configuration>
+          </execution>
+          <!--
+           Inject WatchCode.Translations in XWiki.XWikiPreferences
+          -->
+          <execution>
+            <phase>generate-resources</phase>
+            <id>inject-watch-translations</id>
+            <goals>
+              <goal>setproperty</goal>
+            </goals>
+            <configuration>
+	      <sourceDocument>${project.build.outputDirectory}/XWiki/XWikiPreferences</sourceDocument>
+              <propertyName>documentBundles</propertyName>
+              <value>WatchCode.Translations</value>
+              <append>false</append>
             </configuration>
           </execution>
         </executions>
