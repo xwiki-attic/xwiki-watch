@@ -386,6 +386,10 @@ img.watch-article-title-extlink {
   margin: 0 5px;
 }
 
+img.watch-article-tags-add-image, img.watch-article-comments-add-image {
+	cursor: pointer;
+}
+
 div.watch-article-content {
 	margin: 0 5px 1.5em  5px;
 }
@@ -475,8 +479,11 @@ div.watch-filter-filter, div.watch-keywords, div.watch-tagcloud {
 }
 
 div.watch-filter-init-text {
-	color: #fff;
+	color: #000000;
 	text-decoration: underline;
+	cursor: pointer;
+	padding: 4px 0px 3px 0px;
+	background-color: #E6EAEE;
 }
  div.watch-keyword-link{
 	padding: 0 10px;
@@ -840,6 +847,10 @@ button.watch-filter-date-month-button:hover, button.watch-filter-date-year-butto
 
 div.watch-filter-date-year-label, div.watch-filter-date-month-label, div.watch-filter-date-title-label, div.watch-filter-date-label {
 	display: inline;
+}
+
+div.watch-filter-date-title-label, div.watch-filter-date-label {
+	color: #FFFFFF;
 }
 
 table.calendar-panel, button.watch-filter-date-month-button, button.watch-filter-date-year-button {
