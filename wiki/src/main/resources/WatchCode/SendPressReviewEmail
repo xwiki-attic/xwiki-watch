@@ -91,7 +91,7 @@ if (request.space==null) {
   error = false;
   addresses = "";
   for (addr in request.getParameterValues("address")) {
-    message = content + "&lt;br /&gt;" + xwiki.getURLContent(url);
+    message = "&lt;div style='line-height: 1.5em'&gt;" + content + "&lt;br /&gt;" + xwiki.getURLContent(url) + "&lt;/div&gt;";
     //mailResult = xwiki.mailsender.sendTextMessage(xwiki.getXWikiPreference("admin_email"), addr, subject, message);
     mailResult = xwiki.mailsender.sendHtmlMessage(" XWiki Watch " + "&lt;" + xwiki.getXWikiPreference("admin_email") + "&gt;", addr, null, null, subject, message, message, null);
     if (mailResult == 0) {
