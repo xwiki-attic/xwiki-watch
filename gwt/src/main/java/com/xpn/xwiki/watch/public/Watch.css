@@ -829,10 +829,12 @@ filter styles
 */
 button.watch-filter-date-month-button, button.watch-filter-date-year-button {
 	padding: 0px;
+	margin: 2px;
 }
 
 button.watch-filter-date-month-button:hover, button.watch-filter-date-year-button:hover {
 	padding: 0px;
+	margin: 2px;
 }
 
 div.watch-filter-date-year-label, div.watch-filter-date-month-label, div.watch-filter-date-title-label, div.watch-filter-date-label {
@@ -841,4 +843,10 @@ div.watch-filter-date-year-label, div.watch-filter-date-month-label, div.watch-f
 
 table.calendar-panel, button.watch-filter-date-month-button, button.watch-filter-date-year-button {
 	background-color: #E6EAEE;
+}
+table.calendar-panel {
+	margin: auto;
+}
+div.calendar-dateCell {
+	cursor: pointer;
 }

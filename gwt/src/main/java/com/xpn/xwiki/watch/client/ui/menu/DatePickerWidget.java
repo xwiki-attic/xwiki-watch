@@ -102,8 +102,8 @@ public class DatePickerWidget extends WatchWidget implements CalendarListener
         panel.add(prevMButton);
         monthLabel.setText(this.calendarPanel.getCurrentMonthName());
         monthLabel.addStyleName(watch.getStyleName("filter", "date-month-label"));
+        panel.add(nextMButton); 
         panel.add(monthLabel);
-        panel.add(nextMButton);
         Button nextYButton = new Button(">");
         nextYButton.setTitle(watch.getTranslation("filter.dates.years.next"));
         nextYButton.addStyleName(watch.getStyleName("filter", "date-year-button"));
@@ -113,8 +113,8 @@ public class DatePickerWidget extends WatchWidget implements CalendarListener
         panel.add(prevYButton); 
         yearLabel.setText(this.calendarPanel.getCurrentYear());
         yearLabel.addStyleName(watch.getStyleName("filter", "date-year-label"));
-        panel.add(yearLabel);
         panel.add(nextYButton);
+        panel.add(yearLabel);
 
         this.calendarPanel.addPrevMonthActivator(prevMButton);
         this.calendarPanel.addNextMonthActivator(nextMButton);
@@ -124,7 +124,7 @@ public class DatePickerWidget extends WatchWidget implements CalendarListener
         //some calendar styling
         this.calendarPanel.setBorderWidth(0);
         this.calendarPanel.setCellPadding(2);
-        panel.add(calendarPanel);
+        panel.add(this.calendarPanel);
         this.calendarPanel.redraw();
     }
     
