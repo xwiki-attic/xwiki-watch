@@ -80,9 +80,9 @@ if (request.space==null) {
     if (!(par.key.equals("address") || par.key.equals("content") || par.key.equals("subject"))) {
       //just perfect to pass further
       if (par.value instanceof String) {
-        url += "&amp;" + par.key + "=" + par.value;
+        url += "&amp;" + par.key + "=" + xwiki.getURLEncoded(par.value);
       } else {
-        url += "&amp;" + par.key + "=" + par.value[0];        
+        url += "&amp;" + par.key + "=" + xwiki.getURLEncoded(par.value[0]);        
       }
     }
   }
