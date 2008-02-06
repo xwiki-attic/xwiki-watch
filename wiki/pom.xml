@@ -116,7 +116,7 @@
            to WatchCode.GWT document.
           -->
       <plugin>
-        <groupId>com.xpn.xwiki.products</groupId>
+        <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xmldoc-update-plugin</artifactId>
         <executions>
           <execution>
