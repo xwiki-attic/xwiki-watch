@@ -232,6 +232,7 @@ watch.pressreview.caption=XWiki Watch Revue de Presse
 watch.pressreview.invitation=Voici la liste d'articles correspondant à votre filtre:
 watch.pressreview.noselection=Il n'y a pas de flux dans votre revue de presse
 watch.pressreview.in = dans
+watch.pressreview.by=par
 
 watch.articlelist_noarticles=Il n'y a pas d'articles pour ce filtre
 
@@ -292,6 +293,7 @@ watch.chooseproutput.noselection=Vous n'avez pas choisi le format de la revue de
 watch.email.noaddress=Vous n'avez renseigné aucune adresse mail
 watch.email.error=L'envoi email de la revue de presse a echoué pour la raison suivante:
 watch.email.articleswithcontent = Inclure le contenu des articles dans la revue de presse
+watch.email.articleswithcomments=Inclure les commentaires sur les articles dans la revue de presse
 
 watch.pressreviewforspace=XWiki Watch Revue de Presse pour l'espace
 

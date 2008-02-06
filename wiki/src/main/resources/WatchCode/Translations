@@ -244,6 +244,7 @@ watch.pressreview.caption=XWiki Watch Press Review
 watch.pressreview.invitation=Here is the list of Articles matching the Filters that were Activated before generating the Press Review:
 watch.pressreview.noselection=There is no other Article in this Press Review
 watch.pressreview.in=in
+watch.pressreview.by=by
 
 watch.articlelist_noarticles=There are no articles for this filter
 
@@ -305,6 +306,7 @@ watch.chooseproutput.noselection=You have not selected any output
 watch.email.noaddress=There are no addresses to send email to
 watch.email.error=Press Review email sending failed due to the following reason:
 watch.email.articleswithcontent=Include articles content in the Press Review
+watch.email.articleswithcomments=Include articles comments in the Press Review
 
 watch.pressreviewforspace=XWiki Watch Press Review for Space
 

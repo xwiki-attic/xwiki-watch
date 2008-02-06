@@ -462,7 +462,7 @@ public class DataManager {
 
     public void sendEmail(FilterStatus filterStatus, String sendEmailPage, String mailSubject, 
                           String[] mailTo, String mailContent, boolean withArticlesContent, 
-                          AsyncCallback cb) {
+                          boolean withArticlesComments, AsyncCallback cb) {
         Map map = filterStatus.getMap();
         map.put("space", watch.getWatchSpace());
         map.put("address", mailTo);
@@ -470,6 +470,13 @@ public class DataManager {
         map.put("content", mailContent);
         if (withArticlesContent) {
             map.put("withcontent", "1");
+        } else {
+            map.put("withcontent", "0");
+        }
+        if (withArticlesComments) {
+            map.put("withcomments", "1");
+        } else {
+            map.put("withcomments", "0");
         }
         watch.getXWikiServiceInstance().getDocumentContent(sendEmailPage, true, map, cb);
     }

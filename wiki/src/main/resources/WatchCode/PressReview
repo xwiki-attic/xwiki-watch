@@ -99,14 +99,16 @@ for(item in xwiki.searchDocuments(sql, limit, 0)) {
     println "&lt;/p&gt;"
   }
   def comments = itemdoc.getComments(true)
+  if (!"0".equals(request.withcomments)) {
   if (comments.size()&gt;0) {
    println "&lt;ul class='article-comments'&gt;"
    for (comment in comments) { 
     itemdoc.use(comment)
     author = xwiki.getLocalUserName(itemdoc.display("author", "view"))  
-    println "&lt;li&gt;" + itemdoc.display("comment", "view") + "&lt;/li&gt;"
+    println "&lt;li&gt;&lt;span class='article-comment'&gt;" + itemdoc.display("comment", "view") + "&lt;/span&gt; $msg.get("watch.pressreview.by") &lt;span class='article-comment-author'&gt;" + author + "&lt;/span&gt;&lt;/li&gt;"
    }
    println "&lt;/ul&gt;"
+  }
   }
   println "&lt;/div&gt;"
  }
