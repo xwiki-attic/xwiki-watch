@@ -80,6 +80,9 @@
               <groupId>com.xpn.xwiki.products</groupId>
               <artifactId>xwiki-enterprise-wiki</artifactId>
               <outputDirectory>${basedir}/target/classes</outputDirectory>
+              <excludes>
+               <exclude>package.xml</exclude>
+              </excludes>
             </configuration>
           </execution>
         </executions>
@@ -132,7 +135,6 @@
           </execution>
           <!--
            Inject WatchCode.Translations in XWiki.XWikiPreferences
-          -->
           <execution>
             <phase>generate-resources</phase>
             <id>inject-watch-translations</id>
@@ -146,6 +148,7 @@
               <append>false</append>
             </configuration>
           </execution>
+          -->
         </executions>
       </plugin>
     </plugins>
