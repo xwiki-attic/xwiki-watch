@@ -50,7 +50,6 @@
   </properties>
   <modules>
     <module>gwt</module>
-	<module>tools</module>
     <module>wiki</module>
     <module>database</module>
     <module>distribution</module>
