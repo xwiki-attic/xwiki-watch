@@ -51,7 +51,7 @@
    <plugins>
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <artifactId>xwiki-xar-plugin</artifactId>
         <executions>
           <execution>
             <phase>package</phase>
