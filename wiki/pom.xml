@@ -121,6 +121,7 @@
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xmldoc-update-plugin</artifactId>
+	<version>${platform.tools.version}</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
