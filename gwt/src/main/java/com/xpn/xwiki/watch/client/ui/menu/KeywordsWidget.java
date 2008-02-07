@@ -86,7 +86,14 @@ public class KeywordsWidget extends WatchWidget {
             while (it.hasNext()) {
                 final Keyword keyword = (Keyword) it.next();
                 if ((keyword.getName()!=null)&&(!keyword.equals(""))) {
-                    Hyperlink link = new Hyperlink(keyword.getDisplayName(), "");
+                    String groupDisplayName = (String) watch.getConfig().getGroups()
+                                                       .get(keyword.getGroup());
+                    if (groupDisplayName == null) {
+                        groupDisplayName = keyword.getGroup();
+                    }
+                    String keywordDisplayName = keyword.getName() 
+                        + ((!groupDisplayName.trim().equals("")) ?  (" - " + groupDisplayName) : "");
+                    Hyperlink link = new Hyperlink(keywordDisplayName, "");
                     link.setStyleName(watch.getStyleName("keyword", "link"));
                     keywordsLink.put(keyword, link);
                     link.addClickListener(new ClickListener() {

@@ -62,7 +62,7 @@ public class AddKeywordDialog extends Dialog {
         int selectedIndex = (groupListBox==null) ? -1 : groupListBox.getSelectedIndex();
         // If the All item is selected set no group
         if (selectedIndex>0)
-         group = groupListBox.getItemText(selectedIndex);
+         group = groupListBox.getValue(selectedIndex);
 
         if (keyword.equals("")) {
             Window.alert(app.getTranslation(getDialogTranslationName() + ".nokeyword"));

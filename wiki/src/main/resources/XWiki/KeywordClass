@@ -46,7 +46,7 @@
 <idField></idField>
 <relationalStorage>0</relationalStorage>
 <name>group</name>
-<sql>select agroup.name from XWiki.AggregatorGroupClass as agroup, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=agroup.id and doc.web='${doc.web}'</sql>
+<sql>select doc.fullName, agroup.name from XWiki.AggregatorGroupClass as agroup, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=agroup.id and doc.web='${doc.web}'</sql>
 <picker></picker>
 <number>2</number>
 <validationMessage></validationMessage>

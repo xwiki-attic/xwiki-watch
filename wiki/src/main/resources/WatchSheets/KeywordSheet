@@ -64,7 +64,7 @@
   #set($groupQuery = "")
   #if ("$!keywordGroup" != "")
     #set($keywordGroupEsc = $keywordGroup.replaceAll("'", "''"))
-    #set($groupQuery = " and feedentry.feedurl in (select feed.url from XWiki.AggregatorURLClass as feed, BaseObject as obj, XWiki.AggregatorGroupClass as groupProp where obj.name in elements(feed.group) and obj.id = groupProp.id and groupProp.name='${keywordGroupEsc}')")
+    #set($groupQuery = " and feedentry.feedurl in (select feed.url from XWiki.AggregatorURLClass as feed where '${keywordGroupEsc}' in elements(feed.group))")
   #end
   #set($articlesQuery = ", BaseObject as obj, XWiki.FeedEntryClass as feedentry where doc.fullName = obj.name and obj.className  = 'XWiki.FeedEntryClass' and obj.id = feedentry.id  and (lower(feedentry.title) like '%${keywordValueEsc.toLowerCase()}%' or lower(feedentry.content) like '%${keywordValueEsc.toLowerCase()}%' or lower(feedentry.fullContent) like '%${keywordValueEsc.toLowerCase()}%') ${groupQuery}")
   #set($list = $xwiki.searchDocuments($articlesQuery))

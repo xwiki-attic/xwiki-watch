@@ -354,10 +354,8 @@ public class DataManager {
         if ((feedurl !=null)&&(!feedurl.trim().equals(""))) {
             wheresql += " and feedentry.feedurl='" + feedurl.replaceAll("'","''") + "'";
         } else if ((filterStatus.getGroup() !=null)&&(!filterStatus.getGroup().trim().equals(""))) {
-            wheresql += "and feedentry.feedurl in (" 
-                + "select feed.url from XWiki.AggregatorURLClass as feed, BaseObject as obj, " 
-                + "XWiki.AggregatorGroupClass as groupProp where obj.name in elements(feed.group) " 
-                + "and obj.id = groupProp.id and groupProp.name='" + filterStatus.getGroup().replaceAll("'", "''") + "')";            
+            wheresql += "and feedentry.feedurl in ("
+                + "select feed.url from XWiki.AggregatorURLClass as feed where '" + filterStatus.getGroup().replaceAll("'","''") + "' in elements(feed.group))";
         }
 
         if (filterStatus.getDateStart() !=null) {

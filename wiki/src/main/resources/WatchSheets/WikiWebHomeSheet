@@ -83,7 +83,7 @@ $msg.get("watch.introduction")
     ##build the nice name
     #set($keywordName = "${keywordObj.getProperty('name').value}")
     #set($keywordGroup = false)
-    #set($keywordGroup =  $keywordObj.getProperty('group').value)
+    #set($keywordGroup =  $keywordObj.display('group', 'view'))
     #if ($keywordGroup &amp;&amp; $keywordGroup != "")
       #set($keywordName = "${keywordName} - ${keywordGroup}")
     #end
