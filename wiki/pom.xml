@@ -50,7 +50,7 @@
   <build>
    <plugins>
       <plugin>
-        <groupId>com.xpn.xwiki.platform</groupId>
+        <groupId>com.xpn.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-plugin</artifactId>
         <executions>
           <execution>
@@ -119,9 +119,9 @@
            to WatchCode.GWT document.
           -->
       <plugin>
-        <groupId>com.xpn.xwiki.platform</groupId>
+        <groupId>com.xpn.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xmldoc-update-plugin</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	      <version>${platform.tool.xmldoc.version}</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
