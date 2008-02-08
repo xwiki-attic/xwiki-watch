@@ -63,6 +63,7 @@ div.watch-titlebar {
 }
 img.watch-titlebar-refresh {
 	margin: 13px;
+	cursor: pointer;
 }
 .watch-search {
     float: right;
@@ -80,6 +81,7 @@ button.watch-search-button {
 	border:  none;
 	color:  #fff;
 	font-size:  1.1em;
+	cursor: pointer;
 }
 #Watch div.watch-main div.watch-titlebar div.watch-titlebar-title {
 	color: #fff;
@@ -151,6 +153,7 @@ button.watch-search-button {
 }
 .watch-feedtree-image {
     float: right;
+    cursor: pointer;
 }
 
 .watch-feedtree-groups {
@@ -331,6 +334,7 @@ div.watch-article-actions {
 }
 div.watch-article-actions img{
 	margin-left: 10px;
+	cursor: pointer;
 }
 img.watch-article-action-trash {
 	width:  16px;
