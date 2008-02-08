@@ -55,7 +55,7 @@
   </properties>
   <modules>
     <module>gwt</module>
-    <module>wiki</module>
+    <module>wikis</module>
     <module>database</module>
     <module>distribution</module>
   </modules>
