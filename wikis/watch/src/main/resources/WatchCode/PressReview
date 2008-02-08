@@ -23,7 +23,6 @@
 <content>&lt;%
 if (request.space==null) {
  println "$msg.get("watch.pressreview.noquery")"
- println "[$msg.get("watch.pressreview.seeflaggedarticles")&gt;$doc.fullName?flagged=1]"
 } else {
 if (request.keyword==null)
  skeyword = ""

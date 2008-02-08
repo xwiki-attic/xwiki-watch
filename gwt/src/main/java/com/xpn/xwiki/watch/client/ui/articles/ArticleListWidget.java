@@ -149,7 +149,7 @@ public class ArticleListWidget extends WatchWidget {
 
         Image extLinkImage = new Image(watch.getSkinFile(Constants.IMAGE_EXT_LINK));
         extLinkImage.setStyleName(watch.getStyleName("article", "title-extlink"));
-        extLinkImage.setTitle(watch.getTranslation("open_this_article"));
+        extLinkImage.setTitle(watch.getTranslation("articlelist.open"));
         extLinkImage.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 Window.open(article.getUrl(), "_blank", "");

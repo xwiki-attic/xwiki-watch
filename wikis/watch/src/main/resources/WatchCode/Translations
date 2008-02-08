@@ -147,6 +147,7 @@ watch.addgroup.nogroup=Please input a Group name
 watch.loadingstatus.caption=XWiki Watch Loading Status
 watch.loadingstatus.invitation=The loading status is the following:
 watch.articlelist_noarticle=There is no article in this feed list
+watch.articlelist.open = Open this article
 
 watch.addkeyword.keyword=Keyword:
 watch.addkeyword.invitation=Please add your Keyword below
@@ -243,6 +244,7 @@ watch.analysis.noselection=Please select a word
 watch.pressreview.caption=XWiki Watch Press Review
 watch.pressreview.invitation=Here is the list of Articles matching the Filters that were Activated before generating the Press Review:
 watch.pressreview.noselection=There is no other Article in this Press Review
+watch.pressreview.noquery=There are no parameters for the Press Review selection
 watch.pressreview.in=in
 watch.pressreview.by=by
 

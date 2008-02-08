@@ -57,7 +57,12 @@
 #startfloatingbox()
 #set($params = $xwiki.arrayList)
 #set($dispose = $params.add("[$msg.get('watch.wiki.reader') &gt; Reader]"))
-$msg.get("watch.wiki.reader.goto", $params)
+#set($message = $msg.get("watch.wiki.reader.goto", $params))
+#if($message.equals("watch.wiki.reader.goto"))
+  [Watch Reader &gt; Reader]
+#else
+  $message
+#end
 #endfloatingbox()
 $msg.get("watch.introduction")
 &lt;div style="float: left; width: 50%;"&gt;

@@ -135,6 +135,7 @@ watch.addgroup.nogroup=Veuillez entrer un nom pour le groupe
 watch.loadingstatus.caption=Statut du chargement de XWiki Watch
 watch.loadingstatus.invitation=Le statut du chargement est le suivant:
 watch.articlelist_noarticles=Il n'y a pas d'article dans cette liste de flux
+watch.articlelist.open=Ouvrir cet article
 
 watch.addkeyword.keyword=Mot-clé:
 watch.addkeyword.invitation=Veuillez ajouter votre mot-clé ci-dessous
@@ -231,6 +232,7 @@ watch.analysis.noselection=Veuillez choisir un mot
 watch.pressreview.caption=XWiki Watch Revue de Presse
 watch.pressreview.invitation=Voici la liste d'articles correspondant à votre filtre:
 watch.pressreview.noselection=Il n'y a pas de flux dans votre revue de presse
+watch.pressreview.noquery=Aucun paramètre n'est défini pour la revue de presse  
 watch.pressreview.in = dans
 watch.pressreview.by=par
 
