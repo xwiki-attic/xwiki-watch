@@ -70,8 +70,7 @@ public class AnalysisDialog extends Dialog {
                     {
                         if (DOM.eventGetType(event) == Event.ONCLICK) {
                             Element eventTarget = DOM.eventGetTarget(event);
-                            //the ugly way of testing if the eventTarget is an anchor
-                            if (eventTarget.toString().toLowerCase().startsWith("<a ")) {
+                            if (DOM.getAttribute(eventTarget, "tagName").trim().equalsIgnoreCase("a")) {
                                 //close the dialog
                                 AnalysisDialog.this.cancelDialog();
                                 //search
