@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-watch-wiki</artifactId>
+      <artifactId>xwiki-watch-wikis-standalone</artifactId>
       <version>${pom.version}</version>
       <type>xar</type>
     </dependency>
@@ -48,7 +48,7 @@
           <version>${platform.tool.xar-plugin.version}</version>
           <configuration>
             <groupId>com.xpn.xwiki.products</groupId>
-            <artifactId>xwiki-watch-wiki</artifactId>
+            <artifactId>xwiki-watch-wikis-standalone</artifactId>
             <outputDirectory>${project.build.directory}/xar</outputDirectory>
           </configuration>
           <executions>
