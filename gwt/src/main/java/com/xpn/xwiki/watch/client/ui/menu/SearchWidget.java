@@ -56,8 +56,11 @@ public class SearchWidget extends WatchWidget {
         okButton.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 String text = searchBox.getText();
-                if (!text.equals(""))
-                 watch.refreshOnSearch(text);
+                if (!text.equals("")) {
+                    watch.refreshOnSearch(text);   
+                } else {
+                    watch.refreshOnSearch(null);
+                }
             }
         });
         panel.add(okButton);
