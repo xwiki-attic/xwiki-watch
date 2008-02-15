@@ -470,6 +470,7 @@ div.watch-filter-seeonly-title, div.watch-filter-keywords-title, div.watch-filte
 	font-weight: bold;
 	border-bottom: 1px solid #000;
 	margin-bottom: 0.5em;
+	clear: both;
 }
 
 
