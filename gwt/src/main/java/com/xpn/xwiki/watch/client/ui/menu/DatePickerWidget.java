@@ -93,10 +93,10 @@ public class DatePickerWidget extends WatchWidget implements CalendarListener
         this.dateLabel.addStyleName(watch.getStyleName("filter", "date-label"));
         p.add(this.dateLabel);
         panel.add(p);
-        Button nextMButton = new Button(">");
+        Button nextMButton = new Button("&gt;");
         nextMButton.setTitle(watch.getTranslation("filter.dates.months.next"));
         nextMButton.addStyleName(watch.getStyleName("filter", "date-month-button"));
-        Button prevMButton = new Button("<");
+        Button prevMButton = new Button("&lt;");
         prevMButton.setTitle(watch.getTranslation("filter.dates.months.previous"));
         prevMButton.addStyleName(watch.getStyleName("filter", "date-month-button"));
         panel.add(prevMButton);
@@ -104,10 +104,10 @@ public class DatePickerWidget extends WatchWidget implements CalendarListener
         monthLabel.addStyleName(watch.getStyleName("filter", "date-month-label"));
         panel.add(nextMButton); 
         panel.add(monthLabel);
-        Button nextYButton = new Button(">");
+        Button nextYButton = new Button("&gt;");
         nextYButton.setTitle(watch.getTranslation("filter.dates.years.next"));
         nextYButton.addStyleName(watch.getStyleName("filter", "date-year-button"));
-        Button prevYButton = new Button("<");
+        Button prevYButton = new Button("&lt;");
         prevYButton.setTitle(watch.getTranslation("filter.dates.years.previous"));        
         prevYButton.addStyleName(watch.getStyleName("filter", "date-year-button"));
         panel.add(prevYButton); 
