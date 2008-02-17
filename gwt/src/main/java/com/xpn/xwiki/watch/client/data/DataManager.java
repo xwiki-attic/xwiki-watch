@@ -4,6 +4,7 @@ import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.XWikiService;
 import com.xpn.xwiki.gwt.api.client.XObject;
@@ -126,6 +127,55 @@ public class DataManager {
             }
         });
     }
+    
+    public void updateGroup(Group group, final XWikiAsyncCallback cb) {
+        final String pageName = group.getPageName();
+        if (pageName == null || pageName.equals("") || group.getName().equals("")) {
+            cb.onFailure(null);
+        }
+        //create a group object and save it
+        XObject groupObj = new XObject();
+        groupObj.setName(pageName);
+        groupObj.setClassName(Constants.CLASS_AGGREGATOR_GROUP);
+        groupObj.setNumber(0);
+        groupObj.setProperty(Constants.PROPERTY_GROUP_NAME, group.getName());
+        watch.getXWikiServiceInstance().saveObject(groupObj, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+            public void onSuccess(Object object) {
+                // We return the page name
+                if (!((Boolean)object).booleanValue()) {
+                    cb.onFailure(null);
+                } else {
+                    cb.onSuccess(pageName);
+                }
+            }
+        });
+    }
+    
+    public void updateKeyword(Keyword keyword, final XWikiAsyncCallback cb) {
+        final String pageName = keyword.getPageName();
+        XObject kwObject = new XObject();
+        kwObject.setName(pageName);
+        kwObject.setClassName(Constants.CLASS_AGGREGATOR_KEYWORD);
+        kwObject.setNumber(0);
+        kwObject.setProperty(Constants.PROPERTY_KEYWORD_NAME, keyword.getName());
+        kwObject.setProperty(Constants.PROPERTY_KEYWORD_GROUP, keyword.getGroup());
+        watch.getXWikiServiceInstance().saveObject(kwObject, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object object) {
+                // We return the page name
+                if (!((Boolean)object).booleanValue())
+                    cb.onFailure(null);
+                else
+                    cb.onSuccess(pageName);
+            }
+        });        
+    }
 
     public void addKeyword(final String keyword, final String group, final AsyncCallback cb) {
         if (keyword==null)
@@ -178,11 +228,12 @@ public class DataManager {
         });
     }
 
-    public void addGroup(final String group, final AsyncCallback cb) {
+    public void addGroup(final Group group, final AsyncCallback cb) {
         if (group==null)
             cb.onFailure(null);
 
-        watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), "Group_" + group, new XWikiAsyncCallback(watch) {
+        watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), 
+                "Group_" + group.getName(), new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 // We failed to get a unique page name
@@ -198,7 +249,7 @@ public class DataManager {
                 feedObj.setName(pageName);
                 feedObj.setClassName(Constants.CLASS_AGGREGATOR_GROUP);
                 feedObj.setNumber(0);
-                feedObj.setProperty(Constants.PROPERTY_KEYWORD_NAME, group);
+                feedObj.setProperty(Constants.PROPERTY_GROUP_NAME, group.getName());
                 watch.getXWikiServiceInstance().saveObject(feedObj, new AsyncCallback() {
                     public void onFailure(Throwable throwable) {
                         cb.onFailure(throwable);
@@ -249,12 +300,50 @@ public class DataManager {
         }
     }
 
-    public void removeGroup(String group, final AsyncCallback cb) {
+    public void removeGroup(Group group, final AsyncCallback cb) {
         try {
-            if ((group==null)||(group.equals("")))
+            if ((group==null)||(group.equals(""))) {
                 cb.onFailure(null);
-
-            watch.getXWikiServiceInstance().deleteDocument(group, new XWikiAsyncCallback(watch) {
+                return;
+            }
+            //first update feeds in this group to unset the group
+            //TODO: decide what to do if one update fails
+            Collection feedList = (Collection)((Map)watch.getConfig().getFeedsByGroupList()
+                                  .get(group.getPageName())).values();
+ 	   	    for (Iterator feedListIt = feedList.iterator(); feedListIt.hasNext();) {
+ 	   	        Feed currentFeed = (Feed)feedListIt.next();
+ 	   	        currentFeed.getGroups().remove(group.getPageName());
+ 	   	        this.updateFeed(currentFeed, new XWikiAsyncCallback(watch) {
+ 	   	            public void onSuccess(Object result) {
+ 	   	                super.onSuccess(result);
+ 	   	            }
+ 	   	            public void onFailure(Throwable caught) {
+ 	   	                super.onFailure(caught);
+ 	   	            }
+ 	   	        });
+ 	   	    }
+            
+            //update the keywords for this group and delete them
+            List keywords = watch.getConfig().getKeywords();
+            for (Iterator kwIt = keywords.iterator(); kwIt.hasNext();) {
+                Keyword kw = (Keyword)kwIt.next();
+                if (kw.getGroup().equals(group.getPageName())) {
+                    //update keyword remove group
+                    kw.setGroup("");
+                    this.updateKeyword(kw, new XWikiAsyncCallback(watch) {
+                        public void onSuccess(Object result) {
+                            super.onSuccess(result);
+                        }
+                        public void onFailure(Throwable caught) {
+                            super.onFailure(caught);
+                        }
+                    });                    
+                }
+            }
+            
+ 	   	    //now delete the group
+ 	   	    watch.getXWikiServiceInstance().deleteDocument(group.getPageName(), 
+ 	   	            new XWikiAsyncCallback(watch) {
                 public void onFailure(Throwable caught) {
                     super.onFailure(caught);
                     cb.onFailure(caught);

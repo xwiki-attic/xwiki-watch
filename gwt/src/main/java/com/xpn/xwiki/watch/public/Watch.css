@@ -219,17 +219,17 @@ div.watch-feedtree-link a{
 	white-space: normal;
 }
 
-.watch-feedtree-feedaction {
+.watch-feedtree-feedaction, .watch-feedtree-groupaction {
 	float: right;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 }
 
-div.watch-feedtree-editfeed {
+div.watch-feedtree-editfeed, div.watch-feedtree-editgroup{
 	background-color: #FFAA00;
 }
 
-div.watch-feedtree-deletefeed {
+div.watch-feedtree-deletefeed, div.watch-feedtree-deletegroup{
 	background-color: #FF0000;
 }
 

@@ -126,6 +126,7 @@ watch.addfeed.button.feedster.description=Créez et ajoutez un flux depuis Feedst
 watch.addfeed.button.wikio.description=Créez et ajoutez un flux depuis Wikio
 
 watch.removefeed.confirm=Étes-vous sûr de vouloir effacer le flux "{0}"?
+watch.removegroup.confirm=Étes-vous sûr de vouloir effacer le group "{0}"?
 
 watch.addgroup.invitation=Veuillez ajouter le nom du groupe ci dessous
 watch.addgroup.group=Noms du groupe:

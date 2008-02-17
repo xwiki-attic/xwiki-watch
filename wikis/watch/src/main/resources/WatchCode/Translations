@@ -138,6 +138,7 @@ watch.addfeed.button.feedster.description=Create and add a Feed from Feedster
 watch.addfeed.button.wikio.description=Create and add a Feed from Wikio
 
 watch.removefeed.confirm=Are you sure you want to delete feed "{0}"?
+watch.removegroup.confirm=Are you sure you want to delete group "{0}"?
 
 watch.addgroup.invitation=Please add a group below
 watch.addgroup.group=Group Name

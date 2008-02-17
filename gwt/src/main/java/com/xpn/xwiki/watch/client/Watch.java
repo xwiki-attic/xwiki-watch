@@ -9,6 +9,7 @@ import com.xpn.xwiki.watch.client.ui.dialog.AnalysisDialog;
 import com.xpn.xwiki.watch.client.ui.wizard.ConfigWizard;
 import com.xpn.xwiki.watch.client.ui.wizard.PressReviewWizard;
 import com.xpn.xwiki.watch.client.data.DataManager;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -341,6 +342,8 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
             getFilterStatus().setGroup(groupName);
         getFilterStatus().setStart(0);
         refreshArticleList();
+        //also refresh the tree, to set the current selected group
+        refreshFeedTree();
     }
 
     /**
@@ -515,7 +518,7 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         });
     }
 
-    public void addGroup(final String group, final AsyncCallback cb) {
+    public void addGroup(final Group group, final AsyncCallback cb) {
         getDataManager().addGroup(group, new XWikiAsyncCallback(this) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);

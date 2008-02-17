@@ -22,6 +22,7 @@ package com.xpn.xwiki.watch.client.ui.dialog;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -103,11 +104,16 @@ public class AddKeywordDialog extends Dialog {
         while (it.hasNext()) {
             String groupname = (String) it.next();
             if (!groupname.equals(all)) {
-                String grouptitle = (String) groupMap.get(groupname);
-                groupListBox.addItem(grouptitle,groupname);
-                if (group.equals(groupname)) {
-                    selected = true;
-                    groupListBox.setItemSelected(groupListBox.getItemCount(), true);
+                //get group for this key
+                Group currentGroup = (Group)groupMap.get(groupname);
+                //don't add it unless it is a real group
+                if (!currentGroup.getPageName().equals("") || group.equals(groupname)) {
+                    String grouptitle = currentGroup.getName();
+                    groupListBox.addItem(grouptitle,groupname);
+                    if (group.equals(groupname)) {
+                        selected = true;
+                        groupListBox.setItemSelected(groupListBox.getItemCount(), true);
+                    }
                 }
             }
         }
@@ -131,8 +137,6 @@ public class AddKeywordDialog extends Dialog {
                 public void onSuccess(Object object) 
                 {
                     endDialog2();
-                    // We don't need to refresh keywords here as it as been taken care by the addKeyword call
-                    //((Watch)app).refreshOnNewKeyword()
                 }
             });
         }

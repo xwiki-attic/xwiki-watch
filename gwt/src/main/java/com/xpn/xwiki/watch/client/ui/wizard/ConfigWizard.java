@@ -2,6 +2,7 @@ package com.xpn.xwiki.watch.client.ui.wizard;
 
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.ui.dialog.*;
 import com.xpn.xwiki.gwt.api.client.wizard.Wizard;
 import com.xpn.xwiki.gwt.api.client.dialog.ChoiceDialog;
@@ -66,7 +67,7 @@ public class ConfigWizard extends Wizard {
         AddKeywordDialog addKeywordDialog = new AddKeywordDialog(watch, "addkeyword", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, "", "");
         addDialog(addKeywordDialog, "end");
 
-        AddGroupDialog addGroupDialog = new AddGroupDialog(watch, "addgroup", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, "");
+        GroupDialog addGroupDialog = new GroupDialog(watch, "addgroup", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Group());
         addDialog(addGroupDialog, "end");
 
         LoadingStatusDialog loadingStatusDialog = new LoadingStatusDialog(watch, "loadingstatus", Dialog.BUTTON_CANCEL);

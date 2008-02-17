@@ -5,6 +5,7 @@ import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -113,12 +114,17 @@ public abstract class FeedDialog extends Dialog {
             String groupname = (String) it.next();
             String all = ((Watch)app).getTranslation("all");
             if (!groupname.equals(all)) {
-                String grouptitle = (String) groupMap.get(groupname);
-                if (groupname.indexOf(".")==-1)
-                 grouptitle = "[" + grouptitle + "]";
-                groupsListBox.addItem(grouptitle, groupname);
-                if (currentGroups.contains(groupname)) {
-                    groupsListBox.setItemSelected(groupsListBox.getItemCount()-1, true);
+                //get group for this key
+                Group currentGroup = (Group)groupMap.get(groupname);
+                //don't add unless it is a real group
+                if (!currentGroup.getPageName().equals("") || currentGroups.contains(groupname)) {
+                    String grouptitle = currentGroup.getName();
+                    if (groupname.indexOf(".")==-1)
+                     grouptitle = "[" + grouptitle + "]";
+                    groupsListBox.addItem(grouptitle, groupname);
+                    if (currentGroups.contains(groupname)) {
+                        groupsListBox.setItemSelected(groupsListBox.getItemCount()-1, true);
+                    }
                 }
             }
         }

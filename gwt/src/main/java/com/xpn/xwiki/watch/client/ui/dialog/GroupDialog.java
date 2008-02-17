@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.data.Group;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,9 +33,9 @@ import java.util.ArrayList;
  * @author ldubost
  */
 
-public class AddGroupDialog extends Dialog {
+public class GroupDialog extends Dialog {
     protected TextBox groupTextBox;
-    protected String group;
+    protected Group group;
 
     /**
      * Choice dialog
@@ -42,7 +43,7 @@ public class AddGroupDialog extends Dialog {
      * @param name dialog name
      * @param buttonModes button modes Dialog.BUTTON_CANCEL|Dialog.BUTTON_NEXT for Cancel / Next
      */
-    public AddGroupDialog(XWikiGWTApp app, String name, int buttonModes, String group) {
+    public GroupDialog(XWikiGWTApp app, String name, int buttonModes, Group group) {
         super(app, name, buttonModes);
         this.group = group;
 
@@ -58,14 +59,15 @@ public class AddGroupDialog extends Dialog {
     }
 
     protected boolean updateData() {
-        group = groupTextBox.getText();
+        String groupName = groupTextBox.getText();
 
-        if (group.equals("")) {
+        if (groupName.equals("")) {
             Window.alert(app.getTranslation(getDialogTranslationName() + ".nogroup"));
             return false;
+        } else {
+            this.group.setName(groupName);
+            return true;
         }
-
-        return true;
     }
 
     protected Widget getParametersPanel() {
@@ -76,7 +78,7 @@ public class AddGroupDialog extends Dialog {
         paramsPanel.add(groupLabel);
         groupTextBox = new TextBox();
         if (group!=null)
-            groupTextBox.setText(group);
+            groupTextBox.setText(group.getName());
         groupTextBox.setVisibleLength(20);
         groupTextBox.setName("group");
         groupTextBox.setStyleName(getCSSName("group"));
@@ -92,17 +94,21 @@ public class AddGroupDialog extends Dialog {
     protected void endDialog() {
         if (updateData()) {
             setCurrentResult(group);
-            ((Watch)app).addGroup(group, new AsyncCallback() {
-                public void onFailure(Throwable throwable) {
-                    // There should already have been an error display
-                    ((Watch)app).refreshFeedTree();
-                }
-
-                public void onSuccess(Object object) {
-                    endDialog2();
-                    ((Watch)app).refreshFeedTree();
-                }
-            });
+            if (this.group.getPageName().equals("")) {
+	            ((Watch)app).addGroup(group, new AsyncCallback() {
+	                public void onFailure(Throwable throwable) {
+	                    // There should already have been an error display
+	                    ((Watch)app).refreshFeedTree();
+	                }
+	
+	                public void onSuccess(Object object) {
+	                    endDialog2();
+	                    ((Watch)app).refreshFeedTree();
+	                }
+	            });
+            } else {
+                endDialog2();
+            }
         }
     }
 

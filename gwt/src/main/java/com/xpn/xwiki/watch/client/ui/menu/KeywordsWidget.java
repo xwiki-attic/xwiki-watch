@@ -2,6 +2,7 @@ package com.xpn.xwiki.watch.client.ui.menu;
 
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.ui.*;
 
@@ -86,10 +87,13 @@ public class KeywordsWidget extends WatchWidget {
             while (it.hasNext()) {
                 final Keyword keyword = (Keyword) it.next();
                 if ((keyword.getName()!=null)&&(!keyword.equals(""))) {
-                    String groupDisplayName = (String) watch.getConfig().getGroups()
+                    Group kwGroup = (Group) watch.getConfig().getGroups()
                                                        .get(keyword.getGroup());
-                    if (groupDisplayName == null) {
+                    String groupDisplayName;
+                    if (kwGroup == null) {
                         groupDisplayName = keyword.getGroup();
+                    } else {
+                        groupDisplayName = kwGroup.getName();
                     }
                     String keywordDisplayName = keyword.getName() 
                         + ((!groupDisplayName.trim().equals("")) ?  (" - " + groupDisplayName) : "");

@@ -1,6 +1,8 @@
 package com.xpn.xwiki.watch.client.ui.menu;
 
+import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.xpn.xwiki.watch.client.ui.dialog.GroupDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.StandardFeedDialog;
 import com.xpn.xwiki.watch.client.Watch;
@@ -8,6 +10,7 @@ import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -110,14 +113,16 @@ public class FeedTreeWidget  extends WatchWidget {
         Iterator groupit = keys.iterator();
         while (groupit.hasNext()) {
             final String groupname = (String) groupit.next();
-            String groupTitle = (String) groups.get(groupname);
-            if (groupTitle==null)
-             groupTitle = groupname;
+            Group currentGroup = (Group) groups.get(groupname);
+            if (currentGroup == null) {
+                currentGroup = new Group();
+                currentGroup.setName(groupname);
+            }
             if ((groupname!=null)&&(!groupname.trim().equals(""))) {
-                Map group = (Map) feedsbygroup.get(groupname);
+                Map groupFeeds = (Map) feedsbygroup.get(groupname);
                 TreeItem groupItemTree = new TreeItem();
                 //set the TreeItem's object
-                GroupTreeItemObject groupObj = new GroupTreeItemObject(groupname, groupTitle);
+                GroupTreeItemObject groupObj = new GroupTreeItemObject(groupname, currentGroup);
                 groupItemTree.setUserObject(groupObj);
                 //check if selected
                 boolean selected = false;
@@ -127,12 +132,12 @@ public class FeedTreeWidget  extends WatchWidget {
                 }
                 groupItemTree.setWidget(groupObj.getWidget(selected));
                 groupTree.addItem(groupItemTree);
-                List feedList = new ArrayList(group.keySet());
+                List feedList = new ArrayList(groupFeeds.keySet());
                 Collections.sort(feedList);
                 Iterator feedgroupit = feedList.iterator();
                 while (feedgroupit.hasNext()) {
                     String feedname = (String) feedgroupit.next();
-                    Feed feed = (Feed) group.get(feedname);
+                    Feed feed = (Feed) groupFeeds.get(feedname);
                     //set it's userObject to the name of the group + name of the feed since a 
                     //feed can be part of multiple groups and we need to identify it uniquely.
                     String itemTreeKey = groupname + "." + feedname;
@@ -195,31 +200,85 @@ public class FeedTreeWidget  extends WatchWidget {
             super(key, data);
         }
 
-        public GroupTreeItemObject(String groupname, String groupTitle)
-        {
-            super(groupname, null);
-            //can only instantiate groupdata obj from class.
-            //TODO: declare it static or not inner once all the data classes are moved.
-            this.data = new String[2];
-            ((String[])this.data)[0] = groupname;
-            ((String[])this.data)[1] = groupTitle;
-        }
-
         public Widget getWidget(boolean selected)
         {
-            final String[] gData = (String[])this.data;
-            Hyperlink link = new Hyperlink(gData[1], "");
+            final Group group = (Group)this.data;
+            Hyperlink link = new Hyperlink(group.getName(), "");
             link.setStyleName(watch.getStyleName("feedtree","link"));
             link.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
-                    watch.refreshOnGroupChange(gData[0]);
+                    watch.refreshOnGroupChange(group.getPageName().trim().equals("") 
+                                               ? group.getName() : group.getPageName());
                 }
             });            
             Widget widget = link;
-            if (selected) {
+            //if group is All group or it is a non-existent group, we shouldn't be able to edit it
+            if (selected && (!group.getName().equals(watch.getTranslation("all")))
+                && !group.getPageName().equals("")) {
                 //create a composite with link as main widget and some actions
                 widget = new HyperlinkComposite(link);
-                //no actions for now
+                Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("feedtree.edit"), "#");
+                editHyperlink.addClickListener(new ClickListener() {
+                    public void onClick (Widget widget) {
+                        GroupDialog gDialog = new GroupDialog(watch, "addgroup", 
+                            Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, group);
+                        gDialog.setAsyncCallback(new AsyncCallback() {
+                            public void onFailure(Throwable throwable) {
+                                //nothing
+                            }
+                            public void onSuccess(Object object) {
+                                Group newGroup = (Group)object;
+                                watch.getDataManager().updateGroup(newGroup, new XWikiAsyncCallback(watch) {
+                                    public void onFailure(Throwable caught) {
+                                        super.onFailure(caught);
+                                    }
+    
+                                    public void onSuccess(Object result) {
+                                        super.onSuccess(result);
+                                        // We need to refreshData the tree
+                                        watch.refreshOnNewGroup();
+                                        watch.refreshOnNewKeyword();
+                                    }
+                                });
+                            }
+                        });
+                        gDialog.show();
+                    }
+                });
+                HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
+                Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("feedtree.delete"), "");
+                deleteHyperlink.addClickListener(new ClickListener() {
+                   public void onClick(Widget widget) {
+                       String confirmString = watch.getTranslation("removegroup.confirm", 
+                                                                   new String[] {group.getName()});
+                       boolean confirm = Window.confirm(confirmString);
+                       if (confirm) {
+                           watch.getDataManager().removeGroup(group, new XWikiAsyncCallback(watch) {
+                               public void onFailure(Throwable caught) {
+                                   super.onFailure(caught);
+                               }
+                               public void onSuccess(Object result) {
+                                   super.onSuccess(result);
+                                   // We need to refreshData the tree
+                                   watch.refreshOnNewGroup();
+                                   watch.refreshOnNewKeyword();
+                               }
+                           });
+                       } else {
+                           //nothing
+                       }
+                   } 
+                });
+                HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
+                //set styles
+                editHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
+                    + " " + watch.getStyleName("feedtree", "editgroup"));
+                deleteHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
+                    + " " + watch.getStyleName("feedtree", "deletegroup"));
+                //add the two actions to the hyperlink composite, in reverse order since they will
+                //be floated to the right
+                ((HyperlinkComposite)widget).add(deleteHyperlinkComposite);
+                ((HyperlinkComposite)widget).add(editHyperlinkComposite);
             }
             return widget;
         }
@@ -290,7 +349,7 @@ public class FeedTreeWidget  extends WatchWidget {
                    public void onClick(Widget widget) {
                        String confirmString = watch.getTranslation("removefeed.confirm", 
                                                                    new String[] {feed.getName()});
-                       boolean confirm = com.google.gwt.user.client.Window.confirm(confirmString);
+                       boolean confirm = Window.confirm(confirmString);
                        if (confirm) {
                            watch.getDataManager().removeFeed(feed, new XWikiAsyncCallback(watch) {
                                public void onFailure(Throwable caught) {

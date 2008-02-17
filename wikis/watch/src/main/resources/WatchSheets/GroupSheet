@@ -57,7 +57,7 @@
 #set($groupObj = $doc.getObject("XWiki.AggregatorGroupClass"))
 #if ($groupObj)
   ## for a reason or another, a feed holds in its group value, the name of a group document and not a group name, so the query is very simple:
-  #set($feedsQuery =" , BaseObject as obj, XWiki.AggregatorURLClass as feed where doc.fullName = obj.name and doc.web = '${doc.space}' and obj.id = feed.id and obj.className = 'XWiki.AggregatorUrlClass' and '${groupObj.name}' in elements(feed.group)")
+  #set($feedsQuery =" , BaseObject as obj, XWiki.AggregatorURLClass as feed where doc.fullName = obj.name and doc.web = '${doc.space}' and obj.id = feed.id and obj.className = 'XWiki.AggregatorURLClass' and '${groupObj.name}' in elements(feed.group)")
   #set($list = $xwiki.searchDocuments($feedsQuery))
   #set($parList = $xwiki.arrayList)
   #set($dispose = $parList.add($groupObj.getProperty("name").value))

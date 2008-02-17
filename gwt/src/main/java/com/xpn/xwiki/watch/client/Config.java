@@ -4,6 +4,7 @@ import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.watch.client.data.FeedArticle;
+import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -131,7 +132,7 @@ public class Config {
         }
     }
 
-    private void addToGroup(String group, String groupTitle, Feed feed) {
+    private void addToGroup(String group, Feed feed) {
         Map feeds = (Map) feedsByGroupList.get(group);
         if (feeds == null) {
             feeds = new HashMap();
@@ -139,8 +140,11 @@ public class Config {
         }
         if (feed!=null)
          feeds.put(feed.getName(), feed);
-        if (!groups.containsKey(group))
-          groups.put(group, groupTitle);
+        if (!groups.containsKey(group)) {
+            Group newGroup = new Group();
+            newGroup.setName(group);
+            groups.put(group, newGroup);
+        }
     }
 
     private void addToConfig(Document feedpage) {
@@ -153,11 +157,11 @@ public class Config {
                 if (feedgroups!=null) {
                     for (int j=0;j<feedgroups.size();j++) {
                         String groupFullName = (String) feedgroups.get(j);
-                        addToGroup(groupFullName, groupFullName, feed);
+                        addToGroup(groupFullName, feed);
                     }
                 }
                 String all = watch.getTranslation("all");
-                addToGroup(all, all, feed);
+                addToGroup(all, feed);
                 feedsList.put(feed.getName(), feed);
             }
         }
@@ -174,9 +178,9 @@ public class Config {
         if (gobjects!=null) {
             for (int j=0;j<gobjects.size();j++) {
                 XObject xobj = (XObject) gobjects.get(j);
-                String name = (String) xobj.getViewProperty("name");
-                if ((name!=null)&&(!name.equals("")))
-                    groups.put(feedpage.getFullName(), name);
+                Group group = new Group(xobj);
+                if ((group.getName()!=null)&&(!group.getName().equals("")))
+                    groups.put(feedpage.getFullName(), group);
             }
          }
 
