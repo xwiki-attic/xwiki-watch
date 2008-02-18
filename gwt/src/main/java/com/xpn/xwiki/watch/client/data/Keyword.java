@@ -34,6 +34,11 @@ public class Keyword {
         setGroup((String) xobj.getProperty("group"));
         setPageName(xobj.getName());
     }
+    
+    public Keyword(String keyword, String group) {
+        this.name = keyword;
+        this.group = group;
+    }
 
     public String getDisplayName() {
         if ((group!=null)&&(!group.equals("")))
@@ -51,7 +56,7 @@ public class Keyword {
     }
 
     public String getGroup() {
-        return group;
+        return group == null ? "" : this.group;
     }
 
     public void setGroup(String group) {
@@ -59,7 +64,7 @@ public class Keyword {
     }
 
     public String getPageName() {
-        return pageName;
+        return pageName == null ? "" : this.pageName;
     }
 
     public void setPageName(String pageName) {

@@ -219,17 +219,20 @@ div.watch-feedtree-link a{
 	white-space: normal;
 }
 
-.watch-feedtree-feedaction, .watch-feedtree-groupaction {
+.watch-feedtree-feedaction, .watch-feedtree-groupaction, .watch-keyword-keywordaction {
 	float: right;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
+	font-size:0.9em;
+	color: #FFFFFF;
+	text-decoration: none;
 }
 
-div.watch-feedtree-editfeed, div.watch-feedtree-editgroup{
+div.watch-feedtree-editfeed, div.watch-feedtree-editgroup, div.watch-keyword-editkeyword {
 	background-color: #FFAA00;
 }
 
-div.watch-feedtree-deletefeed, div.watch-feedtree-deletegroup{
+div.watch-feedtree-deletefeed, div.watch-feedtree-deletegroup, div.watch-keyword-deletekeyword{
 	background-color: #FF0000;
 }
 
@@ -537,13 +540,13 @@ div.watch-tagscloud-15 a:active
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.5em;}
 
 
- div.watch-keyword-link a, div.watch-tagscloud a
-  div.watch-keyword-link a:link, div.watch-tagscloud a:link,
-   div.watch-keyword-link a:visited, div.watch-tagscloud a:visited,
-    div.watch-keyword-link a:active, div.watch-tagscloud a:active{
+ div.watch-keyword a, div.watch-tagscloud a
+  div.watch-keyword a:link, div.watch-tagscloud a:link,
+   div.watch-keyword a:visited, div.watch-tagscloud a:visited,
+    div.watch-keyword a:active, div.watch-tagscloud a:active{
 	color: #fff;
 	text-decoration: none;
-line-height:15px;
+	line-height:15px;
 }
 
 /* @end */
@@ -831,12 +834,22 @@ div.tk-ModalDialog.watch-commentadd  {
   line-height: 40px;
 }
 
-div.watch-tagscloud-active a, div.watch-keyword-link-active a{
-font-weight: bold;
+div.watch-tagscloud-active a {
+	font-weight: bold;
 	color: #ceff7e;
-color: orange;
-	text-decoration: underline;
+	color: orange;
+	text-decoration: none;
 }
+
+div.watch-keyword {
+	clear: both;
+	padding-right: 5px;
+}
+
+div.watch-keyword-active div.watch-keyword-link {
+	font-weight: bold;
+}
+
 /*
 filter styles
 */

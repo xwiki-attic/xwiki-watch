@@ -1,5 +1,8 @@
 package com.xpn.xwiki.watch.client.ui.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -27,5 +30,12 @@ public class HyperlinkComposite extends Composite
     
     public void remove(HyperlinkComposite cHyperlink) {
         this.hyperlinksPanel.remove(cHyperlink);
+    }
+    public List getHyperlinks() {
+        ArrayList hyperlinks = new ArrayList();
+        for (int i = 0; i < this.hyperlinksPanel.getWidgetCount(); i++) {
+            hyperlinks.add(this.hyperlinksPanel.getWidget(i));
+        }
+        return hyperlinks;
     }
 }

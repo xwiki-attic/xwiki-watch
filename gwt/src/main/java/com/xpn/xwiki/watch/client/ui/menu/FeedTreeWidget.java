@@ -90,14 +90,14 @@ public class FeedTreeWidget  extends WatchWidget {
         for (int i = 0; i < this.groupTree.getItemCount(); i++) {
             TreeItem currentTreeItem = this.groupTree.getItem(i);
             //get user object
-            TreeItemObject userObj = (TreeItemObject)currentTreeItem.getUserObject();
+            ItemObject userObj = (ItemObject)currentTreeItem.getUserObject();
             itemsState.put(userObj.getKey(), new Boolean(currentTreeItem.getState()));
         }
         //get the selected item to set it back when the tree is refreshed 
         TreeItem selectedTreeItem = this.groupTree.getSelectedItem();
         String selectedItemKey = null;
         if (selectedTreeItem != null) {
-            TreeItemObject selectedItemObject = (TreeItemObject)selectedTreeItem.getUserObject();
+            ItemObject selectedItemObject = (ItemObject)selectedTreeItem.getUserObject();
             if (selectedItemObject != null) {
                 selectedItemKey = selectedItemObject.getKey();
             }
@@ -141,7 +141,7 @@ public class FeedTreeWidget  extends WatchWidget {
                     //set it's userObject to the name of the group + name of the feed since a 
                     //feed can be part of multiple groups and we need to identify it uniquely.
                     String itemTreeKey = groupname + "." + feedname;
-                    TreeItemObject feedObj = new FeedTreeItemObject(itemTreeKey, feed);
+                    ItemObject feedObj = new FeedTreeItemObject(itemTreeKey, feed);
                     TreeItem feedItem = new TreeItem();
                     feedItem.setUserObject(feedObj);
                     selected = false;
@@ -167,34 +167,8 @@ public class FeedTreeWidget  extends WatchWidget {
     public void resizeWindow() {
         // Watch.setMaxHeight(panel);
     }
-
-    /**
-     * Class to enclose data to be stored by a tree item that should be able to:
-     * <ul>
-     * <li> get uniquely identifying key for this tree item </li>
-     * <li> generate a widget to be displayed by the tree item </li>
-     * </ul>
-     */
-    public abstract class TreeItemObject {
-        //the unique ID 
-        protected String key;
-        //the data of the TreeItemObject
-        protected Object data; 
-        
-        public TreeItemObject(String key, Object data)
-        {
-            this.key = key;
-            this.data = data;
-        }
-        
-        public String getKey() {
-            return this.key;
-        }
-        
-        public abstract Widget getWidget(boolean selected);
-    }
     
-    public class GroupTreeItemObject extends TreeItemObject {
+    public class GroupTreeItemObject extends ItemObject {
         public GroupTreeItemObject(String key, Object data)
         {
             super(key, data);
@@ -284,7 +258,7 @@ public class FeedTreeWidget  extends WatchWidget {
         }
     }
     
-    public class FeedTreeItemObject extends TreeItemObject {
+    public class FeedTreeItemObject extends ItemObject {
 
         public FeedTreeItemObject(String key, Object data)
         {

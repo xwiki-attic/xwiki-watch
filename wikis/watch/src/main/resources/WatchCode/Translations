@@ -73,6 +73,8 @@ watch.title=Welcome to XWiki Watch
 watch.feedtree.title=Feeds
 watch.feedtree.edit=edit
 watch.feedtree.delete=delete
+watch.keyword.delete=delete
+watch.keyword.edit=edit
 
 watch.actionbar.title=Related actions:
 watch.actionbar.pressreview=Press Review
@@ -139,6 +141,7 @@ watch.addfeed.button.wikio.description=Create and add a Feed from Wikio
 
 watch.removefeed.confirm=Are you sure you want to delete feed "{0}"?
 watch.removegroup.confirm=Are you sure you want to delete group "{0}"?
+watch.removekeyword.confirm=Are you sure you want to delete keyword "{0}"?
 
 watch.addgroup.invitation=Please add a group below
 watch.addgroup.group=Group Name

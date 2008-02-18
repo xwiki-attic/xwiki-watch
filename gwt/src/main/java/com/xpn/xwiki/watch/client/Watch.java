@@ -502,8 +502,8 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         });
     }
 
-    public void addKeyword(final String keyword, final String group, final AsyncCallback cb) {
-        getDataManager().addKeyword(keyword, group, new XWikiAsyncCallback(this) {
+    public void addKeyword(final Keyword keyword, final AsyncCallback cb) {
+        getDataManager().addKeyword(keyword, new XWikiAsyncCallback(this) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 cb.onFailure(caught);

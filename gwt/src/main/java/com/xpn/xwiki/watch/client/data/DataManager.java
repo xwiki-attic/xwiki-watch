@@ -177,11 +177,12 @@ public class DataManager {
         });        
     }
 
-    public void addKeyword(final String keyword, final String group, final AsyncCallback cb) {
+    public void addKeyword(final Keyword keyword, final AsyncCallback cb) {
         if (keyword==null)
             cb.onFailure(null);
 
-        watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), "Keyword_" + keyword, new XWikiAsyncCallback(watch) {
+        watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), 
+                "Keyword_" + keyword.getName(), new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 // We failed to get a unique page name
@@ -197,8 +198,8 @@ public class DataManager {
                 feedObj.setName(pageName);
                 feedObj.setClassName(Constants.CLASS_AGGREGATOR_KEYWORD);
                 feedObj.setNumber(0);
-                feedObj.setProperty(Constants.PROPERTY_KEYWORD_NAME, keyword);
-                feedObj.setProperty(Constants.PROPERTY_KEYWORD_GROUP, group);
+                feedObj.setProperty(Constants.PROPERTY_KEYWORD_NAME, keyword.getName());
+                feedObj.setProperty(Constants.PROPERTY_KEYWORD_GROUP, keyword.getGroup());
                 watch.getXWikiServiceInstance().saveObject(feedObj, new AsyncCallback() {
                     public void onFailure(Throwable throwable) {
                         cb.onFailure(throwable);
@@ -359,12 +360,14 @@ public class DataManager {
         }
     }
 
-    public void removeKeyword(String keyword, final AsyncCallback cb) {
+    public void removeKeyword(Keyword keyword, final AsyncCallback cb) {
+        String pageName = keyword.getPageName(); 
         try {
-            if ((keyword==null)||(keyword.equals("")))
+            if ((pageName == null) || (pageName.equals(""))) {
                 cb.onFailure(null);
+            }
 
-            watch.getXWikiServiceInstance().deleteDocument(keyword, new XWikiAsyncCallback(watch) {
+            watch.getXWikiServiceInstance().deleteDocument(pageName, new XWikiAsyncCallback(watch) {
                 public void onFailure(Throwable caught) {
                     super.onFailure(caught);
                     cb.onFailure(caught);

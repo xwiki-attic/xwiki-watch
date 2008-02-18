@@ -73,6 +73,8 @@ watch.title=Bienvenue dans XWiki Watch
 watch.feedtree.title=Flux
 watch.feedtree.edit=modifier
 watch.feedtree.delete=effacer
+watch.keyword.edit=modifier
+watch.keyword.delete=effacer
 
 watch.actionbar.title=Actions Possibles:
 watch.actionbar.pressreview=Revue de presse
@@ -127,6 +129,7 @@ watch.addfeed.button.wikio.description=Créez et ajoutez un flux depuis Wikio
 
 watch.removefeed.confirm=Étes-vous sûr de vouloir effacer le flux "{0}"?
 watch.removegroup.confirm=Étes-vous sûr de vouloir effacer le group "{0}"?
+watch.removekeyword.confirm=Étes-vous sûr de vouloir effacer le mot-clé "{0}"?
 
 watch.addgroup.invitation=Veuillez ajouter le nom du groupe ci dessous
 watch.addgroup.group=Noms du groupe:

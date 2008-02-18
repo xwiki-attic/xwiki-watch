@@ -23,6 +23,7 @@ import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.data.Group;
+import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -30,11 +31,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Map;
 import java.util.Iterator;
 
-public class AddKeywordDialog extends Dialog {
+public class KeywordDialog extends Dialog {
     protected TextBox keywordTextBox = new TextBox();
     protected ListBox groupListBox = new ListBox();
-    protected String keyword;
-    protected String group;
+    protected Keyword keyword;
 
     /**
      * Choice dialog
@@ -42,10 +42,9 @@ public class AddKeywordDialog extends Dialog {
      * @param name dialog name
      * @param buttonModes button modes Dialog.BUTTON_CANCEL|Dialog.BUTTON_NEXT for Cancel / Next
      */
-    public AddKeywordDialog(XWikiGWTApp app, String name, int buttonModes, String keyword, String group) {
+    public KeywordDialog(XWikiGWTApp app, String name, int buttonModes, Keyword keyword) {
         super(app, name, buttonModes);
         this.keyword = keyword;
-        this.group = group;
 
         FlowPanel main = new FlowPanel();
         main.addStyleName(getCSSName("main"));
@@ -59,18 +58,24 @@ public class AddKeywordDialog extends Dialog {
     }
 
     protected boolean updateData() {
-        keyword = keywordTextBox.getText();
+        String keywordString = keywordTextBox.getText();
+        //no keyword by default
+        String groupPageName = "";
         int selectedIndex = (groupListBox==null) ? -1 : groupListBox.getSelectedIndex();
         // If the All item is selected set no group
-        if (selectedIndex>0)
-         group = groupListBox.getValue(selectedIndex);
-
-        if (keyword.equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nokeyword"));
-            return false;
+        if (selectedIndex > 0) {
+            groupPageName = groupListBox.getValue(selectedIndex);
         }
 
-        return true;
+        if (keywordString.equals("")) {
+            Window.alert(app.getTranslation(getDialogTranslationName() + ".nokeyword"));
+            return false; 
+        } else {
+            //update the keyword and go on
+            this.keyword.setName(keywordString);
+            this.keyword.setGroup(groupPageName);
+            return true;
+        }
     }
 
     protected Widget getParametersPanel() {
@@ -79,8 +84,9 @@ public class AddKeywordDialog extends Dialog {
         keywordLabel.setStyleName("keyword-label");
         keywordLabel.setText(app.getTranslation(getDialogTranslationName() + ".keyword"));
         paramsPanel.add(keywordLabel);
-        if (keyword!=null)
-            keywordTextBox.setText(keyword);
+        if (keyword != null) {
+            keywordTextBox.setText(keyword.getName());
+        }
         keywordTextBox.setVisibleLength(20);
         keywordTextBox.setName("keyword");
         keywordTextBox.setStyleName(getCSSName("keyword"));
@@ -107,12 +113,13 @@ public class AddKeywordDialog extends Dialog {
                 //get group for this key
                 Group currentGroup = (Group)groupMap.get(groupname);
                 //don't add it unless it is a real group
-                if (!currentGroup.getPageName().equals("") || group.equals(groupname)) {
+                if (!currentGroup.getPageName().equals("") 
+                    || this.keyword.getGroup().equals(groupname)) {
                     String grouptitle = currentGroup.getName();
                     groupListBox.addItem(grouptitle,groupname);
-                    if (group.equals(groupname)) {
+                    if (this.keyword.getGroup().equals(groupname)) {
                         selected = true;
-                        groupListBox.setItemSelected(groupListBox.getItemCount(), true);
+                        groupListBox.setItemSelected(groupListBox.getItemCount() - 1, true);
                     }
                 }
             }
@@ -128,17 +135,22 @@ public class AddKeywordDialog extends Dialog {
     protected void endDialog() {
         if (updateData()) {
             setCurrentResult(keyword);
-            ((Watch)app).addKeyword(keyword, group, new AsyncCallback() {
-                public void onFailure(Throwable throwable)
-                {
-                    // There should already have been an error display
-                }
-                
-                public void onSuccess(Object object) 
-                {
-                    endDialog2();
-                }
-            });
+            //if the kw has just been created, add it
+            if (this.keyword.getPageName().equals("")) {
+                ((Watch)app).addKeyword(this.keyword, new AsyncCallback() {
+                    public void onFailure(Throwable throwable)
+                    {
+                        // There should already have been an error display
+                    }
+                   
+                    public void onSuccess(Object object) 
+                    {
+                        endDialog2();
+                    }
+                });
+            } else {
+                endDialog2();
+            }
         }
     }
 

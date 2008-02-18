@@ -3,6 +3,7 @@ package com.xpn.xwiki.watch.client.ui.wizard;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.data.Group;
+import com.xpn.xwiki.watch.client.data.Keyword;
 import com.xpn.xwiki.watch.client.ui.dialog.*;
 import com.xpn.xwiki.gwt.api.client.wizard.Wizard;
 import com.xpn.xwiki.gwt.api.client.dialog.ChoiceDialog;
@@ -64,7 +65,7 @@ public class ConfigWizard extends Wizard {
         addSearchEngineDialog("feedster", "http://www.feedster.com/search/type/rss/{0}");
         addSearchEngineDialog("wikio", "http://rss.wikio.fr/search/{0}.rss");
 
-        AddKeywordDialog addKeywordDialog = new AddKeywordDialog(watch, "addkeyword", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, "", "");
+        KeywordDialog addKeywordDialog = new KeywordDialog(watch, "addkeyword", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Keyword("", ""));
         addDialog(addKeywordDialog, "end");
 
         GroupDialog addGroupDialog = new GroupDialog(watch, "addgroup", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Group());
