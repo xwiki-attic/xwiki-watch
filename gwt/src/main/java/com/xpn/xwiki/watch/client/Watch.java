@@ -476,7 +476,9 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
             // Launch the add feed wizard
             ConfigWizard addfeedwizard = new ConfigWizard(this, new AsyncCallback() {
                 public void onFailure(Throwable throwable) {
+                    if (throwable != null) {
                         Window.alert("failed: " + throwable.getMessage());
+                    }
                 }
 
                 public void onSuccess(Object object) {
