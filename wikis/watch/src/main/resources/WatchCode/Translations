@@ -325,6 +325,7 @@ watch.wiki.feeds=Feeds
 watch.wiki.articles=Articles
 watch.wiki.articles.flagged=Latest flagged articles
 watch.wiki.articles.unread=Latest unread articles
+watch.wiki.articles.read=Latest read articles
 watch.wiki.articles.tags =Articles tagged "{0}"
 watch.wiki.articles.display=latest {0} items
 watch.wiki.keywords = Keywords

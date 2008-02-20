@@ -323,6 +323,7 @@ watch.wiki.feeds=Flux
 watch.wiki.articles=Articles
 watch.wiki.articles.flagged=Derniers articles importants
 watch.wiki.articles.unread=Derniers articles non-lus
+watch.wiki.articles.read=Derniers articles lus
 watch.wiki.articles.tags=Articles taggés "{0}"
 watch.wiki.articles.display=Derniers {0} items
 watch.wiki.keywords = Mots-clés

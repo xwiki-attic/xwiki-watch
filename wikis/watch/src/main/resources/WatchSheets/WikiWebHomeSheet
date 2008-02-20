@@ -65,38 +65,8 @@
 #end
 #endfloatingbox()
 $msg.get("watch.introduction")
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
 &lt;div style="float: left; width: 50%;"&gt;
-#set($feedsTitle = $msg.get("watch.wiki.feeds"))
-#set($articlesTitle = $msg.get("watch.wiki.articles"))
-##* [$feedsTitle &gt; ${doc.fullName}#H${feedsTitle}]
-##* [$articlesTitle &gt; ${doc.fullName}#H${articlesTitle}]
-1.1 $feedsTitle
-#set($aggregatorsSql = ", BaseObject obj where doc.fullName=obj.name and obj.className='XWiki.AggregatorURLClass' and doc.web='${doc.space}' order by doc.creationDate desc")
-#set($list = $xwiki.searchDocuments($aggregatorsSql))
-#set($noFilter = true)
-#includeForm("WatchSheets.Results")
-##create the keywords list and print them
-&lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0; padding:10px; background-color:#E4F6FF;"&gt;
-#set($keywordsSql = ", BaseObject obj where doc.fullName = obj.name and obj.className = 'XWiki.KeywordClass' and doc.web = '${doc.space}'")
-#set($keywordsDocList = $xwiki.searchDocuments($keywordsSql))
-1.1 $msg.get("watch.wiki.keywords")
-#if ($keywordsDocList.size() &gt; 0)
-  &lt;ul&gt;
-  #foreach($keywordDocName in $keywordsDocList)
-    #set($keywordDoc = $xwiki.getDocument($keywordDocName))
-    #set($keywordObj = $keywordDoc.getObject("XWiki.KeywordClass"))
-    ##build the nice name
-    #set($keywordName = "${keywordObj.getProperty('name').value}")
-    #set($keywordGroup = false)
-    #set($keywordGroup =  $keywordObj.display('group', 'view'))
-    #if ($keywordGroup &amp;&amp; $keywordGroup != "")
-      #set($keywordName = "${keywordName} - ${keywordGroup}")
-    #end
-    &lt;li&gt;&lt;a href="${keywordDoc.getURL()}"&gt;${keywordName}&lt;/a&gt;&lt;/li&gt;
-  #end
-  &lt;/ul&gt;
-#end
-&lt;/div&gt;
 ##get the tags to build the tags cloud
 &lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0; padding:10px; background-color:#E4F6FF;"&gt;
 1.1 $msg.get("watch.wiki.tags")
@@ -124,31 +94,55 @@ $msg.get("watch.introduction")
   &lt;a style="font-size: ${fontSize}%;" href="${tagDocument.getURL("view", "&amp;tag=${tagName}")}"&gt;$tagName&lt;/a&gt;
 #end
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;div style="float: left; width: 50%;"&gt;
-&lt;div style="border:1px solid #CCCCCC; margin: 10px 0px 10px 10px; padding:10px; background-color:#E4F6FF;"&gt;
+&lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0px; padding:10px; background-color:#E4F6FF;"&gt;
 #set($prDoc = $xwiki.getDocument("WatchCode.PressReview"))
 1.1 $msg.get("watch.wiki.articles.flagged")
 #set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;flagged=1&amp;read=0&amp;xpage=plain&amp;limit=15"))
 $xwiki.getURLContent(${url})
 &lt;/div&gt;
-&lt;div style="border:1px solid #CCCCCC; margin: 10px 0px 10px 10px; padding:10px; background-color:#E4F6FF;"&gt;
-1.1 $msg.get("watch.wiki.articles.unread")
-#set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;read=-1&amp;xpage=plain&amp;limit=15"))
+&lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0px; padding:10px; background-color:#E4F6FF;"&gt;
+1.1 $msg.get("watch.wiki.articles.read")
+#set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;read=1&amp;xpage=plain&amp;limit=15"))
 $xwiki.getURLContent(${url})
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div style="clear: both;"&gt;&lt;/div&gt;
-#*
-&lt;div style="width:50%;"&gt;
-#set($articlesLimit = 100)
-#set($articlesParam = $xwiki.arrayList)
-#set($dispose = $articlesParam.add($articlesLimit))
-1.1 $articlesTitle &amp;ndash; $msg.get("watch.wiki.articles.display", $articlesParam)
-#set($articlesSql = ", BaseObject obj where doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' and doc.web='${doc.space}' order by doc.creationDate desc")
-#set($list = $xwiki.searchDocuments($articlesSql, $articlesLimit, 0))
-#set($noFilter = false)
+&lt;div style="float: left; width: 50%;"&gt;
+##create the keywords list and print them
+&lt;div style="border:1px solid #CCCCCC; margin: 10px 0px 10px 10px; padding:10px; background-color:#E4F6FF;"&gt;
+#set($keywordsSql = ", BaseObject obj where doc.fullName = obj.name and obj.className = 'XWiki.KeywordClass' and doc.web = '${doc.space}'")
+#set($keywordsDocList = $xwiki.searchDocuments($keywordsSql))
+1.1 $msg.get("watch.wiki.keywords")
+#if ($keywordsDocList.size() &gt; 0)
+  &lt;ul&gt;
+  #foreach($keywordDocName in $keywordsDocList)
+    #set($keywordDoc = $xwiki.getDocument($keywordDocName))
+    #set($keywordObj = $keywordDoc.getObject("XWiki.KeywordClass"))
+    ##build the nice name
+    #set($keywordName = "${keywordObj.getProperty('name').value}")
+    #set($keywordGroup = false)
+    #set($keywordGroup =  $keywordObj.display('group', 'view'))
+    #if ($keywordGroup &amp;&amp; $keywordGroup != "")
+      #set($keywordName = "${keywordName} - ${keywordGroup}")
+    #end
+    &lt;li&gt;&lt;a href="${keywordDoc.getURL()}"&gt;${keywordName}&lt;/a&gt;&lt;/li&gt;
+  #end
+  &lt;/ul&gt;
+#end
+&lt;/div&gt;
+## put the feeds list in
+#set($feedsTitle = $msg.get("watch.wiki.feeds"))
+#set($articlesTitle = $msg.get("watch.wiki.articles"))
+##* [$feedsTitle &gt; ${doc.fullName}#H${feedsTitle}]
+##* [$articlesTitle &gt; ${doc.fullName}#H${articlesTitle}]
+&lt;div style="border:1px solid #CCCCCC; margin: 10px 0px 10px 10px; padding:10px;"&gt;
+1.1 $feedsTitle
+#set($aggregatorsSql = ", BaseObject obj where doc.fullName=obj.name and obj.className='XWiki.AggregatorURLClass' and doc.web='${doc.space}' order by doc.creationDate desc")
+## limit the number of feeds to 10
+#set($feedsLimit = 10)
+#set($list = $xwiki.searchDocuments($aggregatorsSql, $feedsLimit, 0))
+#set($noFilter = true)
 #includeForm("WatchSheets.Results")
 &lt;/div&gt;
-*#</content>
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;</content>
 </xwikidoc>
