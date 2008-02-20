@@ -340,6 +340,13 @@ watch.wiki.group.noGroup=Ce document ne contient pas de group
 watch.wiki.reader=Lecteur de flux
 watch.wiki.reader.goto=Accéder au {0}
 
+watch.wiki.page=Page
+watch.wiki.date=Date
+watch.wiki.lastauthor=Dernier auteur
+watch.wiki.actions=Actions
+watch.wiki.score=Score
+
+
 watch.filter.dates.title = Filtrer sur les dates
 watch.filter.dates.startDate = Date de début:
 watch.filter.dates.endDate = Date de fin: 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <xwikidoc>
-<web>XWiki</web>
+<web>WatchSheets</web>
 <name>Results</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
@@ -46,7 +46,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </tags>
 </class>
-<name>XWiki.Results</name>
+<name>WatchSheets.Results</name>
 <number>0</number>
 <className>XWiki.TagClass</className>
 <property>
@@ -69,15 +69,14 @@
 
 &lt;table id="${tableId}" class="grid sortable ${filterable} doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Page&lt;/th&gt;
-    &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
-    &lt;th style="width:150px"&gt;Date&lt;/th&gt;
-    &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
+    &lt;th&gt;$msg.get("watch.wiki.page")&lt;/th&gt;
+    &lt;th style="width:150px"&gt;$msg.get("watch.wiki.date")&lt;/th&gt;
+    &lt;th style="width:150px"&gt;$msg.get("watch.wiki.lastauthor")&lt;/th&gt;
     #if($isScored)
-    &lt;th style="width:150px"&gt;Score&lt;/th&gt;
+    &lt;th style="width:150px"&gt;$msg.get("watch.wiki.score")&lt;/th&gt;
     #end
     #if($xwiki.hasAdminRights())
-      &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
+      &lt;th style="width:210px" class="unsortable noFilter"&gt;$msg.get("watch.wiki.actions")&lt;/th&gt;
     #end
   &lt;/tr&gt;
   #foreach ($item in $list)
@@ -117,18 +116,16 @@
               #set($date1 = $!xwiki.formatDate($!bentrydoc.date,"yyyy MM dd HH:mm:ss") )
             #end
             #if($date1.equals($date2) )
-              [$ptitle&gt;${bentrydoc.web}.$bentrydoc.name] &lt;em&gt;- 1 new comment&lt;/em&gt;
+              [$ptitle | ${bentrydoc.web}.$bentrydoc.name] &lt;em&gt;- 1 new comment&lt;/em&gt;
               #set($troubi ="oui")
               #set($desc = $cobj.getXWikiObject().get("comment").value)
             #else
-              [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
+              [$ptitle | ${bentrydoc.web}.$bentrydoc.name]
             #end
           #else  
             #set($comment = "")  
-            [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
+            [$ptitle | ${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")]
           #end   
-        &lt;/td&gt;&lt;td style="text-align:left"&gt;
-          [$bentrydoc.web&gt;${bentrydoc.web}.WebHome]
         &lt;/td&gt;&lt;td style="text-align:left"&gt;          
           $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")&lt;/td&gt;&lt;td style="text-align:center"&gt;
           #if($troubi =="oui")

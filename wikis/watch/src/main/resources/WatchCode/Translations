@@ -341,6 +341,12 @@ watch.wiki.group.noGroup=This document does not contain a group
 watch.wiki.reader=XWiki Watch Reader
 watch.wiki.reader.goto=Go to the {0}
 
+watch.wiki.page=Page
+watch.wiki.date=Date
+watch.wiki.lastauthor=Last author
+watch.wiki.actions=Actions
+watch.wiki.score=Score
+
 watch.filter.dates.title = Date filters
 watch.filter.dates.startDate = From date: 
 watch.filter.dates.endDate = To date: 

@@ -71,7 +71,7 @@
   #set($parList = $xwiki.arrayList)
   #set($dispose = $parList.add($keywordValue))
   1.1 $msg.get("watch.wiki.keyword.articles", $parList)
-  #includeForm("XWiki.Results")
+  #includeForm("WatchSheets.Results")
 #else
   #warning($msg.get("watch.wiki.keyword.noKeyword"))
 #end</content>

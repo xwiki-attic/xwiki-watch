@@ -62,7 +62,7 @@
   #set($parList = $xwiki.arrayList)
   #set($dispose = $parList.add($groupObj.getProperty("name").value))
   1.1 $msg.get("watch.wiki.group.articles", $parList)
-  #includeForm("XWiki.Results")
+  #includeForm("WatchSheets.Results")
 #else
   #warning($msg.get("watch.wiki.group.noGroup"))
 #end</content>

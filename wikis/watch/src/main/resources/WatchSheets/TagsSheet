@@ -74,5 +74,5 @@
   #set($dispose = $parList.add(""))
 #end
 1.1 $msg.get("watch.wiki.articles.tags", $parList)
-#includeForm("XWiki.Results")</content>
+#includeForm("WatchSheets.Results")</content>
 </xwikidoc>

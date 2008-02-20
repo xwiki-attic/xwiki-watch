@@ -64,7 +64,7 @@
   #set($aggregatorName = $doc.name)
   #set($searchSql = ", BaseObject obj where obj.name=doc.fullName and obj.className='XWiki.FeedEntryClass' and doc.web='${doc.space}' and doc.name like '%Feed_${aggregatorName}%'")
   #set($list = $xwiki.searchDocuments($searchSql))
-  #includeForm("XWiki.Results")
+  #includeForm("WatchSheets.Results")
 #else
   #warning($msg.get("watch.wiki.notAggregator"))
 #end</content>

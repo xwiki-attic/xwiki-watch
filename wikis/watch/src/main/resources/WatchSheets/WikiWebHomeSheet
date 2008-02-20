@@ -74,7 +74,7 @@ $msg.get("watch.introduction")
 #set($aggregatorsSql = ", BaseObject obj where doc.fullName=obj.name and obj.className='XWiki.AggregatorURLClass' and doc.web='${doc.space}' order by doc.creationDate desc")
 #set($list = $xwiki.searchDocuments($aggregatorsSql))
 #set($noFilter = true)
-#includeForm("XWiki.Results")
+#includeForm("WatchSheets.Results")
 ##create the keywords list and print them
 &lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0; padding:10px; background-color:#E4F6FF;"&gt;
 #set($keywordsSql = ", BaseObject obj where doc.fullName = obj.name and obj.className = 'XWiki.KeywordClass' and doc.web = '${doc.space}'")
@@ -148,7 +148,7 @@ $xwiki.getURLContent(${url})
 #set($articlesSql = ", BaseObject obj where doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' and doc.web='${doc.space}' order by doc.creationDate desc")
 #set($list = $xwiki.searchDocuments($articlesSql, $articlesLimit, 0))
 #set($noFilter = false)
-#includeForm("XWiki.Results")
+#includeForm("WatchSheets.Results")
 &lt;/div&gt;
 *#</content>
 </xwikidoc>
