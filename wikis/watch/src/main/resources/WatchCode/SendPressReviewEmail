@@ -74,24 +74,13 @@ if (request.space==null) {
   }
   //for all the rest of parameters from the request, send them to the pressReview
   prDoc = xwiki.getDocument("WatchCode.PressReview");
-  url = prDoc.getExternalURL("view", "&amp;xpage=plain");
-  parameters = request.getParameterMap();
-  for (par in parameters) {    
-    if (!(par.key.equals("address") || par.key.equals("content") || par.key.equals("subject"))) {
-      //just perfect to pass further
-      if (par.value instanceof String) {
-        url += "&amp;" + par.key + "=" + xwiki.getURLEncoded(par.value);
-      } else {
-        url += "&amp;" + par.key + "=" + xwiki.getURLEncoded(par.value[0]);        
-      }
-    }
-  }
   //get addressses
   errorMessage = "";
   error = false;
   addresses = "";
+  renderedPR = xwiki.renderText(prDoc.getContent(), doc);
   for (addr in request.getParameterValues("address")) {
-    message = "&lt;div style='line-height: 1.5em'&gt;" + content + "&lt;br /&gt;" + xwiki.getURLContent(url) + "&lt;/div&gt;";
+    message = "&lt;div style='line-height: 1.5em'&gt;" + content + "&lt;br /&gt;" + renderedPR + "&lt;/div&gt;";
     //mailResult = xwiki.mailsender.sendTextMessage(xwiki.getXWikiPreference("admin_email"), addr, subject, message);
     mailResult = xwiki.mailsender.sendHtmlMessage(" XWiki Watch " + "&lt;" + xwiki.getXWikiPreference("admin_email") + "&gt;", addr, null, null, subject, message, message, null);
     if (mailResult == 0) {
