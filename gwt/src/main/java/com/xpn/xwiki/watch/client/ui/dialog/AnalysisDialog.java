@@ -34,6 +34,7 @@ import com.xpn.xwiki.watch.client.Watch;
 
 public class AnalysisDialog extends Dialog {
     protected HTML analysisHTML;
+    protected String[] languages;
 
     /**
      * Choice dialog
@@ -42,23 +43,61 @@ public class AnalysisDialog extends Dialog {
      * @param buttonModes button modes Dialog.BUTTON_CANCEL|Dialog.BUTTON_NEXT for Cancel / Next
      */
     public AnalysisDialog(XWikiGWTApp app, String name, int buttonModes) {
+        this(app, name, buttonModes, new String[0]);
+    }
+    
+    public AnalysisDialog(XWikiGWTApp app, String name, int buttonModes, String[] languages) {
         super(app, name, buttonModes);
 
+        this.languages = languages;
         FlowPanel main = new FlowPanel();
         main.addStyleName(getCSSName("main"));
 
         HTMLPanel invitationPanel = new HTMLPanel(app.getTranslation(getDialogTranslationName() + ".invitation"));
         invitationPanel.addStyleName(getCssPrefix() + "-invitation");
         main.add(invitationPanel);
+        main.add(getLanguageSelectionPanel());
         main.add(getAnalysisPanel());
         main.add(getActionsPanel());
         add(main);
     }
+    
+    protected Panel getLanguageSelectionPanel() {
+        FlowPanel languagePanel = new FlowPanel();
+        Label langLabel = new Label(app.getTranslation(getDialogTranslationName() + ".language"));
+        languagePanel.add(langLabel);
+        String langRadioGroupName = "langRadioGroup";
+        for (int i = 0; i < this.languages.length; i++) {
+            final String currentLanguage = this.languages[i];
+            RadioButton langRadio = new RadioButton(langRadioGroupName, 
+                    app.getTranslation("language." + currentLanguage));
+            if (((Watch)app).getLocale().trim().toLowerCase().equals(currentLanguage.toLowerCase())) {
+                langRadio.setChecked(true);
+            }
+            langRadio.addClickListener(new ClickListener() {
+                private String language = currentLanguage;
+                public void onClick(Widget widget) {
+                    //activate current language
+                    AnalysisDialog.this.fetchAnalysisHTML(language);
+                }
+            });
+            languagePanel.add(langRadio);
+        }
+        languagePanel.addStyleName(getCssPrefix() + "-lang");
+        return languagePanel;
+    }
 
     protected Widget getAnalysisPanel() {
         analysisHTML = new HTML();
-        final Watch watch = (Watch) app;
-        watch.getDataManager().getAnalysisHTML(watch.getFilterStatus(), new XWikiAsyncCallback(watch) {
+        analysisHTML.setStyleName(getCssPrefix() + "-html");
+        this.fetchAnalysisHTML(null);
+        return analysisHTML;
+    }
+    
+    protected void fetchAnalysisHTML(final String language) {
+        final Watch watch = (Watch)app;
+        watch.getDataManager().getAnalysisHTML(watch.getFilterStatus(), language, 
+                new XWikiAsyncCallback(watch) {
             public void onSuccess(Object result) {
                 super.onSuccess(result);
                 analysisHTML.setHTML((String) result);
@@ -80,9 +119,6 @@ public class AnalysisDialog extends Dialog {
                     }
                 });
             }
-        });
-        analysisHTML.setStyleName(getCssPrefix() + "-html");
-        return analysisHTML;
+        });        
     }
-
 }

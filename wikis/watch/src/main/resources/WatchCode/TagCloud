@@ -126,7 +126,11 @@ def content = "";
     content += " " + itemdoc.getValue("content").replaceAll("&lt;.*?&gt;","").replaceAll("[\"&lt;&gt;]","")
  }
  if (content!="") { 
-  def tagcloud = xwiki.autotag.generateTagCloud(content, 0)
+  langFilter = request.filterlang;
+  if (!langFilter) {
+    langFilter = context.getLanguage();
+  }
+  def tagcloud = xwiki.autotag.generateTagCloud(content, langFilter)
   println tagcloud.getHtml()
  } else {
    println "No data: "

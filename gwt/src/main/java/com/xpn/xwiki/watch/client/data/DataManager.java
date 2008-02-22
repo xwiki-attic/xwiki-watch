@@ -538,9 +538,12 @@ public class DataManager {
         watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", "read", 1, cb);
     }
 
-    public void getAnalysisHTML(FilterStatus filterStatus, AsyncCallback cb) {
+    public void getAnalysisHTML(FilterStatus filterStatus, String language, AsyncCallback cb) {
         Map map = filterStatus.getMap();
         map.put("space", watch.getWatchSpace());
+        if (language != null && !language.trim().equals("")) {
+            map.put("filterlang", language);
+        }
         watch.getXWikiServiceInstance().getDocumentContent(Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_TAGCLOUD, true, map, cb);
     }
 

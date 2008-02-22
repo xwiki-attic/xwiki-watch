@@ -62,7 +62,8 @@ public class SearchEngineFeedDialog extends FeedDialog {
         }
 
         String query = searchTermTextBox.getText();
-        String language = (searchLanguageListBox==null) ? null : searchLanguageListBox.getItemText(searchLanguageListBox.getSelectedIndex());
+        String language = (searchLanguageListBox==null) ? null 
+            : searchLanguageListBox.getValue(searchLanguageListBox.getSelectedIndex());
         String url = getURL(query, language);
         feed.setUrl(url);
         List groups = new ArrayList();
@@ -133,7 +134,7 @@ public class SearchEngineFeedDialog extends FeedDialog {
             for (int i=0;i<languages.length;i++) {
                 String language = languages[i];
                 String languageText = app.getTranslation("language." + language);
-                searchLanguageListBox.addItem(language, languageText);
+                searchLanguageListBox.addItem(languageText, language);
             }
             paramsPanel.add(searchLanguageListBox);
         }

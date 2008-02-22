@@ -467,7 +467,9 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
 
     public void openAnalysisWizard() {
         // Placeholder for Analysis
-        AnalysisDialog analysisDialog = new AnalysisDialog(this, "analysis", Dialog.BUTTON_CANCEL);
+        String[] languages = {"en", "fr"};
+        AnalysisDialog analysisDialog = new AnalysisDialog(this, "analysis", Dialog.BUTTON_CANCEL, 
+                languages);
         analysisDialog.show();
     }
 

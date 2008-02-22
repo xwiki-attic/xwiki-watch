@@ -233,6 +233,7 @@ watch.standardfeed.groups=Groupes
 watch.analysis.caption=XWiki Watch Analyse textuelle
 watch.analysis.invitation=Voici les mots les plus présents dans les articles correspondant à votre filtre:
 watch.analysis.noselection=Veuillez choisir un mot
+watch.analysis.language=Choisissez la langue du contenu: 
 watch.pressreview.caption=XWiki Watch Revue de Presse
 watch.pressreview.invitation=Voici la liste d'articles correspondant à votre filtre:
 watch.pressreview.noselection=Il n'y a pas de flux dans votre revue de presse
@@ -358,6 +359,9 @@ watch.filter.dates.years.previous = Année précédent
 watch.filter.dates.months = Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Aôut, Septembre, Octobre, Novembre, Decembre
 watch.filter.dates.days = D, L, M, M, J, V, S
 watch.filter.dates.firstDayOfWeek = 1
+
+watch.language.en=Anglais
+watch.language.fr=Français
 
 </content>
 </xwikidoc>

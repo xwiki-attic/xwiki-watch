@@ -653,6 +653,14 @@ div.watch-configtype-buttons, div.watch-addfeed-buttons {
 	padding: 10px;
 }
 
+div.analysis-lang {
+	text-align: center;
+}
+
+div.analysis-lang div.gwt-Label {
+	display: inline;
+}
+
 
 img.watch-configtype-help-content-image {
 	width: 180px ;
