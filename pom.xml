@@ -62,6 +62,19 @@
   </modules>
   <profiles>
     <profile>
+      <id>ci</id>
+      <activation>
+        <!-- This property is automatically defined by the Maven release plugin when executing
+             a release. Thus this profile will be automatically enabled when releasing -->
+        <property>
+          <name>performRelease</name>
+        </property>
+      </activation>
+      <modules>
+        <module>distribution-test</module>
+      </modules>
+    </profile> 
+    <profile>
       <id>mysql</id>
       <properties>
         <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;sessionVariables=sql_mode=''</xwiki.db.connection.url>
