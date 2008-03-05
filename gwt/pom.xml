@@ -118,10 +118,10 @@
 		<executions>
 		  <execution>
 		    <phase>package</phase>
-			<goals>
-			  <goal>assembly</goal>
-			</goals>
-   	        <configuration>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+            <configuration>
 		      <descriptors>
 		        <descriptor>src/assemble/watch.xml</descriptor>
 		      </descriptors>
