@@ -104,6 +104,19 @@
           </compileTarget>
           <extraJvmArgs>-Xmx1024m</extraJvmArgs>
         </configuration>
+        <!-- The GWT plugin is adding quotes around the path to compensate for the fact that old
+             versions of plexus utils were not adding them. Now that plexus utils is adding them
+             this is failing since they're added twice. We should try to move to version 2.x of
+             the GWT plugin since it may have been fixed there. In the meantime we force an old
+             version of plexus utils to be used.
+             See http://jira.codehaus.org/browse/MNG-3414 for more details -->
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>1.4.2</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
             <goals>
