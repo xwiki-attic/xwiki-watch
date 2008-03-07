@@ -49,7 +49,7 @@ public class WatchGWTLoadingTest extends AbstractXWikiTestCase
     public void testGWTLoading()
     {
         open("/xwiki/bin/view/Watch/Reader");
-        getSelenium().waitForPageToLoad("20000");
+        getSelenium().waitForPageToLoad("50000");
         assertTextPresent("Welcome to XWiki Watch");
     }
 }
