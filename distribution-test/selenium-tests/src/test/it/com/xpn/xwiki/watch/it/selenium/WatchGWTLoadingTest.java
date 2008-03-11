@@ -19,6 +19,8 @@
  */
 package com.xpn.xwiki.watch.it.selenium;
 
+import java.lang.InterruptedException;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
@@ -49,7 +51,20 @@ public class WatchGWTLoadingTest extends AbstractXWikiTestCase
     public void testGWTLoading()
     {
         open("/xwiki/bin/view/Watch/Reader");
-        getSelenium().waitForPageToLoad("50000");
+        // Wait for the reader page to load
+        getSelenium().waitForPageToLoad("2000");
+        // Now wait for the GWT reader to load.
+        try
+        {
+            // this is a bit dirty, but I could not find an easy way
+            // to ask Selenium to just wait, without conditions.
+            // We could investigate the use of waitForCondition() with a JS function argument
+            // althought it seems it will be a bit heavy to setup for this use case.
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e){
+            fail();
+        }
         assertTextPresent("Welcome to XWiki Watch");
     }
 }
