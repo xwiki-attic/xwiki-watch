@@ -53,6 +53,5 @@
 <tags/>
 </property>
 </object>
-<content>##includeForm("WatchSheets.WebHomeSheet")
-#includeForm("WatchSheets.WikiWebHomeSheet")</content>
+<content>#includeForm("WatchSheets.WikiWebHomeSheet")</content>
 </xwikidoc>
