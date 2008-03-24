@@ -5,7 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.data.DataManager;
-import com.xpn.xwiki.gwt.api.client.XWikiService;
 import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
@@ -157,7 +156,7 @@ public class FeedTest extends GWTTestCase {
     }
 
     private void runRemove() {
-        datamgr.removeFeed(currentFeed, new XWikiAsyncCallback(watch) {
+        datamgr.removeFeed(currentFeed, false, new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable throwable) {
                 super.onFailure(throwable);
                 assertTrue("Exception removing object", false);

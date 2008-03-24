@@ -127,7 +127,9 @@ watch.addfeed.button.technoratitag.description=Créez et ajoutez un flux depuis T
 watch.addfeed.button.feedster.description=Créez et ajoutez un flux depuis Feedster
 watch.addfeed.button.wikio.description=Créez et ajoutez un flux depuis Wikio
 
+watch.removefeed.caption=Effacer flux
 watch.removefeed.confirm=Étes-vous sûr de vouloir effacer le flux "{0}"?
+watch.removefeed.withArticles=Supprimer également les articles récupérés
 watch.removegroup.confirm=Étes-vous sûr de vouloir effacer le group "{0}"?
 watch.removekeyword.confirm=Étes-vous sûr de vouloir effacer le mot-clé "{0}"?
 

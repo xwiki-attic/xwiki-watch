@@ -5,6 +5,7 @@ import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.xpn.xwiki.watch.client.ui.dialog.GroupDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.StandardFeedDialog;
+import com.xpn.xwiki.watch.client.ui.dialog.FeedDeleteDialog;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Constants;
@@ -313,7 +314,7 @@ public class FeedTreeWidget  extends WatchWidget {
                                 });
                             }
                         });
-                        feedDialog.show();                    
+                        feedDialog.show();
                     }
                 });
                 HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
@@ -321,24 +322,10 @@ public class FeedTreeWidget  extends WatchWidget {
                 Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("feedtree.delete"), "");
                 deleteHyperlink.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
-                       String confirmString = watch.getTranslation("removefeed.confirm", 
-                                                                   new String[] {feed.getName()});
-                       boolean confirm = Window.confirm(confirmString);
-                       if (confirm) {
-                           watch.getDataManager().removeFeed(feed, new XWikiAsyncCallback(watch) {
-                               public void onFailure(Throwable caught) {
-                                   super.onFailure(caught);
-                               }
-                               public void onSuccess(Object result) {
-                                   super.onSuccess(result);
-                                   // We need to refreshData the tree
-                                   watch.refreshOnNewFeed();
-                               }
-                           });
-                       } else {
-                           //nothing
-                       }
-                   } 
+                       //use a delete feed dialog
+                       FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", feed);
+                       deleteDialog.show();
+                   }
                 });
                 HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
                 //set styles

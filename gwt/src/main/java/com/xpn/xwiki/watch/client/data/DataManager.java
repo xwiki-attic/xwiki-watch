@@ -280,7 +280,13 @@ public class DataManager {
         });
     }
 
-    public void removeFeed(Feed feed, final AsyncCallback cb) {
+    public void removeFeed(Feed feed, final boolean deleteArticles, final AsyncCallback cb) {
+        //create the articles query for the current feed
+        String feedUrl = feed.getUrl();
+        String feedUrlEscaped = feedUrl.replaceAll("'", "''");
+        final String articlesQuery = ", BaseObject as obj, XWiki.FeedEntryClass as feedentry "
+                + "where doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' "
+                + "and obj.id=feedentry.id and feedentry.feedurl = '" + feedUrlEscaped + "'";
         try {
             if ((feed.getPageName()==null)||(feed.getPageName().equals("")))
                 cb.onFailure(null);
@@ -291,9 +297,32 @@ public class DataManager {
                     cb.onFailure(caught);
                 }
 
-                public void onSuccess(Object result) {
+                public void onSuccess(final Object result) {
+                    //if the articles need to be deleted
                     super.onSuccess(result);
-                    cb.onSuccess(result);
+                    //check the response from the server
+                    if (((Boolean)result).booleanValue()) {
+                        if (deleteArticles) {
+                            watch.getXWikiServiceInstance()
+                                    .deleteDocuments(articlesQuery, new XWikiAsyncCallback(watch) {
+                                        public void onFailure(Throwable throwable)
+                                        {
+                                            super.onFailure(throwable);
+                                            cb.onFailure(throwable);
+                                        }
+
+                                        public void onSuccess(Object o)
+                                        {
+                                            super.onSuccess(o);
+                                            cb.onSuccess(result);
+                                        }
+                                    });
+                        } else {
+                            cb.onSuccess(result);
+                        }
+                    } else {
+                        cb.onFailure(null);
+                    }                    
                 }
             });
         } catch(Exception e) {

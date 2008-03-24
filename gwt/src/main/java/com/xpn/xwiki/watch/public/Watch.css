@@ -616,7 +616,7 @@ div.watch-tagscloud-15 a:active
     text-align: center;
 }
 div.commentadd-invitation,
-div.tagsadd-invitation
+div.tagsadd-invitation,
 div.standardfeed-invitation,
 div.configtype-invitation,
 div.addfeed-invitation,
@@ -630,7 +630,8 @@ div.feedster-invitation,
 div.technoratitag-invitation,
 div.pressreview-invitation,
 div.analysis-invitation,
-div.chooseaction-invitation
+div.chooseaction-invitation,
+div.removefeed-invitation
  {
 	text-align: center;
 	font-size: 1.3em;
@@ -716,12 +717,12 @@ textarea.watch-email-mailcontent
 	width: 380px;
 	margin: 0 10px;
 }
-span.watch-email-withcontent, span.watch-email-withcomments {
+span.watch-email-withcontent, span.watch-email-withcomments, span.watch-removefeed-witharticles {
 	margin: 0 10px;
 	width: 380px;
 	display: block;
 }
-span.watch-email-withcontent label, span.watch-email-withcomments label {
+span.watch-email-withcontent label, span.watch-email-withcomments label, span.watch-removefeed-witharticles label {
 	margin: 10px 0 0 10px;
 }
 span.watch-email-withcontent input, span.watch-email-withcomments input {

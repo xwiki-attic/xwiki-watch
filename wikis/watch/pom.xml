@@ -90,7 +90,6 @@
         <artifactId>xwiki-xar-plugin</artifactId>
         <configuration>
           <excludes>
-            <exclude>**/Translations.fr</exclude>
             <!-- Since we're excluding we also need to exclude the META-INF/ dir. It's a default
                  exclude but we're overriding it. -->
             <exclude>**/META-INF/**</exclude>
