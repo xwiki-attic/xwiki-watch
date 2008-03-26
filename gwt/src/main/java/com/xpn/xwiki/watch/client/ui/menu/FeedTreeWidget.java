@@ -294,7 +294,7 @@ public class FeedTreeWidget  extends WatchWidget {
                 Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("feedtree.edit"), "");
                 editHyperlink.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
-                        FeedDialog feedDialog = new StandardFeedDialog(watch, "standardfeed", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, feed);
+                        FeedDialog feedDialog = new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, feed);
                         feedDialog.setAsyncCallback(new AsyncCallback() {
                             public void onFailure(Throwable throwable) {
                                 //nothing

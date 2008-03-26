@@ -100,6 +100,38 @@ public class DataManager {
         });
     }
 
+    public void existsFeed(String feedName, final AsyncCallback cb) {
+        if (feedName == null || feedName.equals("")) {
+            cb.onFailure(null);
+            return;
+        }
+
+        String feedNameEscaped = feedName.replaceAll("'", "''");
+        //create the query
+        final String feedQuery = ", BaseObject as obj, XWiki.AggregatorURLClass as feed "
+            + "where doc.fullName=obj.name and obj.className='XWiki.AggregatorURLClass' "
+            + "and obj.id=feed.id and lower(feed.name) = lower('" + feedNameEscaped + "')";
+
+        watch.getXWikiServiceInstance().searchDocuments(feedQuery, 1, 0, new AsyncCallback() {
+            public void onFailure(Throwable throwable)
+            {
+                //didn't manage to get a response from the server
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o)
+            {
+                //check the response from the server
+                List docList = (List)o;
+                if (docList.size() > 0) {
+                    cb.onSuccess(Boolean.TRUE);
+                } else {
+                    cb.onSuccess(Boolean.FALSE);
+                }
+            }
+        });
+    }
+
     public void updateFeed(Feed feed, final XWikiAsyncCallback cb) {
         if ((feed==null)||(feed.getPageName()==null)||(feed.getPageName().equals("")))
             cb.onFailure(null);

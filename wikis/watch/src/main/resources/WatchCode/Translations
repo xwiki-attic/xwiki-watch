@@ -100,14 +100,6 @@ watch.ok=OK
 watch.on=ON
 loading.loading_msg=The page is loading...
 
-watch.standard.invitation=Please add your feed below
-watch.standard.feedname=Choose the feed Name:
-watch.standard.feedurl=Enter the feed URL:
-watch.standard.caption=Add a feed
-watch.standard.nofeedurl=There is no feed URL entered
-watch.standard.noname=There is no name entered for your feed
-watch.standard.groups=Please choose the groups for this feed
-
 watch.filter.title=Filters
 watch.filter.initfilter=Reset Current Filters
 watch.filter.keywords.title=Keywords
@@ -161,46 +153,66 @@ watch.addkeyword.caption=Add a Keyword
 watch.addkeyword.nokeyword=Please input a Keyword
 watch.addkeyword.groups=Please choose a group for this Keyword
 
+watch.standard.caption=Edit Feed
+watch.standard.error.caption=Update Feed Error
+watch.standard.invitation=Please update your feed below
+watch.standard.feedname=Choose the Feed Name:
+watch.standard.feedurl=Enter the Feed URL:
+watch.standard.nofeedurl=There is no feed URL entered
+watch.standard.nofeedname=You did not enter a name for your feed
+watch.standard.notuniquename=A feed with this name already exists, please choose another name
+watch.standard.groups=Please choose the groups for this feed
+
 watch.googlenews.caption=Add a feed from Google News
+watch.googlenews.error.caption=Edit Feed Error
 watch.googlenews.invitation=This will automatically create a Google News Feed
 watch.googlenews.feedname=Choose the name of your feed:
 watch.googlenews.query=Enter your query:
 watch.googlenews.noquery=There is no query entered
 watch.googlenews.nofeedname=You did not enter a name for your feed
+watch.googlenews.notuniquename=A feed with this name already exists, please choose another name
 watch.googlenews.groups=Please choose the groups for this feed
 watch.googlenews.language=Please choose the Google News version to be used for this feed (English or French)
 
 watch.googleblog.caption=Add a feed from Google Blog Search
+watch.googleblog.error.caption=Edit Feed Error
 watch.googleblog.invitation=This will automatically create a Google Blog Search Feed
 watch.googleblog.feedname=Choose the name of your feed:
 watch.googleblog.query=Enter your query:
 watch.googleblog.nofeedname=You did not enter a name for your feed
 watch.googleblog.noquery=There is no query entered
+watch.googleblog.notuniquename=A feed with this name already exists, please choose another name  
 watch.googleblog.groups=Please choose the groups for this feed
 watch.googleblog.language=Please choose the Google Blog version to be used for this feed (English or French)
 
 watch.technoratitag.caption=Add a Feed from Technorati
+watch.technoratitag.error.caption=Edit Feed Error
 watch.technoratitag.invitation=This will automatically create a Technorati Feed
 watch.technoratitag.feedname=Choose the name of your feed:
 watch.technoratitag.query=Enter your query:
 watch.technoratitag.noquery=There is no query entered
 watch.technoratitag.nofeedname=You did not enter a name for your feed
+watch.technoratitag.notuniquename=A feed with this name already exists, please choose another name  
 watch.technoratitag.groups=Please choose the groups for this feed
 
 watch.feedster.caption=Add a feed from Feedster
+watch.feedster.error.caption=Edit Feed Error
 watch.feedster.invitation=This will automatically create a Feedster Feed
 watch.feedster.feedname=Choose the name of your feed:
 watch.feedster.query=Enter your query:
 watch.feedster.noquery=There is no query entered
 watch.feedster.nofeedname=You did not enter a name for your feed
+watch.feedster.notuniquename=A feed with this name already exists, please choose another name  
 watch.feedster.groups=Please choose the groups for this feed
 
 watch.wikio.caption=Add a feed from Wikio
+watch.wikio.error.caption=Edit Feed Error
 watch.wikio.invitation=This will automatically create a Wikio Feed
 watch.wikio.feedname=Choose the name of your feed:
 watch.wikio.query=Enter your query:
 watch.wikio.nofeedname=You did not enter a name for your feed
 watch.wikio.noquery=There is no query entered
+watch.wikio.notuniquename=A feed with this name already exists, please choose another name 
 watch.wikio.groups=Please choose the groups for this feed
 
 watch.filter.seeonly.title=Filter by
@@ -222,12 +234,6 @@ watch.commentadd.nocomment=Please add your comment in the box below before click
 watch.newarticles={0} New articles
 watch.articles={0} Articles
 
-watch.standard.groups=Please choose a group for this feed
-watch.googlenews.groups=Please choose a group for this feed
-watch.googleblog.groups=Please choose a group for this feed
-watch.technoratitag.groups=Please choose a group for this feed
-watch.feedster.groups=Please choose a group for this feed
-
 watch.appname=XWiki Watch
 watch.errorwithcode=Sorry, a problem happened... Please wait a few seconds or refresh the page to go back to the reader main page.
 
@@ -235,14 +241,6 @@ watch.chooseaction.caption=Choose an action
 watch.chooseaction.invitation=Do you want to remove or update this feed ?
 watch.chooseaction.button.updatefeed.description=Edit this feed
 watch.chooseaction.button.removefeed.description=Remove this feed
-
-watch.standardfeed.caption=Update Feed
-watch.standardfeed.invitation=Please update your feed below
-watch.standardfeed.feedname=Choose the Feed Name:
-watch.standardfeed.feedurl=Enter the Feed URL:
-watch.standardfeed.nofeedurl=There is no Feed URL entered
-watch.standardfeed.noname=There is no Name entered for your Feed
-watch.standardfeed.groups=Please choose the groups for this feed
 
 watch.analysis.caption=XWiki Watch Text Analysis
 watch.analysis.invitation=Here is a list of the words that are the most frequent in the articles matching your current filter:

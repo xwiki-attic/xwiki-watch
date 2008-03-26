@@ -2,8 +2,9 @@ package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class StandardFeedDialog extends FeedDialog {
         super(app, name, buttonModes, feed);
     }
 
-    protected boolean updateFeed() {
+    protected void updateFeed()
+    {
         feed.setName(feedNameTextBox.getText());
         feed.setUrl(feedURLTextBox.getText());
         List groups = new ArrayList();
@@ -53,18 +55,45 @@ public class StandardFeedDialog extends FeedDialog {
              groups.add(groupsListBox.getValue(i));
         }
         feed.setGroups(groups);
-                       
-        if (feed.getUrl().equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nofeedurl"));
-            return false;
+    }
+
+    protected void validateFeedData(final AsyncCallback cb)
+    {
+        //prepare the reponse
+        final DialogValidationResponse response = new DialogValidationResponse();
+        String feedName = feedNameTextBox.getText().trim();
+        if (feedURLTextBox.getText().equals("")) {
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".nofeedurl"));
+            cb.onSuccess(response);
+            return;
         }
 
-        if (feed.getName().equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nofeedname"));
-            return false;
+        if (feedName.equals("")) {
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".nofeedname"));
+            cb.onSuccess(response);
+            return;
         }
+        
+        //check the feedname to be unique
+        ((Watch)this.app).getDataManager().existsFeed(feedName, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
 
-        return true;
+            public void onSuccess(Object o) {
+                //check the response
+                Boolean checkResponse = (Boolean)o;
+                if (checkResponse.booleanValue()) {
+                    response.setValid(false);
+                    response.setMessage(app.getTranslation(getDialogTranslationName() + ".notuniquename"));
+                } else {
+                    response.setValid(true);
+                }
+                cb.onSuccess(response);
+            }
+        });
     }
 
     protected Widget getParametersPanel() {

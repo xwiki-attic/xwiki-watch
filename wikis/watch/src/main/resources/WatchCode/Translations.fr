@@ -88,14 +88,6 @@ watch.ok=OK
 watch.on=Activé
 loading.loading_msg=La page est en cours de chargement...
 
-watch.standard.invitation=Ajoutez votre flux ci-dessous
-watch.standard.feedname=Choisissez un nom pour ce flux:
-watch.standard.feedurl=Entrez l'adresse du flux:
-watch.standard.caption=Ajoutez un flux
-watch.standard.nofeedurl=Il n'y a pas d'adresse entrée pour ce flux
-watch.standard.noname=Il n'y a pas de nom entré pour ce flux
-watch.standard.groups=Groupes
-
 watch.filter.title=Filtres
 watch.filter.initfilter=Désélectionner tous les filtres actuels
 watch.filter.keywords.title=Mots-clés
@@ -149,46 +141,66 @@ watch.addkeyword.caption=Ajouter un mot-clé
 watch.addkeyword.nokeyword=Veuillez entrer un mot-clé
 watch.addkeyword.groups=Groupes
 
+watch.standard.caption=Edition du flux
+watch.standard.error.caption=Erreur d'edition du flux
+watch.standard.invitation=Veuillez mettre à jour votre flux ci-dessous
+watch.standard.feedname=Entrez le nom de votre flux:
+watch.standard.feedurl=Entrez l'URL de votre flux:
+watch.standard.nofeedurl=Vous n'avez pas indiqué d'URL pour ce flux
+watch.standard.nofeedname=Vous n'avez pas entré de nom pour ce flux
+watch.standard.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
+watch.standard.groups=Groupes
+
 watch.googlenews.caption=Ajoutez un flux depuis Google News
+watch.googlenews.error.caption=Erreur d'edition du flux
 watch.googlenews.invitation=Vous allez automatiquement créer un flux depuis Google News
 watch.googlenews.feedname=Choisissez le nom du flux:
 watch.googlenews.query=Entrez le sujet sur lequel vous souhaitez obtenir des informations:
 watch.googlenews.noquery=Veuillez entrer un sujet
 watch.googlenews.nofeedname=Veuillez entrer un nom pour le flux
+watch.googlenews.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
 watch.googlenews.groups=Groupes
 watch.googlenews.language=Choisissez la version de Google News Search à utiliser pour ce flux (Anglais ou Français)
 
 watch.googleblog.caption=Ajoutez un flux depuis Google Blog Search
+watch.googleblog.error.caption=Erreur d'edition du flux
 watch.googleblog.invitation=Vous allez automatiquement créer un flux depuis Google Blog Search
 watch.googleblog.feedname=Choisissez le nom du flux:
 watch.googleblog.query=Entrez le sujet sur lequel vous souhaitez obtenir des informations:
 watch.googleblog.nofeedname=Veuillez entrer un nom pour le flux
 watch.googleblog.noquery=Veuillez entrer un sujet
+watch.googleblog.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
 watch.googleblog.groups=Groupes
 watch.googleblog.language=Choisissez la version de Google Blog Search à utiliser pour ce flux (Anglais ou Français)
 
 watch.technoratitag.caption=Ajoutez un flux depuis Technorati
+watch.technoratitag.error.caption=Erreur d'edition du flux
 watch.technoratitag.invitation=Vous allez automatiquement créer un flux depuis Technorati
 watch.technoratitag.feedname=Choisissez le nom du flux:
 watch.technoratitag.query=Entrez le sujet sur lequel vous souhaitez obtenir des informations:
 watch.technoratitag.noquery=Veuillez entrer un sujet
 watch.technoratitag.nofeedname=Veuillez entrer un nom pour le flux
+watch.technoratitag.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom  
 watch.technoratitag.groups=Groupes
 
 watch.feedster.caption=Ajoutez un flux depuis Feedster
+watch.feedster.error.caption=Erreur d'edition du flux
 watch.feedster.invitation=Vous allez automatiquement créer un flux depuis Feedster
 watch.feedster.feedname=Choisissez le nom du flux:
 watch.feedster.query=Entrez le sujet sur lequel vous souhaitez obtenir des informations:
 watch.feedster.noquery=Veuillez entrer un sujet
 watch.feedster.nofeedname=Veuillez entrer un nom pour le flux
+watch.feedster.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
 watch.feedster.groups=Groupes
 
 watch.wikio.caption=Ajoutez un flux depuis Wikio
+watch.wikio.error.caption=Erreur d'edition du flux  
 watch.wikio.invitation=Vous allez automatiquement créer un flux depuis Wikio
 watch.wikio.feedname=Choisissez le nom du flux:
 watch.wikio.query=Entrez le sujet sur lequel vous souhaitez obtenir des informations:
 watch.wikio.nofeedname=Veuillez entrer un nom pour le flux
 watch.wikio.noquery=Veuillez entrer un sujet
+watch.wikio.notuniquename= Un flux avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom  
 watch.wikio.groups=Groupes
 
 watch.filter.seeonly.title=Filtrer par
@@ -223,14 +235,6 @@ watch.chooseaction.caption=Choisissez votre action
 watch.chooseaction.invitation=Voulez vous editer ou effacer ce flux ?
 watch.chooseaction.button.updatefeed.description=Editer ce flux
 watch.chooseaction.button.removefeed.description=Effacer ce flux
-
-watch.standardfeed.caption=Edition du flux
-watch.standardfeed.invitation=Veuillez mettre à jour votre flux ci-dessous
-watch.standardfeed.feedname=Entrez le nom de votre flux:
-watch.standardfeed.feedurl=Entrez l'URL de votre flux:
-watch.standardfeed.nofeedurl=Vous n'avez pas indiqué d'URL pour ce flux
-watch.standardfeed.noname=Vous n'avez pas entré de nom pour ce flux
-watch.standardfeed.groups=Groupes
 
 watch.analysis.caption=XWiki Watch Analyse textuelle
 watch.analysis.invitation=Voici les mots les plus présents dans les articles correspondant à votre filtre:

@@ -1,10 +1,11 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.core.client.GWT;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.Watch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,18 +50,8 @@ public class SearchEngineFeedDialog extends FeedDialog {
         this.baseURL = baseURL;
     }
 
-    protected boolean updateFeed() {
-        if (searchTermTextBox.getText().equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".noquery"));
-            return false;
-        }
-
+    protected void updateFeed() {
         feed.setName(feedNameTextBox.getText());
-        if (feed.getName().equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nofeedname"));
-            return false;
-        }
-
         String query = searchTermTextBox.getText();
         String language = (searchLanguageListBox==null) ? null 
             : searchLanguageListBox.getValue(searchLanguageListBox.getSelectedIndex());
@@ -72,7 +63,45 @@ public class SearchEngineFeedDialog extends FeedDialog {
              groups.add(groupsListBox.getValue(i));
         }
         feed.setGroups(groups);
-        return true;
+
+    }
+
+    protected void validateFeedData(final AsyncCallback cb)
+    {
+        String feedName = this.feedNameTextBox.getText().trim();
+        final DialogValidationResponse response = new DialogValidationResponse();        
+        
+        if (searchTermTextBox.getText().equals("")) {
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".noquery"));
+            cb.onSuccess(response);
+            return;
+        }
+        if (feedName.equals("")) {
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".nofeedname"));
+            cb.onSuccess(response);
+            return;
+        }
+
+        //check feed name for unicity
+        ((Watch)this.app).getDataManager().existsFeed(feedName, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o) {
+                //check the response
+                Boolean checkResponse = (Boolean)o;
+                if (checkResponse.booleanValue()) {
+                    response.setValid(false);
+                    response.setMessage(app.getTranslation(getDialogTranslationName() + ".notuniquename"));
+                } else {
+                    response.setValid(true);
+                }
+                cb.onSuccess(response);
+            }
+        });
     }
 
     public String getURL(String queryterm, String language) {
