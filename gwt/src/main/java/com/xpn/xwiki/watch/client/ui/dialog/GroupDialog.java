@@ -1,15 +1,12 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.data.Group;
 
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -33,7 +30,7 @@ import java.util.ArrayList;
  * @author ldubost
  */
 
-public class GroupDialog extends Dialog {
+public class GroupDialog extends ValidatingDialog {
     protected TextBox groupTextBox;
     protected Group group;
 
@@ -58,16 +55,49 @@ public class GroupDialog extends Dialog {
         add(main);
     }
 
-    protected boolean updateData() {
+    protected void validateDialogData(final AsyncCallback cb) {
         String groupName = groupTextBox.getText();
-
+        final DialogValidationResponse response = new DialogValidationResponse();
         if (groupName.equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nogroup"));
-            return false;
-        } else {
-            this.group.setName(groupName);
-            return true;
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".nogroup"));
+            cb.onSuccess(response);
+            return;
         }
+
+        //only do unicity check if the name of the group has changed
+        String oldGroupName = this.group.getName().trim();
+        if (oldGroupName.equalsIgnoreCase(groupName)) {
+            response.setValid(true);
+            cb.onSuccess(response);
+        } else {
+            ((Watch)this.app).getDataManager().existsGroup(groupName, new XWikiAsyncCallback(this.app){
+                public void onFailure(Throwable throwable)
+                {
+                    super.onFailure(throwable);
+                    cb.onFailure(throwable);
+                }
+
+                public void onSuccess(Object o)
+                {
+                    super.onSuccess(o);
+                    Boolean checkResponse = (Boolean)o;
+                    if (checkResponse.booleanValue()) {
+                        response.setValid(false);
+                        response.setMessage(
+                            app.getTranslation(getDialogTranslationName() + ".notuniquename"));
+                    } else {
+                        response.setValid(true);
+                    }
+                    cb.onSuccess(response);
+                }
+            });
+        }
+        return;        
+    }
+
+    protected void updateData() {
+        this.group.setName(groupTextBox.getText().trim());
     }
 
     protected Widget getParametersPanel() {
@@ -91,29 +121,24 @@ public class GroupDialog extends Dialog {
         return new FlowPanel();
     }
 
-    protected void endDialog() {
-        if (updateData()) {
-            setCurrentResult(group);
-            if (this.group.getPageName().equals("")) {
-	            ((Watch)app).addGroup(group, new AsyncCallback() {
-	                public void onFailure(Throwable throwable) {
-	                    // There should already have been an error display
-	                    ((Watch)app).refreshFeedTree();
-	                }
-	
-	                public void onSuccess(Object object) {
-	                    endDialog2();
-	                    ((Watch)app).refreshFeedTree();
-	                }
-	            });
-            } else {
-                endDialog2();
-            }
-        }
-    }
+    public void onValid(final DialogValidationResponse response)
+    {
+        updateData();
+        setCurrentResult(group);
+        if (GroupDialog.this.group.getPageName().equals("")) {
+            ((Watch)app).addGroup(group, new AsyncCallback() {
+                public void onFailure(Throwable throwable) {
+                    // There should already have been an error display
+                    ((Watch)app).refreshFeedTree();
+                }
 
-    private void endDialog2() {
-        super.endDialog();
+                public void onSuccess(Object object) {
+                    GroupDialog.this.endSuperDialog();
+                    ((Watch)app).refreshFeedTree();
+                }
+            });
+        } else {
+            this.endSuperDialog();
+        }            
     }
-
 }

@@ -1,15 +1,11 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.data.Group;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.Window;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +33,7 @@ import java.util.Iterator;
  * @author ldubost
  */
 
-public abstract class FeedDialog extends Dialog {
+public abstract class FeedDialog extends ValidatingDialog {
     protected Feed feed;
     protected ListBox groupsListBox = new ListBox();
     protected String[] languages;
@@ -75,54 +71,30 @@ public abstract class FeedDialog extends Dialog {
         add(main);
     }
 
-    protected void endDialog() {
-        this.validateFeedData(new XWikiAsyncCallback(this.app) {
-            public void onFailure(Throwable throwable)
-            {
-                super.onFailure(throwable);
-                //checking failed
-            }
-
-            public void onSuccess(Object o)
-            {
-                super.onSuccess(o);
-                DialogValidationResponse response = (DialogValidationResponse)o;
-                if (response.isValid()) {
-                    //update the feed data
-                    FeedDialog.this.updateFeed();
-                    setCurrentResult(feed);
-                    if (feed.getPageName().equals("")) {
-                        ((Watch)app).addFeed(feed, new AsyncCallback() {
-                            public void onFailure(Throwable throwable) {
-                                // There should already have been an error display
-                                ((Watch)app).refreshFeedTree();
-                            }
-
-                            public void onSuccess(Object object) {
-                                FeedDialog.this.endDialog2();
-                                ((Watch)app).refreshFeedTree();
-                                // this will force a reload of feeds on the server
-                                ((Watch)app).forceServerLoading();
-                            }
-                        });
-                    } else {
-                        FeedDialog.this.endDialog2();
-                    }
-                } else {
-                    //display error and leave the dialog open
-                    String errorMessage = response.getMessage() != null
-                            ? response.getMessage() : getDialogTranslationName() + ".error";
-                    ModalMessageDialogBox messageDialog = new ModalMessageDialogBox(this.app,
-                            app.getTranslation(getDialogTranslationName() + ".error.caption"),
-                            errorMessage);
+    public void onValid(final DialogValidationResponse response)
+    {
+        //update the feed data
+        this.updateFeed();
+        setCurrentResult(feed);
+        if (feed.getPageName().equals("")) {
+            ((Watch)app).addFeed(feed, new AsyncCallback() {
+                public void onFailure(Throwable throwable) {
+                    // There should already have been an error display
+                    ((Watch)app).refreshFeedTree();
                 }
 
-            }
-        });
-    }
-
-    private void endDialog2() {
-        super.endDialog();
+                public void onSuccess(Object object) {
+                    //FeedDialog.super.onValid(response);
+                    FeedDialog.this.endSuperDialog();
+                    ((Watch)app).refreshFeedTree();
+                    // this will force a reload of feeds on the server
+                    ((Watch)app).forceServerLoading();
+                }
+            });
+        } else {
+            //FeedDialog.super.onValid(response);
+            FeedDialog.this.endSuperDialog();
+        }
     }
 
     protected Widget getGroupsFields() {
@@ -158,14 +130,27 @@ public abstract class FeedDialog extends Dialog {
     }
 
     protected abstract void updateFeed();
-
-    /**
-     * Validates the dialog data before updating the current Feed object.
-     * The function will return it's result through the passed callback's <tt>onSuccess</tt>,
-     * in a {link@DialogValidationResponse}.
-     *
-     * @param cb callback to return the validation response.
-     */
-    protected abstract void validateFeedData(AsyncCallback cb);
     protected abstract Widget getParametersPanel();
+
+    protected void checkUniqueFeedName(String feedName, final AsyncCallback cb) {
+        //check feed name for unicity
+        ((Watch)this.app).getDataManager().existsFeed(feedName, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o) {
+                //check the response
+                Boolean checkResponse = (Boolean)o;
+                DialogValidationResponse response = new DialogValidationResponse();
+                if (checkResponse.booleanValue()) {
+                    response.setValid(false);
+                    response.setMessage(app.getTranslation(getDialogTranslationName() + ".notuniquename"));
+                } else {
+                    response.setValid(true);
+                }
+                cb.onSuccess(response);
+            }
+        });        
+    }
 }

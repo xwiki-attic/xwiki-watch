@@ -5,7 +5,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.core.client.GWT;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.watch.client.Feed;
-import com.xpn.xwiki.watch.client.Watch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class SearchEngineFeedDialog extends FeedDialog {
 
     }
 
-    protected void validateFeedData(final AsyncCallback cb)
+    protected void validateDialogData(final AsyncCallback cb)
     {
         String feedName = this.feedNameTextBox.getText().trim();
         final DialogValidationResponse response = new DialogValidationResponse();        
@@ -84,24 +83,15 @@ public class SearchEngineFeedDialog extends FeedDialog {
             return;
         }
 
-        //check feed name for unicity
-        ((Watch)this.app).getDataManager().existsFeed(feedName, new AsyncCallback() {
-            public void onFailure(Throwable throwable) {
-                cb.onFailure(throwable);
-            }
-
-            public void onSuccess(Object o) {
-                //check the response
-                Boolean checkResponse = (Boolean)o;
-                if (checkResponse.booleanValue()) {
-                    response.setValid(false);
-                    response.setMessage(app.getTranslation(getDialogTranslationName() + ".notuniquename"));
-                } else {
-                    response.setValid(true);
-                }
-                cb.onSuccess(response);
-            }
-        });
+        if (this.feed.getName().trim().equalsIgnoreCase(feedName)) {
+            response.setValid(true);
+            cb.onSuccess(response);
+            return;
+        } else {
+            //do the unicity check, the feedname was changed
+            this.checkUniqueFeedName(feedName, cb);
+            return;
+        }
     }
 
     public String getURL(String queryterm, String language) {

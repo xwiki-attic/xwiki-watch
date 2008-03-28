@@ -129,6 +129,8 @@ watch.addgroup.invitation=Veuillez ajouter le nom du groupe ci dessous
 watch.addgroup.group=Noms du groupe:
 watch.addgroup.caption=Ajouter un groupe
 watch.addgroup.nogroup=Veuillez entrer un nom pour le groupe
+watch.addgroup.notuniquename=Un groupe avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
+watch.addgroup.error.caption=Erreur d'ajout du groupe  
 
 watch.loadingstatus.caption=Statut du chargement de XWiki Watch
 watch.loadingstatus.invitation=Le statut du chargement est le suivant:
@@ -139,7 +141,9 @@ watch.addkeyword.keyword=Mot-clé:
 watch.addkeyword.invitation=Veuillez ajouter votre mot-clé ci-dessous
 watch.addkeyword.caption=Ajouter un mot-clé 
 watch.addkeyword.nokeyword=Veuillez entrer un mot-clé
+watch.addgroup.notuniquename=Ce mot-clé existe déjà. Merci de bien vouloir choisir un autre mot-clé ou un autre groupe
 watch.addkeyword.groups=Groupes
+watch.addkeyword.error.caption=Erreur d'ajout du mot-clé  
 
 watch.standard.caption=Edition du flux
 watch.standard.error.caption=Erreur d'edition du flux

@@ -20,18 +20,17 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Map;
 import java.util.Iterator;
 
-public class KeywordDialog extends Dialog {
+public class KeywordDialog extends ValidatingDialog {
     protected TextBox keywordTextBox = new TextBox();
     protected ListBox groupListBox = new ListBox();
     protected Keyword keyword;
@@ -57,7 +56,7 @@ public class KeywordDialog extends Dialog {
         add(main);
     }
 
-    protected boolean updateData() {
+    protected void updateData() {
         String keywordString = keywordTextBox.getText();
         //no keyword by default
         String groupPageName = "";
@@ -66,16 +65,78 @@ public class KeywordDialog extends Dialog {
         if (selectedIndex > 0) {
             groupPageName = groupListBox.getValue(selectedIndex);
         }
+        this.keyword.setName(keywordString);
+        this.keyword.setGroup(groupPageName);
+    }
 
-        if (keywordString.equals("")) {
-            Window.alert(app.getTranslation(getDialogTranslationName() + ".nokeyword"));
-            return false; 
-        } else {
-            //update the keyword and go on
-            this.keyword.setName(keywordString);
-            this.keyword.setGroup(groupPageName);
-            return true;
+    protected void validateDialogData(final AsyncCallback cb) {
+        String keyword = this.keywordTextBox.getText();
+        final DialogValidationResponse response = new DialogValidationResponse();
+        if (keyword.equals("")) {
+            response.setValid(false);
+            response.setMessage(app.getTranslation(getDialogTranslationName() + ".nokeyword"));
+            cb.onSuccess(response);
+            return;
         }
+
+        //also eliminate the all group
+        String group = this.groupListBox.getSelectedIndex() < 1 ? null
+                : this.groupListBox.getValue(this.groupListBox.getSelectedIndex());
+
+        String newGroupName = group == null ? "" : group.trim();
+        String oldGroupName = this.keyword.getGroup() == null ? "" : this.keyword.getGroup().trim();
+
+        //if nothing changed, don't do the checking
+        if (newGroupName.equalsIgnoreCase(oldGroupName)
+            && this.keywordTextBox.getText().trim().equalsIgnoreCase(this.keyword.getName().trim())) {
+            response.setValid(true);
+            cb.onSuccess(response);
+        } else {
+            ((Watch)this.app).getDataManager().existsKeyword (keyword, group, new XWikiAsyncCallback(this.app) {
+                public void onFailure(Throwable throwable)
+                {
+                    super.onFailure(throwable);
+                    cb.onFailure(throwable);
+                }
+
+                public void onSuccess(Object o)
+                {
+                    super.onSuccess(o);
+                    Boolean checkResponse = (Boolean)o;
+                    if (checkResponse.booleanValue()) {
+                        response.setValid(false);
+                        response.setMessage(
+                            app.getTranslation(getDialogTranslationName() + ".notuniquename"));
+                    } else {
+                        response.setValid(true);
+                    }
+                    cb.onSuccess(response);
+                }
+            });
+        }
+        return;
+    }
+
+    public void onValid(final DialogValidationResponse response)
+    {
+        updateData();
+        setCurrentResult(keyword);
+        //if the kw has just been created, add it
+        if (KeywordDialog.this.keyword.getPageName().equals("")) {
+            ((Watch)app).addKeyword(KeywordDialog.this.keyword, new AsyncCallback() {
+                public void onFailure(Throwable throwable)
+                {
+                    // There should already have been an error display
+                }
+
+                public void onSuccess(Object object)
+                {
+                    KeywordDialog.this.endSuperDialog();
+                }
+            });
+        } else {
+            this.endSuperDialog();
+        }        
     }
 
     protected Widget getParametersPanel() {
@@ -131,31 +192,4 @@ public class KeywordDialog extends Dialog {
         groupsPanel.add(groupListBox);
         return groupsPanel;
     }
-
-    protected void endDialog() {
-        if (updateData()) {
-            setCurrentResult(keyword);
-            //if the kw has just been created, add it
-            if (this.keyword.getPageName().equals("")) {
-                ((Watch)app).addKeyword(this.keyword, new AsyncCallback() {
-                    public void onFailure(Throwable throwable)
-                    {
-                        // There should already have been an error display
-                    }
-                   
-                    public void onSuccess(Object object) 
-                    {
-                        endDialog2();
-                    }
-                });
-            } else {
-                endDialog2();
-            }
-        }
-    }
-
-    private void endDialog2() {
-        super.endDialog();
-    }
-
 }

@@ -141,6 +141,8 @@ watch.addgroup.invitation=Please add a group below
 watch.addgroup.group=Group Name
 watch.addgroup.caption=Add a Group
 watch.addgroup.nogroup=Please input a Group name
+watch.addgroup.notuniquename=A group with this name already exists, please choose another name
+watch.addgroup.error.caption=Add group error
 
 watch.loadingstatus.caption=XWiki Watch Loading Status
 watch.loadingstatus.invitation=The loading status is the following:
@@ -151,7 +153,9 @@ watch.addkeyword.keyword=Keyword:
 watch.addkeyword.invitation=Please add your Keyword below
 watch.addkeyword.caption=Add a Keyword 
 watch.addkeyword.nokeyword=Please input a Keyword
+watch.addkeyword.notuniquename=This keyword already exists, please choose a different keyword or a different group
 watch.addkeyword.groups=Please choose a group for this Keyword
+watch.addkeyword.error.caption=Add keyword error
 
 watch.standard.caption=Edit Feed
 watch.standard.error.caption=Update Feed Error

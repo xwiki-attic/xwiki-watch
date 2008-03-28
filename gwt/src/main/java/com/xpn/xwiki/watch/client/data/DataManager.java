@@ -100,6 +100,16 @@ public class DataManager {
         });
     }
 
+    /**
+     * Test if a feed aggregator with the specified name exists (case-insensitive).
+     * The response is returned in the <tt>onSuccess(Object o)</tt> function of the passed callback:
+     * {link@Boolean#TRUE} if the feed exists and {link@Boolean#FALSE} otherwise.
+     * The invocation of {link@AsyncCallback#onFailure} for the passed <tt>cb</tt> means that
+     * an error occurred and the test could not be completed.
+     *
+     * @param feedName the name of the feed to search for
+     * @param cb callback to return the response
+     */
     public void existsFeed(String feedName, final AsyncCallback cb) {
         if (feedName == null || feedName.equals("")) {
             cb.onFailure(null);
@@ -113,6 +123,95 @@ public class DataManager {
             + "and obj.id=feed.id and lower(feed.name) = lower('" + feedNameEscaped + "')";
 
         watch.getXWikiServiceInstance().searchDocuments(feedQuery, 1, 0, new AsyncCallback() {
+            public void onFailure(Throwable throwable)
+            {
+                //didn't manage to get a response from the server
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o)
+            {
+                //check the response from the server
+                List docList = (List)o;
+                if (docList.size() > 0) {
+                    cb.onSuccess(Boolean.TRUE);
+                } else {
+                    cb.onSuccess(Boolean.FALSE);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Test if a group with the specified name exists (case-insensitive).
+     * The response is returned in the <tt>onSuccess(Object o)</tt> function of the passed callback:
+     * {link@Boolean#TRUE} if the group exists and {link@Boolean#FALSE} otherwise.
+     * The invocation of {link@AsyncCallback#onFailure} for the passed <tt>cb</tt> means that
+     * an error occurred and the test could not be completed.
+     *
+     * @param groupName the name of the group to search for
+     * @param cb callback to return the response
+     */
+    public void existsGroup(String groupName, final AsyncCallback cb) {
+        if (groupName == null || groupName.equals("")) {
+            cb.onFailure(null);
+            return;
+        }
+
+        String groupNameEscaped = groupName.replaceAll("'", "''");
+        //create the query
+        final String groupQuery = ", BaseObject as obj, XWiki.AggregatorGroupClass as groupObj "
+            + "where doc.fullName=obj.name and obj.className='XWiki.AggregatorGroupClass' "
+            + "and obj.id=groupObj.id and lower(groupObj.name) = lower('" + groupNameEscaped + "')";
+
+        watch.getXWikiServiceInstance().searchDocuments(groupQuery, 1, 0, new AsyncCallback() {
+            public void onFailure(Throwable throwable)
+            {
+                //didn't manage to get a response from the server
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o)
+            {
+                //check the response from the server
+                List docList = (List)o;
+                if (docList.size() > 0) {
+                    cb.onSuccess(Boolean.TRUE);
+                } else {
+                    cb.onSuccess(Boolean.FALSE);
+                }
+            }
+        });
+    }
+
+    /**
+     * Test if the specified keyword with the specified group exists (case-insensitive).
+     * The response is returned in the <tt>onSuccess(Object o)</tt> function of the passed callback:
+     * {link@Boolean#TRUE} if the keyword exists and {link@Boolean#FALSE} otherwise.
+     * The invocation of {link@AsyncCallback#onFailure} for the passed <tt>cb</tt> means that
+     * an error occurred and the test could not be completed.
+     *
+     * @param keyword the name of the feed to search for
+     * @param group the name of the group of the keyword
+     * @param cb callback to return the response
+     */    
+    public void existsKeyword(String keyword, String group, final AsyncCallback cb) {
+        if (keyword == null || keyword.equals("")) {
+            cb.onFailure(null);
+            return;       
+        }
+
+        String groupEscaped = (group == null) ? "" : group.trim().replaceAll("'", "''");
+
+        String keywordEscaped = keyword.trim().replaceAll("'", "''");
+
+        String keywordQuery = ", BaseObject as obj, XWiki.KeywordClass as kwObj "
+            + "where doc.fullName=obj.name and obj.className='XWiki.KeywordClass' "
+            + "and obj.id=kwObj.id and lower(kwObj.name) = lower('" + keywordEscaped + "') "
+            + "and lower(trim(kwObj.group)) = lower(trim('" + groupEscaped + "'))";
+
+        watch.getXWikiServiceInstance().searchDocuments(keywordQuery, 1, 0, new AsyncCallback() {
             public void onFailure(Throwable throwable)
             {
                 //didn't manage to get a response from the server
