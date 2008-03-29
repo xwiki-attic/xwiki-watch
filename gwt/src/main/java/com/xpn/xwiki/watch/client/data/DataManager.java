@@ -116,11 +116,12 @@ public class DataManager {
             return;
         }
 
-        String feedNameEscaped = feedName.replaceAll("'", "''");
+        String feedNameEscaped = feedName.trim().replaceAll("'", "''");
         //create the query
         final String feedQuery = ", BaseObject as obj, XWiki.AggregatorURLClass as feed "
-            + "where doc.fullName=obj.name and obj.className='XWiki.AggregatorURLClass' "
-            + "and obj.id=feed.id and lower(feed.name) = lower('" + feedNameEscaped + "')";
+            + "where doc.fullName = obj.name and obj.className = 'XWiki.AggregatorURLClass' "
+            + "and obj.id = feed.id and "
+            + "lower(trim(both from feed.name)) = lower('" + feedNameEscaped + "')";
 
         watch.getXWikiServiceInstance().searchDocuments(feedQuery, 1, 0, new AsyncCallback() {
             public void onFailure(Throwable throwable)
@@ -159,11 +160,12 @@ public class DataManager {
             return;
         }
 
-        String groupNameEscaped = groupName.replaceAll("'", "''");
+        String groupNameEscaped = groupName.trim().replaceAll("'", "''");
         //create the query
         final String groupQuery = ", BaseObject as obj, XWiki.AggregatorGroupClass as groupObj "
-            + "where doc.fullName=obj.name and obj.className='XWiki.AggregatorGroupClass' "
-            + "and obj.id=groupObj.id and lower(groupObj.name) = lower('" + groupNameEscaped + "')";
+            + "where doc.fullName = obj.name and obj.className = 'XWiki.AggregatorGroupClass' "
+            + "and obj.id = groupObj.id "
+            + "and lower(trim(both from groupObj.name)) = lower('" + groupNameEscaped + "')";
 
         watch.getXWikiServiceInstance().searchDocuments(groupQuery, 1, 0, new AsyncCallback() {
             public void onFailure(Throwable throwable)
@@ -207,9 +209,10 @@ public class DataManager {
         String keywordEscaped = keyword.trim().replaceAll("'", "''");
 
         String keywordQuery = ", BaseObject as obj, XWiki.KeywordClass as kwObj "
-            + "where doc.fullName=obj.name and obj.className='XWiki.KeywordClass' "
-            + "and obj.id=kwObj.id and lower(kwObj.name) = lower('" + keywordEscaped + "') "
-            + "and lower(trim(kwObj.group)) = lower(trim('" + groupEscaped + "'))";
+            + "where doc.fullName = obj.name and obj.className = 'XWiki.KeywordClass' "
+            + "and obj.id = kwObj.id "
+            + "and lower(trim(both from kwObj.name)) = lower('" + keywordEscaped + "') "
+            + "and lower(trim(both from kwObj.group)) = lower(trim(both from '" + groupEscaped + "'))";
 
         watch.getXWikiServiceInstance().searchDocuments(keywordQuery, 1, 0, new AsyncCallback() {
             public void onFailure(Throwable throwable)
