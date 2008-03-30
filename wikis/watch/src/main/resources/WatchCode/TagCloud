@@ -112,7 +112,7 @@ if (request.dateStart) {
 }
 
 if (request.dateEnd) {
-  wheresql += " and feedentry.date &lt; '" + request.dateEnd + "' ";
+  wheresql += " and feedentry.date &lt;= '" + request.dateEnd + "' ";
 }
 
 sql += wheresql + " and doc.web='" + request.space + "' order by feedentry.date desc, doc.creationDate desc";

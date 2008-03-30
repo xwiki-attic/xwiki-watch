@@ -250,7 +250,7 @@ public class FilterStatus {
             String fDate = format.format(getDateStart());
             qs.append("&amp;dateStart=" + URL.encodeComponent(fDate));
         }
-        if (getDateEnd() != null) {
+        if (getDateEnd() != null) { 
             SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
             String fDate = format.format(getDateEnd());
             qs.append("&amp;dateEnd=" + URL.encodeComponent(fDate));
@@ -265,6 +265,10 @@ public class FilterStatus {
 
     public void setDateEnd(Date dateEnd)
     {
+        //make sure this date is at 23:59
+        //TODO: never use deprecated API!!!
+        dateEnd.setHours(23);
+        dateEnd.setMinutes(59);
         this.dateEnd = dateEnd;
     }
 

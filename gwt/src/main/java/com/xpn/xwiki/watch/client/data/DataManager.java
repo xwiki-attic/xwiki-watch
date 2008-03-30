@@ -631,7 +631,7 @@ public class DataManager {
         if (filterStatus.getDateEnd() != null) {
             SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
             String sdate = format.format(filterStatus.getDateEnd());
-            wheresql += " and feedentry.date < '" + sdate + "'";
+            wheresql += " and feedentry.date <= '" + sdate + "'";
         }
 
         if (filterStatus.getRead() ==1) {

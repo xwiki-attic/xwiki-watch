@@ -78,7 +78,7 @@ if (request.dateStart) {
 }
 
 if (request.dateEnd) {
-  wheresql += " and feedentry.date &lt; '" + request.dateEnd + "' ";
+  wheresql += " and feedentry.date &lt;= '" + request.dateEnd + "' ";
 }
 
 

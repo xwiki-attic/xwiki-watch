@@ -87,8 +87,12 @@ if (request.read=="-1") {
    wheresql += " and (feedentry.read is null or feedentry.read=0)";
 }
 
-if (request.date!=null) {
-  wheresql += " and feedentry.date &gt;= '" + request.date + "' ";
+if (request.dateStart) {
+  wheresql += " and feedentry.date &gt;= '" + request.dateStart + "' ";
+}
+
+if (request.dateEnd) {
+  wheresql += " and feedentry.date &lt;= '" + request.dateEnd + "' ";
 }
 
 sql += wheresql + " and doc.web='" + request.space + "' order by feedentry.date desc, doc.creationDate desc";
