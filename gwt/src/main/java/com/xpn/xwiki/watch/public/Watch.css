@@ -405,6 +405,20 @@ img.watch-article-tags-add-image, img.watch-article-comments-add-image {
 	cursor: pointer;
 }
 
+/* add padding to suggestions list*/
+.gwt-SuggestBoxPopup td.item {
+    padding: 2px;
+}
+/* highlight current selected suggestion */
+.gwt-SuggestBoxPopup .item-selected {
+    background-color: #43464a;
+    color: #FFFFFF;
+}
+
+.gwt-SuggestBoxPopup {
+    background-color: #FFFFFF;
+}
+
 div.watch-article-content {
 	margin: 0 5px 1.5em  5px;
 }

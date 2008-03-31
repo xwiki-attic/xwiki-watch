@@ -2,10 +2,12 @@ package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.gwt.api.client.widgets.WordListSuggestOracle;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.Constants;
+import com.xpn.xwiki.watch.client.ui.articles.TagListSuggestOracle;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -30,7 +32,7 @@ import com.xpn.xwiki.watch.client.Watch;
  */
 
 public class EditTagsDialog extends Dialog {
-    protected TextBox tagsTextBox;
+    protected SuggestBox tagsSuggestBox;
     protected String tags;
 
     /**
@@ -55,7 +57,7 @@ public class EditTagsDialog extends Dialog {
     }
 
     protected boolean updateData() {
-        tags = tagsTextBox.getText();
+        tags = tagsSuggestBox.getText();
         if (tags.equals("")) {
             Window.alert(app.getTranslation(getDialogTranslationName() + ".notags"));
             return false;
@@ -70,13 +72,17 @@ public class EditTagsDialog extends Dialog {
         tagsLabel.setStyleName("tags-label");
         tagsLabel.setText(app.getTranslation(getDialogTranslationName() + ".tags"));
         paramsPanel.add(tagsLabel);
-        tagsTextBox = new TextBox();
-        if (tags!=null)
-            tagsTextBox.setText(tags);
+        TextBox tagsTextBox = new TextBox();
         tagsTextBox.setVisibleLength(30);
         tagsTextBox.setName("tags");
-        tagsTextBox.setStyleName(getCSSName("tags"));
-        paramsPanel.add(tagsTextBox);
+        WordListSuggestOracle tagListOracle = new WordListSuggestOracle(new TagListSuggestOracle((Watch)this.app),
+                Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
+        tagsSuggestBox = new SuggestBox(tagListOracle, tagsTextBox);
+        tagsTextBox.addStyleName(getCSSName("tags"));
+        if (tags != null) {
+            tagsTextBox.setText(tags);
+        }
+        paramsPanel.add(tagsSuggestBox);
         return paramsPanel;
     }
 
@@ -86,5 +92,4 @@ public class EditTagsDialog extends Dialog {
             super.endDialog();
         }
     }
-
 }

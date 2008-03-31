@@ -85,6 +85,8 @@ public class Constants {
     public static final String PROPERTY_KEYWORD_GROUP = "group";
     public static final String CLASS_AGGREGATOR_GROUP = "XWiki.AggregatorGroupClass";
     public static final String PROPERTY_GROUP_NAME = "name";
+    public static final String PROPERTY_TAGS_SEPARATORS_EDIT = " ";
+    public static final String PROPERTY_TAGS_SEPARATOR_DISPLAY = " ";    
     
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm";
 }

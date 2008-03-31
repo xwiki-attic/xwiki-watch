@@ -5,7 +5,6 @@ import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.XWikiService;
 import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -668,16 +667,27 @@ public class DataManager {
     public void updateTags(FeedArticle article, String tags, AsyncCallback cb) {
         List taglist = new ArrayList();
         tags = (tags==null) ? "" : tags;
-        String[] tagarray = tags.split(" ");
-        for (int i=0;i<tagarray.length;i++)
-            taglist.add(tagarray[i]);
+        String[] tagarray = tags.split(Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
+        for (int i = 0; i < tagarray.length; i++) {
+            if (tagarray[i].trim().length() > 0) {
+                taglist.add(tagarray[i].trim());
+            }
+        }
         watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", "tags", taglist, cb);
     }
 
     public void getTagsList(AsyncCallback cb) {
+        getTagsList(null, cb);
+    }
+
+    public void getTagsList(String like, AsyncCallback cb) {
         Map params = new HashMap();
         params.put("space", watch.getWatchSpace());
-        watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "." + Constants.QUERY_PAGE_TAGSLIST, params, 0, 0, cb);
+        if (like != null && !like.equals("")) {
+            params.put("query", like);
+        }
+        watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "."
+                + Constants.QUERY_PAGE_TAGSLIST, params, 0, 0, cb);
     }
 
     public void getNewArticles(AsyncCallback cb) {
@@ -720,7 +730,11 @@ public class DataManager {
                           boolean withArticlesComments, AsyncCallback cb) {
         Map map = filterStatus.getMap();
         map.put("space", watch.getWatchSpace());
-        map.put("address", mailTo);
+        List al = new ArrayList();
+        for (int i = 0; i < mailTo.length; i++) {
+            al.add(mailTo[i]);
+        }
+        map.put("address", al);
         map.put("subject", mailSubject);
         map.put("content", mailContent);
         if (withArticlesContent) {
@@ -733,6 +747,6 @@ public class DataManager {
         } else {
             map.put("withcomments", "0");
         }
-        watch.getXWikiServiceInstance().getDocumentContent(sendEmailPage, true, map, cb);
+            watch.getXWikiServiceInstance().getDocumentContent(sendEmailPage, true, map, cb);
     }
 }
