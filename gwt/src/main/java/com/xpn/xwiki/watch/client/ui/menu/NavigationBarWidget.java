@@ -27,8 +27,8 @@ import com.google.gwt.user.client.ui.*;
  */
 
 public class NavigationBarWidget extends WatchWidget {
-    private Hyperlink previous;
-    private Hyperlink next;
+    private Label previous;
+    private Label next;
     private HTML nbarticles;
 
     public NavigationBarWidget() {
@@ -48,7 +48,7 @@ public class NavigationBarWidget extends WatchWidget {
 
     public void init() {
         super.init();
-        previous = new Hyperlink(watch.getTranslation("navbar.previous"), "");
+        previous = new Label(watch.getTranslation("navbar.previous"));
         previous.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 watch.refreshOnPrevious();
@@ -57,7 +57,7 @@ public class NavigationBarWidget extends WatchWidget {
         previous.addStyleName(watch.getStyleName("navbar","previous"));
         nbarticles = new HTML();
         nbarticles.addStyleName(watch.getStyleName("navbar","nbarticles"));
-        next = new Hyperlink(watch.getTranslation("navbar.next"), "");
+        next = new Label(watch.getTranslation("navbar.next"));
         next.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 watch.refreshOnNext();

@@ -178,22 +178,22 @@ public class FeedTreeWidget  extends WatchWidget {
         public Widget getWidget(boolean selected)
         {
             final Group group = (Group)this.data;
-            Hyperlink link = new Hyperlink(group.getName(), "");
-            link.setStyleName(watch.getStyleName("feedtree","link"));
-            link.addClickListener(new ClickListener() {
+            HTML title = new HTML(group.getName(), true);
+            title.setStyleName(watch.getStyleName("feedtree","link"));
+            title.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                     watch.refreshOnGroupChange(group.getPageName().trim().equals("") 
                                                ? group.getName() : group.getPageName());
                 }
             });            
-            Widget widget = link;
+            Widget widget = title;
             //if group is All group or it is a non-existent group, we shouldn't be able to edit it
             if (selected && (!group.getName().equals(watch.getTranslation("all")))
                 && !group.getPageName().equals("")) {
                 //create a composite with link as main widget and some actions
-                widget = new HyperlinkComposite(link);
-                Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("feedtree.edit"), "#");
-                editHyperlink.addClickListener(new ClickListener() {
+                widget = new TextWidgetComposite(title);
+                Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
+                editLabel.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
                         GroupDialog gDialog = new GroupDialog(watch, "addgroup", 
                             Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, group);
@@ -220,9 +220,9 @@ public class FeedTreeWidget  extends WatchWidget {
                         gDialog.show();
                     }
                 });
-                HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
-                Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("feedtree.delete"), "");
-                deleteHyperlink.addClickListener(new ClickListener() {
+                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
+                Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
+                deleteLabel.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
                        String confirmString = watch.getTranslation("removegroup.confirm", 
                                                                    new String[] {group.getName()});
@@ -244,16 +244,16 @@ public class FeedTreeWidget  extends WatchWidget {
                        }
                    } 
                 });
-                HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
+                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
                 //set styles
-                editHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
+                editComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
                     + " " + watch.getStyleName("feedtree", "editgroup"));
-                deleteHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
+                deleteComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") 
                     + " " + watch.getStyleName("feedtree", "deletegroup"));
-                //add the two actions to the hyperlink composite, in reverse order since they will
+                //add the two actions to the composite, in reverse order since they will
                 //be floated to the right
-                ((HyperlinkComposite)widget).add(deleteHyperlinkComposite);
-                ((HyperlinkComposite)widget).add(editHyperlinkComposite);
+                ((TextWidgetComposite)widget).add(deleteComposite);
+                ((TextWidgetComposite)widget).add(editComposite);
             }
             return widget;
         }
@@ -278,21 +278,21 @@ public class FeedTreeWidget  extends WatchWidget {
             String imgurl = getFavIcon(feed);     
             if (imgurl!=null)
              feedtitle = "<img src=\"" + imgurl + "\" class=\"" + watch.getStyleName("feedtree","logo-icon") + "\" alt=\"\" />" + feedtitle;
-            Hyperlink link = new Hyperlink(feedtitle, true, "");
-            link.addClickListener(new ClickListener() {
+            HTML title = new HTML(feedtitle, true);
+            title.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                     watch.refreshOnFeedChange(feed);
                 } 
             });
-            link.setStyleName(watch.getStyleName("feedtree","link"));            
-            Widget widget = link;
+            title.setStyleName(watch.getStyleName("feedtree","link"));            
+            Widget widget = title;
             
             //if selected, generate the two action links
             if (selected) {
-                widget = new HyperlinkComposite(link);
+                widget = new TextWidgetComposite(title);
                 //create the inner item
-                Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("feedtree.edit"), "");
-                editHyperlink.addClickListener(new ClickListener() {
+                Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
+                editLabel.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
                         FeedDialog feedDialog = new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, feed);
                         feedDialog.setAsyncCallback(new AsyncCallback() {
@@ -317,27 +317,27 @@ public class FeedTreeWidget  extends WatchWidget {
                         feedDialog.show();
                     }
                 });
-                HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
+                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
                 
-                Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("feedtree.delete"), "");
-                deleteHyperlink.addClickListener(new ClickListener() {
+                Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
+                deleteLabel.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
                        //use a delete feed dialog
                        FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", feed);
                        deleteDialog.show();
                    }
                 });
-                HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
+                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
                 //set styles
-                editHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
+                editComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
                     + " " + watch.getStyleName("feedtree", "editfeed"));
-                deleteHyperlinkComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
+                deleteComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") 
                     + " " + watch.getStyleName("feedtree", "deletefeed"));
                 
-                //add the two actions to the hyperlink composite, in reverse order since they will
+                //add the two actions to the composite, in reverse order since they will
                 //be floated to the right
-                ((HyperlinkComposite)widget).add(deleteHyperlinkComposite);
-                ((HyperlinkComposite)widget).add(editHyperlinkComposite);
+                ((TextWidgetComposite)widget).add(deleteComposite);
+                ((TextWidgetComposite)widget).add(editComposite);
             }
             return widget;
         }

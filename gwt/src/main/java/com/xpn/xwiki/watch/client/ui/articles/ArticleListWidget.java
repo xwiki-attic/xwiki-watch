@@ -128,11 +128,10 @@ public class ArticleListWidget extends WatchWidget {
         FlowPanel p = new FlowPanel();
         p.setStyleName(watch.getStyleName("article", "titleline"));
 
-        // Title text
-        Hyperlink titlelink = new Hyperlink(article.getTitle(), "");
-        p.add(titlelink);
+        HTML titleLabel = new HTML(article.getTitle());
+        p.add(titleLabel);
 
-        titlelink.addClickListener(new ClickListener() {
+        titleLabel.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 contentZonePanel.setVisible(!contentZonePanel.isVisible());
                 resizeWindow();

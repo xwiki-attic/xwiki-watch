@@ -2,9 +2,9 @@ package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.gwt.api.client.dialog.ModalMessageDialog;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Window;
 
@@ -130,7 +130,7 @@ public class PressReviewMailDialog extends Dialog {
                     setCurrentResult(result);
                     String resultText = (String) result;
                     endDialog2();
-                    ModalMessageDialogBox mmdb = new ModalMessageDialogBox(app, 
+                    ModalMessageDialog mmdb = new ModalMessageDialog(app, 
                         app.getTranslation(getDialogTranslationName() + ".dialogtitle"), 
                         resultText);
                 }

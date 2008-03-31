@@ -163,6 +163,12 @@ button.watch-search-button {
 .watch-feedtree{
 	background-color: #868C94;
 }
+
+/*correct the toucan border setting for all tds*/
+.watch-feedtree td {
+	border: none;
+}
+
 .watch-feedtree-title {
     float: left;
     height: 40px;
@@ -199,10 +205,9 @@ div.watch-feedtree-groups div table a{
 	line-height: 16px;
 }
 
-span.gwt-TreeItem-selected div.watch-feedtree-link a{
+span.gwt-TreeItem-selected div.watch-feedtree-link {
 	font-weight: bold;
-	color: #ceff7e;
-	text-decoration: underline;
+	color: #ffffff;
 	}
 
 
@@ -213,11 +218,12 @@ div.watch-feedtree-groups div span div table {
 }
 div.watch-feedtree-link {
 	display:  inline;
-}
-div.watch-feedtree-link a{
-	display:  inline;
+	color: #ffffff;
+	cursor: pointer;
 	white-space: normal;
+	font-size: 100%;
 }
+
 
 .watch-feedtree-feedaction, .watch-feedtree-groupaction, .watch-keyword-keywordaction {
 	float: right;
@@ -226,6 +232,7 @@ div.watch-feedtree-link a{
 	font-size:0.9em;
 	color: #FFFFFF;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 div.watch-feedtree-editfeed, div.watch-feedtree-editgroup, div.watch-keyword-editkeyword {
@@ -263,11 +270,12 @@ div.watch-feedtree-deletefeed, div.watch-feedtree-deletegroup, div.watch-keyword
   display: inline;
   margin: 5px 20px;
 }
-.watch-navbar div a, .watch-navbar-bottom div a{
+.watch-navbar-next, .watch-navbar-previous, .watch-navbar-bottom-next, .watch-navbar-bottom-previous {
 text-decoration: none;
 text-transform: uppercase;
 color: #000;
 font-weight: bold;
+cursor: pointer;
 }
 
 .watch-navbar div.watch-navbar-previous, .watch-navbar div.watch-navbar-next, 
@@ -317,10 +325,10 @@ clear: both;
 	margin: 0 50px 0 10px;
 	border: 0px solid yellow;
 }
- div.watch-article-titleline a {
+ div.watch-article-titleline div {
 	font-weight: bold;
 	text-decoration: none;
-
+	cursor: pointer; 
 }
 .watch-article-unread div.watch-article-titleline a {
 	color: #000;
@@ -408,12 +416,12 @@ div.watch-article-comment {
 	padding:5px ;
 	margin: 2px -5px;
 	font-size: 0.9em;
-	  background-color: #fff;
+    background-color: #fff;
 }
 div.watch-article-comments {
-		background-color: #fdffef;
-	  border: 1px solid #ccc;
-	  color: #555;
+    background-color: #fdffef;
+    border: 1px solid #ccc;
+    color: #555;
 }
 
 
@@ -493,60 +501,38 @@ div.watch-filter-init-text {
 	padding: 4px 0px 3px 0px;
 	background-color: #E6EAEE;
 }
- div.watch-keyword-link{
+div.watch-keyword-link {
 	padding: 0 10px;
 }
-div.watch-tagscloud{
+
+div.watch-tagscloud-9, div.watch-tagscloud-10, div.watch-tagscloud-11,
+div.watch-tagscloud-12, div.watch-tagscloud-13, div.watch-tagscloud-14,
+div.watch-tagscloud-15 {
 	float: left;
-}
-div.watch-tagscloud-9, div.watch-tagscloud-10, div.watch-tagscloud-11, div.watch-tagscloud-12, div.watch-tagscloud-13, div.watch-tagscloud-14, div.watch-tagscloud-15 {
-	float: left;
+    cursor: pointer;
 }
 
-div.watch-tagscloud-9 a,
-div.watch-tagscloud-9 a:link,
-div.watch-tagscloud-9 a:visited,
-div.watch-tagscloud-9 a:active
+div.watch-tagscloud-9
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  0.9em;}
-div.watch-tagscloud-10 a,
-div.watch-tagscloud-10 a:link,
-div.watch-tagscloud-10 a:visited,
-div.watch-tagscloud-10 a:active
+div.watch-tagscloud-10
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1em;}
-div.watch-tagscloud-11 a,
-div.watch-tagscloud-11 a:link,
-div.watch-tagscloud-11 a:visited,
-div.watch-tagscloud-11 a:active
+div.watch-tagscloud-11
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.1em;}
-div.watch-tagscloud-12 a,
-div.watch-tagscloud-12 a:link,
-div.watch-tagscloud-12 a:visited,
-div.watch-tagscloud-12 a:active
+div.watch-tagscloud-12
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.2em;}
-div.watch-tagscloud-13 a,
-div.watch-tagscloud-13 a:link,
-div.watch-tagscloud-13 a:visited,
-div.watch-tagscloud-13 a:active
+div.watch-tagscloud-13
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.3em;}
-div.watch-tagscloud-14 a,
-div.watch-tagscloud-14 a:link,
-div.watch-tagscloud-14 a:visited,
-div.watch-tagscloud-14 a:active
+div.watch-tagscloud-14
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.4em;}
-div.watch-tagscloud-15 a,
-div.watch-tagscloud-15 a:link,
-div.watch-tagscloud-15 a:visited,
-div.watch-tagscloud-15 a:active
+div.watch-tagscloud-15
 {color: #fff;text-decoration: none;	padding: 0 4px;font-size:  1.5em;}
 
 
- div.watch-keyword a, div.watch-tagscloud a
-  div.watch-keyword a:link, div.watch-tagscloud a:link,
-   div.watch-keyword a:visited, div.watch-tagscloud a:visited,
-    div.watch-keyword a:active, div.watch-tagscloud a:active{
+div.watch-tagscloud, div.watch-keyword-link {
 	color: #fff;
 	text-decoration: none;
 	line-height:15px;
+    cursor: pointer;
 }
 
 /* @end */
@@ -571,7 +557,7 @@ div.watch-tagscloud-15 a:active
     max-width: 180px;
 }
 
-.tk-ModalDialog {
+.gwt-DialogBox {
 	position: relative;
     border: 3px solid black;
     background-color: white;
@@ -580,7 +566,7 @@ div.watch-tagscloud-15 a:active
  	overflow: hidden;
 }
 
-.tk-ModalDialog .Caption {
+.gwt-DialogBox .Caption {
     text-align: center;
     width: 100%;
     font-family: sans-serif;
@@ -589,11 +575,10 @@ div.watch-tagscloud-15 a:active
     background-color: #43464a;
     color: #fff;
     padding: 3px;
-    margin: 1px;
     cursor: default;
 }
 
-.tk-ModalDialog table {
+.gwt-DialogBox table {
 	width: 400px;
 }
 
@@ -640,17 +625,12 @@ div.removefeed-invitation
 	color: #999;
 }
 
-
-
-
-
-
 div.watch-configtype-buttons, div.watch-addfeed-buttons {
 	float: left;
     width: 200px;
 }
 
-#body div.tk-ModalDialog.watch-analysis div.tagline  {
+#body div.gwt-DialogBox.watch-analysis div.tagline  {
 	padding: 10px;
 }
 
@@ -766,28 +746,28 @@ div.watch-analysis-actions
 	padding-top:  25px;
 }
 
-.tk-ModalDialog .watch-cancel, .tk-ModalDialog .watch-back {
+.gwt-DialogBox .watch-cancel, .gwt-DialogBox .watch-back {
 	float: left;
 	background-color: #ff991b;
 	color:  #fff;
 	border: 2px solid #000;
 
 }
-.tk-ModalDialog .watch-cancel:hover, .tk-ModalDialog .watch-back:hover {
+.gwt-DialogBox .watch-cancel:hover, .gwt-DialogBox .watch-back:hover {
 	float: left;
 	background-color: #ffba1a;
 	color:  #fff;
 	border: 2px solid #000;
 
 }
-.tk-ModalDialog .watch-next
+.gwt-DialogBox .watch-next
  {
 	float: right;
 	background-color: #caf117;
 	color:  #000;
 	border: 2px solid #000;
 }
-.tk-ModalDialog .watch-next:hover
+.gwt-DialogBox .watch-next:hover
  {
 	float: right;
 	background-color: #d7ff23;
@@ -810,14 +790,14 @@ div.watch-analysis-actions
 }
 
 
-div.tk-ModalDialog.watch-analysis, div.tk-ModalDialog.watch-pressreview  {
+div.gwt-DialogBox.watch-analysis, div.gwt-DialogBox.watch-pressreview  {
 	width: 800px;
 }
-div.tk-ModalDialog.watch-analysis  table, div.tk-ModalDialog.watch-pressreview table {
+div.gwt-DialogBox.watch-analysis  table, div.gwt-DialogBox.watch-pressreview table {
 	width: 800px;
 }
 
-div.tk-ModalDialog.watch-commentadd  {
+div.gwt-DialogBox.watch-commentadd  {
 	width: 424px;
 }
 
@@ -843,10 +823,8 @@ div.tk-ModalDialog.watch-commentadd  {
   line-height: 40px;
 }
 
-div.watch-tagscloud-active a {
+div.watch-tagscloud-active {
 	font-weight: bold;
-	color: #ceff7e;
-	color: orange;
 	text-decoration: none;
 }
 

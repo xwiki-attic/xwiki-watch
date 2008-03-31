@@ -4,7 +4,6 @@ import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Feed;
-import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.XWikiService;
 import com.xpn.xwiki.gwt.api.client.XObject;

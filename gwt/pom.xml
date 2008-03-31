@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Watch - GWT</description>
   <properties>
-    <gwtVersion>1.3.3</gwtVersion>
+    <gwtVersion>1.4.61</gwtVersion>
   </properties>
   <dependencies>
     <dependency>
@@ -24,15 +24,10 @@
       <version>${gwtVersion}</version>
     </dependency>
     <dependency>
-      <groupId>gwt-widgets</groupId>
+      <groupId>net.sf.gwt-widget</groupId>
       <artifactId>gwt-widgets</artifactId>
-      <version>0.1.3</version>
+      <version>0.1.5</version>
     </dependency>
-    <dependency>
-      <groupId>gwttk</groupId>
-      <artifactId>gwttk</artifactId>
-      <version>0.2.2</version>
-    </dependency>  
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -68,7 +63,7 @@
                 <artifactItem>
                   <groupId>com.google.gwt</groupId>
                   <artifactId>${gwtArtifactId}</artifactId>
-                  <version>1.3.3</version>
+                  <version>${gwtVersion}</version>
                   <type>zip</type>
                 </artifactItem>
               </artifactItems>

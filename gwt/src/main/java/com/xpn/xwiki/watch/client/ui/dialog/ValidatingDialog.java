@@ -20,8 +20,8 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
+import com.xpn.xwiki.gwt.api.client.dialog.ModalMessageDialog;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.gwt.api.client.app.ModalMessageDialogBox;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -117,7 +117,7 @@ public abstract class ValidatingDialog extends Dialog
     {
         String errorMessage = response.getMessage() != null
             ? response.getMessage() : getDialogTranslationName() + ".error";
-        ModalMessageDialogBox messageDialog = new ModalMessageDialogBox(this.app,
+        ModalMessageDialog messageDialog = new ModalMessageDialog(this.app,
             app.getTranslation(getDialogTranslationName() + ".error.caption"),
             errorMessage);
     }

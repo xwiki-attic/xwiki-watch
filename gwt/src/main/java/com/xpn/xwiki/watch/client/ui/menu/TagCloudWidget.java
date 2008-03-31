@@ -81,19 +81,20 @@ public class TagCloudWidget extends WatchWidget {
                 List result = (List) list.get(i);
                 final String name = (String) result.get(0);
                 int count = ((Number)result.get(1)).intValue();
-                Hyperlink link = new Hyperlink(name, "");
+                Label label = new Label(name);
                 int pixels = 9 + count;
-                if (pixels>15)
+                if (pixels
+                    >15)
                  pixels = 15;
-                link.setStyleName(watch.getStyleName("tagscloud", "link"));
-                link.setStyleName(watch.getStyleName("tagscloud", "" + pixels));
-                tagsLink.put(name, link);
-                link.addClickListener(new ClickListener() {
+                label.addStyleName(watch.getStyleName("tagscloud", "link"));
+                label.addStyleName(watch.getStyleName("tagscloud", "" + pixels));
+                tagsLink.put(name, label);
+                label.addClickListener(new ClickListener() {
                     public void onClick(Widget widget) {
                             watch.refreshOnTagActivated(name);
                         }
                     });
-                panel.add(link);
+                panel.add(label);
             }
         }
     }
@@ -101,12 +102,13 @@ public class TagCloudWidget extends WatchWidget {
     public void setActiveTags(Object[] tags) {
         Iterator it = tagsLink.values().iterator();
         while (it.hasNext()) {
-            ((Hyperlink)it.next()).removeStyleName(watch.getStyleName("tagscloud", "active"));
+            ((Widget)it.next()).removeStyleName(watch.getStyleName("tagscloud", "active"));
         }
         for (int i=0;i<tags.length;i++) {
-            Hyperlink link = (Hyperlink) tagsLink.get(tags[i]);
-            if (link!=null)
-             link.addStyleName(watch.getStyleName("tagscloud", "active"));
+            Widget tag = (Widget) tagsLink.get(tags[i]);
+            if (tag != null) {
+                tag.addStyleName(watch.getStyleName("tagscloud", "active"));
+            }
         }
     }
 

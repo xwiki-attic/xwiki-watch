@@ -103,7 +103,7 @@ public class KeywordsWidget extends WatchWidget {
     }
     
     public class KeywordItemObject extends ItemObject {
-        protected HyperlinkComposite widget;
+        protected TextWidgetComposite widget;
 
         public KeywordItemObject(String key, Object data)
         {
@@ -116,9 +116,9 @@ public class KeywordsWidget extends WatchWidget {
                             .get(keyword.getGroup());
             String groupDisplayName;
             if (kwGroup == null) {
-            groupDisplayName = keyword.getGroup();
+                groupDisplayName = keyword.getGroup();
             } else {
-            groupDisplayName = kwGroup.getName();
+                groupDisplayName = kwGroup.getName();
             }
             String keywordDisplayName = keyword.getName() 
                 + ((!groupDisplayName.trim().equals("")) ?  (" - " + groupDisplayName) : "");
@@ -128,14 +128,14 @@ public class KeywordsWidget extends WatchWidget {
         public Widget getWidget(boolean selected)
         {
             final Keyword keyword = (Keyword)this.data;
-            Hyperlink link = new Hyperlink(this.getDisplayName(), "");
-            link.addStyleName(watch.getStyleName("keyword", "link"));
-            link.addClickListener(new ClickListener() {
+            Label keywordLabel = new Label(this.getDisplayName());
+            keywordLabel.addStyleName(watch.getStyleName("keyword", "link"));
+            keywordLabel.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                     watch.refreshOnActivateKeyword(keyword);
                 }
             });
-            widget = new HyperlinkComposite(link);
+            widget = new TextWidgetComposite(keywordLabel);
             widget.addStyleName(watch.getStyleName("keyword"));
             this.setSelected(selected);
             return widget;
@@ -144,13 +144,12 @@ public class KeywordsWidget extends WatchWidget {
         /**
          * Ugly method to change the keyword widget associated to this keyword.
          * 
-         * @param kwWidget the current widget of the keyword to change
          * @param selected wheather the item should be changed to selected or not
          */
         public void setSelected(boolean selected) {
             //remove all hyperlinks, if any
-            for (Iterator wIt = this.widget.getHyperlinks().iterator(); wIt.hasNext();) {
-                HyperlinkComposite w = (HyperlinkComposite)wIt.next();
+            for (Iterator wIt = this.widget.getWidgets().iterator(); wIt.hasNext();) {
+                TextWidgetComposite w = (TextWidgetComposite)wIt.next();
                 this.widget.remove(w);
             } 
             if (selected) {
@@ -162,8 +161,8 @@ public class KeywordsWidget extends WatchWidget {
             //now add some actions if needed
             if (selected && !keyword.getPageName().equals("")) {
                 //create a composite with link as main widget and some actions
-                Hyperlink editHyperlink = new Hyperlink(watch.getTranslation("keyword.edit"), "#");
-                editHyperlink.addClickListener(new ClickListener() {
+                Label editLabel = new Label(watch.getTranslation("keyword.edit"));
+                editLabel.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
                         KeywordDialog kwDialog = new KeywordDialog(watch, "addkeyword", 
                             Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, keyword);
@@ -190,9 +189,9 @@ public class KeywordsWidget extends WatchWidget {
                         kwDialog.show();
                     }
                 });
-                HyperlinkComposite editHyperlinkComposite = new HyperlinkComposite(editHyperlink);
-                Hyperlink deleteHyperlink = new Hyperlink(watch.getTranslation("keyword.delete"), "");
-                deleteHyperlink.addClickListener(new ClickListener() {
+                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
+                Label deleteLabel = new Label(watch.getTranslation("keyword.delete"));
+                deleteLabel.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
                        String confirmString = watch.getTranslation("removekeyword.confirm", 
                            new String[] {KeywordItemObject.this.getDisplayName()});
@@ -214,20 +213,20 @@ public class KeywordsWidget extends WatchWidget {
                        }
                    } 
                 });
-                HyperlinkComposite deleteHyperlinkComposite = new HyperlinkComposite(deleteHyperlink);
+                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
                 //set styles
-                editHyperlinkComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
+                editComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
                     + " " + watch.getStyleName("keyword", "editkeyword"));
-                deleteHyperlinkComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
+                deleteComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
                     + " " + watch.getStyleName("keyword", "deletekeyword"));
                 //add the two actions to the hyperlink composite, in reverse order since they will
                 //be floated to the right
-                this.widget.add(deleteHyperlinkComposite);
-                this.widget.add(editHyperlinkComposite);
+                this.widget.add(deleteComposite);
+                this.widget.add(editComposite);
             }
         }
 
-        public HyperlinkComposite getWidget()
+        public TextWidgetComposite getWidget()
         {
             return widget;
         }
