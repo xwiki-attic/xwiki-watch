@@ -109,7 +109,7 @@ public class AnalysisDialog extends Dialog {
                     {
                         if (DOM.eventGetType(event) == Event.ONCLICK) {
                             Element eventTarget = DOM.eventGetTarget(event);
-                            if (DOM.getAttribute(eventTarget, "tagName").trim().equalsIgnoreCase("a")) {
+                            if (DOM.getElementProperty(eventTarget, "tagName").trim().equalsIgnoreCase("a")) {
                                 //close the dialog
                                 AnalysisDialog.this.cancelDialog();
                                 //search
