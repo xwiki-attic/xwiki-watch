@@ -78,15 +78,13 @@ public class FeedDeleteDialog extends Dialog
                 public void onFailure(Throwable throwable)
                 {
                     super.onFailure(throwable);
-                    ((Watch)app).refreshFeedTree();
-                    ((Watch)app).refreshArticleList();
                 }
                 public void onSuccess(Object o)
                 {
                     super.onSuccess(o);
                     endDialog2();
-                    ((Watch)app).refreshFeedTree();
-                    ((Watch)app).refreshArticleList();
+                    ((Watch)this.app).refreshOnFeedDelete(FeedDeleteDialog.this.feed,
+                            FeedDeleteDialog.this.deleteArticlesCheckBox.isChecked());
                 }
             });
     }

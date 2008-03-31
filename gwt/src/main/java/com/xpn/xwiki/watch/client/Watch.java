@@ -326,6 +326,27 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     }
 
     /**
+     * A feed has been deleted: we must update the FilterStatus (remove the feed as the currently
+     * selected feed) and refresh interface objects impacted by this: feed tree,
+     * article list and the tag cloud if the articles of the feed have also been deleted.
+     *  
+     * @param feed deleted feed
+     * @param withArticles true if articles fetched for this feed have also been deleted,
+     *        false otherwise
+     */
+    public void refreshOnFeedDelete(Feed feed, boolean withArticles) {
+        getFilterStatus().setFeed(null);
+        getFilterStatus().setGroup(null);
+        getFilterStatus().setStart(0);
+        refreshFeedTree();
+        refreshArticleList();
+        if (withArticles) {
+            //do some other interface updates
+            refreshTagCloud();
+        }
+    }
+
+    /**
      * A group has been clicked. We need to:
      *  - invalidate the feed setting
      *  - invalidate the start number
