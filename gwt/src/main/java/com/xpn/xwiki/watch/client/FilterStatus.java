@@ -267,8 +267,10 @@ public class FilterStatus {
     {
         //make sure this date is at 23:59
         //TODO: never use deprecated API!!!
-        dateEnd.setHours(23);
-        dateEnd.setMinutes(59);
+        if (dateEnd != null) {
+            dateEnd.setHours(23);
+            dateEnd.setMinutes(59);
+        }
         this.dateEnd = dateEnd;
     }
 
