@@ -179,7 +179,8 @@ public class FeedTreeWidget  extends WatchWidget {
         {
             final Group group = (Group)this.data;
             HTML title = new HTML(group.getName(), true);
-            title.setStyleName(watch.getStyleName("feedtree","link"));
+            title.addStyleName(watch.getStyleName("feedtree","link"));
+            title.addStyleName(watch.getStyleName("feedtree","group"));
             title.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                     watch.refreshOnGroupChange(group.getPageName().trim().equals("") 
@@ -284,7 +285,8 @@ public class FeedTreeWidget  extends WatchWidget {
                     watch.refreshOnFeedChange(feed);
                 } 
             });
-            title.setStyleName(watch.getStyleName("feedtree","link"));            
+            title.addStyleName(watch.getStyleName("feedtree","link"));
+            title.addStyleName(watch.getStyleName("feedtree","feed"));
             Widget widget = title;
             
             //if selected, generate the two action links

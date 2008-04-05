@@ -224,6 +224,10 @@ div.watch-feedtree-link {
 	font-size: 100%;
 }
 
+div.watch-feedtree-group {
+    display: block;
+    width: 160px;
+}
 
 .watch-feedtree-feedaction, .watch-feedtree-groupaction, .watch-keyword-keywordaction {
 	float: right;
@@ -738,7 +742,8 @@ div.mailsubject-label,
 div.feedurl-label,
 div.query-label,
 div.mailto-label,
-div.mailcontent-label
+div.mailcontent-label,
+div.language-label
 {
 	margin: 10px 10px 0 10px;
 }
