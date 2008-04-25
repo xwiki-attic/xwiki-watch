@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-watch-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-watch-installer-generic</artifactId>
+  <name>XWiki Products - Watch - Installers - Generic</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Watch - Installers - Generic</description>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xwiki-configuration-resources</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+              </resourceBundles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <artifactId>xwiki-jetty-resources</artifactId>
+                  <version>${platform.tool.jetty.version}</version>
+                  <outputDirectory>${project.build.directory}/container/jetty</outputDirectory>
+                  <!-- Note: This the Dependency plugin doesn't support includes/excludes we
+                       copy all the jetty resources in the jetty/ dir and then using the AntRun
+                       plugin below we move all shell scripts file into the root. -->
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.products</groupId>
+                  <!-- Note: we use XE war, as watch has no war by itself, it uses an unaltered XE war -->
+                  <artifactId>xwiki-enterprise-web</artifactId>
+                  <version>${product.enterprise.version}</version>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
+                  <!-- Exclude default Hibernate config file since we're instead using one with the
+                       selected database configuration defined.
+                       NOTE: This is only supported by version 2.0-alpha-5 and above of the Dependency plugin which is
+                       why we are using the AntRun plugin below to remove the Hibernate config file. Uncomment when
+                       the 2.0-alpha-5 release is out. -->
+                  <!--excludes>**/hibernate.cfg.xml</excludes-->
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.products</groupId>
+                  <artifactId>xwiki-watch-database-${xwiki.db}</artifactId>
+                  <version>${pom.version}</version>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/database</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${xwiki.db.jdbc.groupId}</groupId>
+                  <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
+                  <version>${xwiki.db.jdbc.version}</version>
+                  <outputDirectory>${project.build.directory}/container/webapps/xwiki/WEB-INF/lib</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- The Dependency plugin only supports excluding files in version 2.0-alpha-5 and above
+             and at this time the latest released version is 2.0-alpha-4. Thus we need to perform
+             this hack to remove the Hibernate config file and to move the jetty shell script files.
+             We want to remove it since we want to use one we provide that has the HSQLDB database
+             set up by default. Remove this when version 2.0-alpha-5 is released. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <delete file="${project.build.directory}/container/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
+                <move todir="${project.build.directory}/container">
+                  <fileset dir="${project.build.directory}/container/jetty">
+                    <include name="**/*.sh" />
+                    <include name="**/*.bat" />
+                  </fileset>
+                </move>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>izpack-maven-plugin</artifactId>
+        <version>1.0-20070710-dev</version>
+        <configuration>
+          <izpackConfig>${project.build.directory}/classes/install.xml</izpackConfig>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>izpack</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Use the Maven build-helper plugin to attach the generated installer JAR to this
+           project's main artifact -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/${pom.groupId}-${pom.artifactId}-${pom.version}-installer.jar</file>
+                  <type>jar</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+    <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
+    <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
+    <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
+    <xwiki.container>${project.build.directory}/container</xwiki.container>
+    <xwiki.database>${project.build.directory}/database</xwiki.database>
+    <xwiki.png>${project.build.directory}/classes/images/xwiki.png</xwiki.png>
+    <xwiki.border1.png>${project.build.directory}/classes/images/border1.png</xwiki.border1.png>
+    <xwiki.border2.png>${project.build.directory}/classes/images/border2.png</xwiki.border2.png>
+    <xwiki.border3.png>${project.build.directory}/classes/images/border3.png</xwiki.border3.png>
+    <xwiki.border4.png>${project.build.directory}/classes/images/border4.png</xwiki.border4.png>
+    <xwiki.border5.png>${project.build.directory}/classes/images/border5.png</xwiki.border5.png>
+    <xwiki.border6.png>${project.build.directory}/classes/images/border6.png</xwiki.border6.png>
+    <xwiki.border7.png>${project.build.directory}/classes/images/border7.png</xwiki.border7.png>
+    <xwiki.border8.png>${project.build.directory}/classes/images/border8.png</xwiki.border8.png>
+    <xwiki.core.png>${project.build.directory}/classes/images/core.png</xwiki.core.png>
+    <xwiki.shortcutSpec.windows>${project.build.directory}/classes/shortcutSpec_windows.xml</xwiki.shortcutSpec.windows>
+    <xwiki.shortcutSpec.unix>${project.build.directory}/classes/shortcutSpec_unix.xml</xwiki.shortcutSpec.unix>
+    <xwiki.shortcut.icon.unix>${project.build.directory}/classes/images/xe.png</xwiki.shortcut.icon.unix>
+    <xwiki.shortcut.icon.windows>${project.build.directory}/classes/images/xe.ico</xwiki.shortcut.icon.windows>
+  </properties>
+</project>
