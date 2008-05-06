@@ -53,7 +53,8 @@
 <tags/>
 </property>
 </object>
-<content>1 $msg.get("watch.title")
+<content>#includeMacros("WatchCode.PressReviewMacros")
+1 $msg.get("watch.title")
 #startfloatingbox()
 #set($params = $xwiki.arrayList)
 #set($dispose = $params.add("[$msg.get('watch.wiki.reader') &gt; Reader]"))
@@ -95,15 +96,14 @@ $msg.get("watch.introduction")
 #end
 &lt;/div&gt;
 &lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0px; padding:10px; background-color:#E4F6FF;"&gt;
-#set($prDoc = $xwiki.getDocument("WatchCode.PressReview"))
 1.1 $msg.get("watch.wiki.articles.flagged")
-#set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;flagged=1&amp;read=0&amp;xpage=plain&amp;limit=15"))
-$xwiki.getURLContent(${url})
+## #set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;flagged=1&amp;read=0&amp;xpage=plain&amp;limit=15"))
+#htmlPressReview($doc.space, 0, 1, "", "", "", "", "", 15, "", "", false, true)
 &lt;/div&gt;
 &lt;div style="border:1px solid #CCCCCC; margin: 10px 10px 10px 0px; padding:10px; background-color:#E4F6FF;"&gt;
 1.1 $msg.get("watch.wiki.articles.read")
-#set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;read=1&amp;xpage=plain&amp;limit=15"))
-$xwiki.getURLContent(${url})
+## #set($url = $prDoc.getExternalURL("view", "&amp;space=${doc.space}&amp;read=1&amp;xpage=plain&amp;limit=15"))
+#htmlPressReview($doc.space, 1, "", "", "", "", "", "", 15, "", "", false, true)
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div style="float: left; width: 50%;"&gt;
