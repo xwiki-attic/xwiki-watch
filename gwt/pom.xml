@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
@@ -32,7 +34,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.2</version>
-    </dependency> 
+    </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-gwt</artifactId>
@@ -67,22 +69,11 @@
                   <type>zip</type>
                 </artifactItem>
               </artifactItems>
-              <outputDirectory>${java.io.tmpdir}/xwiki/gwt</outputDirectory>
+              <outputDirectory>
+                ${java.io.tmpdir}/xwiki/gwt
+              </outputDirectory>
             </configuration>
           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <configuration>
-              <source>1.4</source>
-              <target>1.4</target>
-            </configuration>
-           </execution>
         </executions>
       </plugin>
       <plugin>
@@ -90,21 +81,23 @@
         <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
         <version>1.5.2</version>
         <configuration>
-          <logLevel>WARN</logLevel> <!-- ERROR, WARN, INFO, TRACE, DEBUG, SPAM, ALL -->
-          <style>OBF</style> <!-- OBF[USCATED], PRETTY, DETAILED -->
+          <logLevel>WARN</logLevel><!-- ERROR, WARN, INFO, TRACE, DEBUG, SPAM, ALL -->
+          <style>OBF</style><!-- OBF[USCATED], PRETTY, DETAILED -->
           <runTarget>com.xpn.xwiki.watch/Watch.html</runTarget>
-          <gwtHome>${java.io.tmpdir}/xwiki/gwt/${gwtArtifactId}-${gwtVersion}</gwtHome>
+          <gwtHome>
+            ${java.io.tmpdir}/xwiki/gwt/${gwtArtifactId}-${gwtVersion}
+          </gwtHome>
           <compileTarget>
             <value>com.xpn.xwiki.watch.Watch</value>
           </compileTarget>
           <extraJvmArgs>-Xmx1024m</extraJvmArgs>
         </configuration>
         <!-- The GWT plugin is adding quotes around the path to compensate for the fact that old
-             versions of plexus utils were not adding them. Now that plexus utils is adding them
-             this is failing since they're added twice. We should try to move to version 2.x of
-             the GWT plugin since it may have been fixed there. In the meantime we force an old
-             version of plexus utils to be used.
-             See http://jira.codehaus.org/browse/MNG-3414 for more details -->
+          versions of plexus utils were not adding them. Now that plexus utils is adding them
+          this is failing since they're added twice. We should try to move to version 2.x of
+          the GWT plugin since it may have been fixed there. In the meantime we force an old
+          version of plexus utils to be used.
+          See http://jira.codehaus.org/browse/MNG-3414 for more details -->
         <dependencies>
           <dependency>
             <groupId>org.codehaus.plexus</groupId>
@@ -114,37 +107,32 @@
         </dependencies>
         <executions>
           <execution>
+            <id>compile-gwt</id>
+            <phase>compile</phase>
             <goals>
               <goal>compile</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
-	  <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-assembly-plugin</artifactId>
-		<executions>
-		  <execution>
-		    <phase>package</phase>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+           <descriptors>
+             <descriptor>src/assemble/watch.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
             <goals>
-              <goal>assembly</goal>
+              <goal>single</goal>
             </goals>
-            <configuration>
-		      <descriptors>
-		        <descriptor>src/assemble/watch.xml</descriptor>
-		      </descriptors>
-		    </configuration>
-		  </execution>
-	    </executions>
-	  </plugin>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
-	<!--
-    <resources>
-      <resource>
-        <directory>${basedir}/target/${pom.artifactId}-${pom.version}</directory>
-      </resource>
-    </resources>
-	-->
   </build>
   <profiles>
     <profile>
