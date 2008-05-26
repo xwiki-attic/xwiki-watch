@@ -57,7 +57,7 @@
 1 $msg.get("watch.title")
 #startfloatingbox()
 #set($params = $xwiki.arrayList)
-#set($dispose = $params.add("[$msg.get('watch.wiki.reader') &gt; Reader]"))
+#set($dispose = $params.add("[$msg.get('watch.wiki.reader') &gt; Reader?noDoctype=true]"))
 #set($message = $msg.get("watch.wiki.reader.goto", $params))
 #if($message.equals("watch.wiki.reader.goto"))
   [Watch Reader &gt; Reader]
