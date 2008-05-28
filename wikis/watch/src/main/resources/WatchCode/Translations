@@ -151,7 +151,7 @@ watch.addgroup.accessdenied=You are not allowed to edit this group
 
 watch.loadingstatus.caption=XWiki Watch Loading Status
 watch.loadingstatus.invitation=The loading status is the following:
-watch.articlelist_noarticle=There is no article in this feed list
+watch.articlelist.noarticle=There is no article in this feed list
 watch.articlelist.open = Open this article
 
 watch.addkeyword.keyword=Keyword:
@@ -247,7 +247,7 @@ watch.newarticles={0} New articles
 watch.articles={0} Articles
 
 watch.appname=XWiki Watch
-watch.errorwithcode=Sorry, a problem happened... Please wait a few seconds or refresh the page to go back to the reader main page.
+watch.errorwithcode=Sorry, a problem occurred... Please wait a few seconds or refresh the page to go back to the reader main page.
 watch.missing_rights=You are not allowed to perform this action
 
 watch.chooseaction.caption=Choose an action
@@ -266,16 +266,16 @@ watch.pressreview.noquery=There are no parameters for the Press Review selection
 watch.pressreview.in=in
 watch.pressreview.by=by
 
-watch.articlelist_noarticles=There are no articles for this filter
+watch.articlelist.noarticles=There are no articles for this filter
 
 watch.config=Configure
 watch.refresh=Refresh articles
 watch.article.flag.accessdenied = You are not allowed to edit this article
 watch.article.read.accessdenied = You are not allowed to edit this article
-watch.flag_this_article=Flag this article
-watch.unflag_this_article=Unflag this article
-watch.trash_this_article=Trash this article
-watch.untrash_this_article=Untrash this article
+watch.article.flag.add.caption=Flag this article
+watch.article.flag.remove.caption=Unflag this article
+watch.article.trash.add.caption=Trash this article
+watch.article.trash.remove.caption=Untrash this article
 
 watch.all=All
 watch.Ok=Ok

@@ -139,7 +139,7 @@ watch.addgroup.accessdenied=Vous n'êtes pas autorisé à éditer ce groupe
 
 watch.loadingstatus.caption=Statut du chargement de XWiki Watch
 watch.loadingstatus.invitation=Le statut du chargement est le suivant:
-watch.articlelist_noarticles=Il n'y a pas d'article dans cette liste de flux
+watch.articlelist.noarticles=Il n'y a pas d'article dans cette liste de flux
 watch.articlelist.open=Ouvrir cet article
 
 watch.addkeyword.keyword=Mot-clé:
@@ -260,16 +260,16 @@ watch.pressreview.noquery=Aucun paramètre n'est défini pour la revue de presse
 watch.pressreview.in = dans
 watch.pressreview.by=par
 
-watch.articlelist_noarticles=Il n'y a pas d'articles pour ce filtre
+watch.articlelist.noarticles=Il n'y a pas d'articles pour ce filtre
 
 watch.config=Cliquez ici pour ajouter un flux RSS, un Mot-Clef ou un Groupe
 watch.refresh=Actualiser la liste d'articles
 watch.article.flag.accessdenied = Vous n'êtes pas autorisé à éditer cet article
 watch.article.read.accessdenied = Vous n'êtes pas autorisé à éditer cet article
-watch.flag_this_article=Marquer cet article
-watch.unflag_this_article=Démarquer cet article
-watch.trash_this_article=Mettre cet article à la poubelle
-watch.untrash_this_article=Sortir cet article de la poubelle
+watch.article.flag.add.caption=Marquer cet article
+watch.article.flag.remove.caption=Démarquer cet article
+watch.article.trash.add.caption=Mettre cet article à la poubelle
+watch.article.trash.remove.caption=Sortir cet article de la poubelle
 
 watch.all=All
 watch.ok=Ok
