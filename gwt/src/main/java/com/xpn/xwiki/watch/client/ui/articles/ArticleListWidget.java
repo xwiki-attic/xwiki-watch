@@ -74,7 +74,7 @@ public class ArticleListWidget extends WatchWidget {
         panel.clear();
 
         if ((feedentries==null)||(feedentries.size()==0)) {
-            panel.add(new HTML(watch.getTranslation("articlelist_noarticles")));
+            panel.add(new HTML(watch.getTranslation("articlelist.noarticles")));
             return;
         }
 
@@ -188,7 +188,7 @@ public class ArticleListWidget extends WatchWidget {
     protected void updateActionsPanel(final FlowPanel actionsPanel, final FeedArticle article) {
         Image flagImage = new Image(watch.getSkinFile((article.getFlagStatus()==1) ? Constants.IMAGE_FLAG_ON : Constants.IMAGE_FLAG_OFF));
         flagImage.setStyleName(watch.getStyleName("article", "action-flag"));
-        flagImage.setTitle(watch.getTranslation((article.getFlagStatus()==1) ? "unflag_this_article" : "flag_this_article"));
+        flagImage.setTitle(watch.getTranslation((article.getFlagStatus()==1) ? "article.flag.remove.caption" : "article.flag.add.caption"));
         flagImage.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                     int flagstatus = article.getFlagStatus();
@@ -210,7 +210,7 @@ public class ArticleListWidget extends WatchWidget {
         actionsPanel.add(flagImage);
         Image trashImage = new Image(watch.getSkinFile((article.getFlagStatus()==-1) ? Constants.IMAGE_TRASH_ON : Constants.IMAGE_TRASH_OFF));
         trashImage.setStyleName(watch.getStyleName("article", "action-trash"));
-        trashImage.setTitle(watch.getTranslation((article.getFlagStatus()==-1) ? "untrash_this_article" : "trash_this_article"));
+        trashImage.setTitle(watch.getTranslation((article.getFlagStatus()==-1) ? "article.trash.remove.caption" : "article.trash.add.caption"));
         trashImage.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 // trash/untrash article
