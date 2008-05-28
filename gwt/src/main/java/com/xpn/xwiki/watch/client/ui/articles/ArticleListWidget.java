@@ -194,6 +194,10 @@ public class ArticleListWidget extends WatchWidget {
                     int flagstatus = article.getFlagStatus();
                     final int newflagstatus = (flagstatus==1) ? 0 : 1;
                     watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, new XWikiAsyncCallback(watch) {
+                    	public void onFailure(Throwable caught) {
+                    		super.onFailure(caught);
+                    	}
+                    	
                         public void onSuccess(Object result) {
                              super.onSuccess(result);
                              article.setFlagStatus(newflagstatus);
@@ -214,6 +218,9 @@ public class ArticleListWidget extends WatchWidget {
                 if (flagstatus!=-1) {
                  final int newflagstatus = -1;
                     watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, new XWikiAsyncCallback(watch) {
+                    	public void onFailure(Throwable caught) {
+                    		super.onFailure(caught);
+                    	}
                         public void onSuccess(Object result) {
                             super.onSuccess(result);
                              article.setFlagStatus(newflagstatus);

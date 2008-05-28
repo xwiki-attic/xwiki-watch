@@ -7,6 +7,7 @@ import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.gwt.api.client.Document;
+import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.*;
@@ -75,25 +76,32 @@ public class DataManager {
                     }
 
                     public void onSuccess(Object object) {
-                        //save the content of the feed -- should make sure that the sheet exists
-                        String feedDefaultContent = "#includeForm(\"" 
-                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_FEED + "\")";
-                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, feedDefaultContent, 
-                            new XWikiAsyncCallback(watch) {
-                                public void onFailure(Throwable throwable) {
-                                    cb.onFailure(throwable);
-                                }
-                                public void onSuccess(Object object) {
-                                    super.onSuccess(object);
-                                    // We return the page name
-                                    if (!((Boolean)object).booleanValue())
-                                        cb.onFailure(null);
-                                    else
-                                        cb.onSuccess(pageName);                            
-                                }
-                        });                        
+                        if (!((Boolean)object).booleanValue()) {
+                            String errorMessage = watch.getTranslation("addfeed.accessdenied");
+                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                        } else {                            
+                            //save the content of the feed -- should make sure that the sheet exists
+                            String feedDefaultContent = "#includeForm(\"" 
+                                    + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_FEED + "\")";
+                            watch.getXWikiServiceInstance().saveDocumentContent(pageName, feedDefaultContent, 
+                                new XWikiAsyncCallback(watch) {
+                                    public void onFailure(Throwable throwable) {
+                                        cb.onFailure(throwable);
+                                    }
+                                    public void onSuccess(Object object) {
+                                        super.onSuccess(object);
+                                        // We return the page name
+                                        if (!((Boolean)object).booleanValue()) {
+                                            String errorMessage = watch.getTranslation("addfeed.accessdenied");
+                                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                                        } else {
+                                            cb.onSuccess(pageName);
+                                        }
+                                    }
+                            });
+                        }
                     }
-                });                
+                });
             }
         });
     }
@@ -252,10 +260,12 @@ public class DataManager {
 
             public void onSuccess(Object object) {
                 // We return the page name
-                if (!((Boolean)object).booleanValue())
-                    cb.onFailure(null);
-                else
+                if (!((Boolean)object).booleanValue()) {
+                    String errorMessage = watch.getTranslation("addfeed.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                } else {
                     cb.onSuccess(pageName);
+                }
             }
         });
     }
@@ -276,9 +286,9 @@ public class DataManager {
                 cb.onFailure(throwable);
             }
             public void onSuccess(Object object) {
-                // We return the page name
                 if (!((Boolean)object).booleanValue()) {
-                    cb.onFailure(null);
+                    String errorMessage = watch.getTranslation("addgroup.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
                 } else {
                     cb.onSuccess(pageName);
                 }
@@ -301,10 +311,12 @@ public class DataManager {
 
             public void onSuccess(Object object) {
                 // We return the page name
-                if (!((Boolean)object).booleanValue())
-                    cb.onFailure(null);
-                else
+                if (!((Boolean)object).booleanValue()) {
+                    String errorMessage = watch.getTranslation("addkeyword.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                } else {
                     cb.onSuccess(pageName);
+                }
             }
         });        
     }
@@ -338,23 +350,30 @@ public class DataManager {
                     }
 
                     public void onSuccess(Object object) {
-                        //save the content of the keyword -- should make sure that the sheet exists
-                        String keywordDefaultContent = "#includeForm(\"" 
-                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_KEYWORD + "\")";
-                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, keywordDefaultContent, 
-                            new XWikiAsyncCallback(watch) {
-                                public void onFailure(Throwable throwable) {
-                                    cb.onFailure(throwable);
-                                }
-                                public void onSuccess(Object object) {
-                                    super.onSuccess(object);
-                                    // We return the page name
-                                    if (!((Boolean)object).booleanValue())
-                                        cb.onFailure(null);
-                                    else
-                                        cb.onSuccess(pageName);                            
-                                }
-                        });
+                        if (!((Boolean)object).booleanValue()) {
+                            String errorMessage = watch.getTranslation("addkeyword.accessdenied");
+                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));                            
+                        } else {
+                            //save the content of the keyword -- should make sure that the sheet exists
+                            String keywordDefaultContent = "#includeForm(\"" 
+                                    + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_KEYWORD + "\")";
+                            watch.getXWikiServiceInstance().saveDocumentContent(pageName, keywordDefaultContent, 
+                                new XWikiAsyncCallback(watch) {
+                                    public void onFailure(Throwable throwable) {
+                                        cb.onFailure(throwable);
+                                    }
+                                    public void onSuccess(Object object) {
+                                        super.onSuccess(object);
+                                        // We return the page name
+                                        if (!((Boolean)object).booleanValue()) {
+                                            String errorMessage = watch.getTranslation("addkeyword.accessdenied");
+                                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));                            
+                                        } else {
+                                            cb.onSuccess(pageName);
+                                        }
+                                    }
+                            });
+                        }
                     }
                 });
             }
@@ -388,23 +407,30 @@ public class DataManager {
                         cb.onFailure(throwable);
                     }
                     public void onSuccess(Object object) {
-                        //save the content of the group -- should make sure that the sheet exists
-                        String groupDefaultContent = "#includeForm(\"" 
-                                + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_GROUP + "\")";
-                        watch.getXWikiServiceInstance().saveDocumentContent(pageName, groupDefaultContent, 
-                            new XWikiAsyncCallback(watch) {
-                                public void onFailure(Throwable throwable) {
-                                    cb.onFailure(throwable);
-                                }
-                                public void onSuccess(Object object) {
-                                    super.onSuccess(object);
-                                    // We return the page name
-                                    if (!((Boolean)object).booleanValue())
-                                        cb.onFailure(null);
-                                    else
-                                        cb.onSuccess(pageName);                            
-                                }
-                        });
+                        if (!((Boolean)object).booleanValue()) {
+                            String errorMessage = watch.getTranslation("addgroup.accessdenied");
+                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                        } else {
+                            //save the content of the group -- should make sure that the sheet exists
+                            String groupDefaultContent = "#includeForm(\"" 
+                                    + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_GROUP + "\")";
+                            watch.getXWikiServiceInstance().saveDocumentContent(pageName, groupDefaultContent, 
+                                new XWikiAsyncCallback(watch) {
+                                    public void onFailure(Throwable throwable) {
+                                        cb.onFailure(throwable);
+                                    }
+                                    public void onSuccess(Object object) {
+                                        super.onSuccess(object);
+                                        // We return the page name
+                                        if (!((Boolean)object).booleanValue()) {
+                                            String errorMessage = watch.getTranslation("addgroup.accessdenied");
+                                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                                        } else {
+                                            cb.onSuccess(pageName);
+                                        }
+                                    }
+                            });
+                        }
                     }
                 });
                 
@@ -453,7 +479,8 @@ public class DataManager {
                             cb.onSuccess(result);
                         }
                     } else {
-                        cb.onFailure(null);
+                        String errorMessage = watch.getTranslation("removefeed.accessdenied");
+                        cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));                            
                     }                    
                 }
             });
@@ -472,18 +499,18 @@ public class DataManager {
             //TODO: decide what to do if one update fails
             Collection feedList = (Collection)((Map)watch.getConfig().getFeedsByGroupList()
                                   .get(group.getPageName())).values();
- 	   	    for (Iterator feedListIt = feedList.iterator(); feedListIt.hasNext();) {
- 	   	        Feed currentFeed = (Feed)feedListIt.next();
- 	   	        currentFeed.getGroups().remove(group.getPageName());
- 	   	        this.updateFeed(currentFeed, new XWikiAsyncCallback(watch) {
- 	   	            public void onSuccess(Object result) {
- 	   	                super.onSuccess(result);
- 	   	            }
- 	   	            public void onFailure(Throwable caught) {
- 	   	                super.onFailure(caught);
- 	   	            }
- 	   	        });
- 	   	    }
+            for (Iterator feedListIt = feedList.iterator(); feedListIt.hasNext();) {
+                Feed currentFeed = (Feed)feedListIt.next();
+                currentFeed.getGroups().remove(group.getPageName());
+                this.updateFeed(currentFeed, new XWikiAsyncCallback(watch) {
+                    public void onSuccess(Object result) {
+                        super.onSuccess(result);
+                    }
+                    public void onFailure(Throwable caught) {
+                        super.onFailure(caught);
+                    }
+                });
+            }
             
             //update the keywords for this group and delete them
             List keywords = watch.getConfig().getKeywords();
@@ -499,13 +526,13 @@ public class DataManager {
                         public void onFailure(Throwable caught) {
                             super.onFailure(caught);
                         }
-                    });                    
+                    });
                 }
             }
             
- 	   	    //now delete the group
- 	   	    watch.getXWikiServiceInstance().deleteDocument(group.getPageName(), 
- 	   	            new XWikiAsyncCallback(watch) {
+            //now delete the group
+            watch.getXWikiServiceInstance().deleteDocument(group.getPageName(), 
+                    new XWikiAsyncCallback(watch) {
                 public void onFailure(Throwable caught) {
                     super.onFailure(caught);
                     cb.onFailure(caught);
@@ -513,7 +540,12 @@ public class DataManager {
 
                 public void onSuccess(Object result) {
                     super.onSuccess(result);
-                    cb.onSuccess(result);
+                    if (!((Boolean)result).booleanValue()) {
+                        String errorString = watch.getTranslation("removegroup.accessdenied");
+                        cb.onFailure(getAccessDeniedException(errorString, errorString));
+                    } else {
+                        cb.onSuccess(result);
+                    }
                 }
             });
         } catch(Exception e) {
@@ -536,7 +568,12 @@ public class DataManager {
 
                 public void onSuccess(Object result) {
                     super.onSuccess(result);
-                    cb.onSuccess(result);
+                    if (!((Boolean)result).booleanValue()) {
+                        String errorString = watch.getTranslation("removekeyword.accessdenied");
+                        cb.onFailure(getAccessDeniedException(errorString, errorString));
+                    } else {
+                        cb.onSuccess(result);
+                    }
                 }
             });
         } catch(Exception e) {
@@ -552,7 +589,12 @@ public class DataManager {
             }
             public void onSuccess(Object object) {
                 super.onSuccess(object);
-                cb.onSuccess(object);
+                if (!((Boolean)object).booleanValue()) {
+                    String errorMessaqe = watch.getTranslation("commentadd.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessaqe, errorMessaqe));
+                } else {
+                    cb.onSuccess(object);
+                }
             }
         });
     }
@@ -664,7 +706,7 @@ public class DataManager {
         });
     }
 
-    public void updateTags(FeedArticle article, String tags, AsyncCallback cb) {
+    public void updateTags(FeedArticle article, String tags, final AsyncCallback cb) {
         List taglist = new ArrayList();
         tags = (tags==null) ? "" : tags;
         String[] tagarray = tags.split(Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
@@ -673,7 +715,20 @@ public class DataManager {
                 taglist.add(tagarray[i].trim());
             }
         }
-        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", "tags", taglist, cb);
+        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
+                "tags", taglist, new AsyncCallback(){
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+            public void onSuccess(Object result) {
+                if (!((Boolean)result).booleanValue()) {
+                    String errorMessage = watch.getTranslation("tagsadd.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                } else {
+                    cb.onSuccess(result);
+                }
+            }
+        });
     }
 
     public void getTagsList(AsyncCallback cb) {
@@ -702,12 +757,38 @@ public class DataManager {
         watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "." + Constants.QUERY_PAGE_ARTICLENUMBER, params, 0, 0, cb);
     }
 
-    public void updateArticleFlagStatus(FeedArticle article, int newflagstatus, XWikiAsyncCallback cb) {
-        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", "flag", newflagstatus, cb);
+    public void updateArticleFlagStatus(FeedArticle article, int newflagstatus, final XWikiAsyncCallback cb) {
+        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
+                "flag", newflagstatus, new AsyncCallback() {
+            public void onFailure(Throwable caught) {
+                cb.onFailure(caught);
+            }
+            public void onSuccess(Object result) {
+                if (!((Boolean)result).booleanValue()) {
+                    String errorMessage = watch.getTranslation("article.flag.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                } else {
+                    cb.onSuccess(result);
+                }
+            }
+        });
     }
 
-    public void updateArticleReadStatus(FeedArticle article, AsyncCallback cb) {
-        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", "read", 1, cb);
+    public void updateArticleReadStatus(FeedArticle article, final AsyncCallback cb) {
+        watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
+                "read", 1, new AsyncCallback() {
+            public void onFailure(Throwable caught) {
+                cb.onFailure(caught);
+            }
+            public void onSuccess(Object result) {
+                if (!((Boolean)result).booleanValue()) {
+                    String errorMessage = watch.getTranslation("article.read.accessdenied");
+                    cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                } else {
+                    cb.onSuccess(result);
+                }            
+            }
+        });
     }
 
     public void getAnalysisHTML(FilterStatus filterStatus, String language, AsyncCallback cb) {
@@ -748,5 +829,10 @@ public class DataManager {
             map.put("withcomments", "0");
         }
             watch.getXWikiServiceInstance().getDocumentContent(sendEmailPage, true, map, cb);
+    }
+    
+    protected XWikiGWTException getAccessDeniedException(String message, String fullMessage) {
+        //TODO: define an exception constants class in xwiki-web-gwt api
+        return new XWikiGWTException(message, fullMessage, 9001, 19);
     }
 }

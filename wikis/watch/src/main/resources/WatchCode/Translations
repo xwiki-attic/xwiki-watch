@@ -121,6 +121,7 @@ watch.button.cancel=Cancel
 watch.button.next=Next
 watch.button.back=Back
 watch.addfeed.noselection=You have not selected any feed
+watch.addfeed.accessdenied=You are not allowed to edit feeds
 watch.addfeed.caption=Add a RSS Feed
 watch.addfeed.invitation=You can choose from the following sources:
 
@@ -134,8 +135,11 @@ watch.addfeed.button.wikio.description=Create and add a Feed from Wikio
 watch.removefeed.caption=Remove feed
 watch.removefeed.confirm=Are you sure you want to delete feed "{0}"?
 watch.removefeed.withArticles=Also delete fetched articles
+watch.removefeed.accessdenied=You are not allowed to delete this feed
 watch.removegroup.confirm=Are you sure you want to delete group "{0}"?
+watch.removegroup.accessdenied=You are not allowed to delete this group
 watch.removekeyword.confirm=Are you sure you want to delete keyword "{0}"?
+watch.removekeyword.accessdenied=You are not allowed to delete this keyword
 
 watch.addgroup.invitation=Please add a group below
 watch.addgroup.group=Group Name
@@ -143,6 +147,7 @@ watch.addgroup.caption=Add a Group
 watch.addgroup.nogroup=Please input a Group name
 watch.addgroup.notuniquename=A group with this name already exists, please choose another name
 watch.addgroup.error.caption=Add group error
+watch.addgroup.accessdenied=You are not allowed to edit this group
 
 watch.loadingstatus.caption=XWiki Watch Loading Status
 watch.loadingstatus.invitation=The loading status is the following:
@@ -156,6 +161,7 @@ watch.addkeyword.nokeyword=Please input a Keyword
 watch.addkeyword.notuniquename=This keyword already exists, please choose a different keyword or a different group
 watch.addkeyword.groups=Please choose a group for this Keyword
 watch.addkeyword.error.caption=Add keyword error
+watch.addkeyword.accessdenied=You are not allowed to edit this keyword
 
 watch.standard.caption=Edit Feed
 watch.standard.error.caption=Update Feed Error
@@ -229,17 +235,20 @@ watch.tagsadd.caption=Add a Tag
 watch.tagsadd.invitation=Please edit the tags for this article below
 watch.tagsadd.tags=Tags:
 watch.tagsadd.notag=Please a Tag in the input field before clicking on next
+watch.tagsadd.accessdenied=You are not allowed to edit this article
 
 watch.commentadd.caption=Add a Comment
 watch.commentadd.invitation=Please enter your comment for this article below
 watch.commentadd.comment=Comment:
 watch.commentadd.nocomment=Please add your comment in the box below before clicking on next
+watch.commentadd.accessdenied=You are not allowed to add a comment on this article
 
 watch.newarticles={0} New articles
 watch.articles={0} Articles
 
 watch.appname=XWiki Watch
 watch.errorwithcode=Sorry, a problem happened... Please wait a few seconds or refresh the page to go back to the reader main page.
+watch.missing_rights=You are not allowed to perform this action
 
 watch.chooseaction.caption=Choose an action
 watch.chooseaction.invitation=Do you want to remove or update this feed ?
@@ -261,6 +270,8 @@ watch.articlelist_noarticles=There are no articles for this filter
 
 watch.config=Configure
 watch.refresh=Refresh articles
+watch.article.flag.accessdenied = You are not allowed to edit this article
+watch.article.read.accessdenied = You are not allowed to edit this article
 watch.flag_this_article=Flag this article
 watch.unflag_this_article=Unflag this article
 watch.trash_this_article=Trash this article

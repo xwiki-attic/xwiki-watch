@@ -109,6 +109,7 @@ watch.button.cancel=Annuler
 watch.button.next=Suivant
 watch.button.back=Retour
 watch.addfeed.noselection=Vous n'avez sélectionné aucun flux
+watch.addfeed.accessdenied=Vous n'êtes pas autorisé à éditer ce flux
 watch.addfeed.caption=Ajouter un flux RSS
 watch.addfeed.invitation=Vous pouvez choisir l'une des sources suivantes pour ce flux:
 
@@ -122,8 +123,11 @@ watch.addfeed.button.wikio.description=Créez et ajoutez un flux depuis Wikio
 watch.removefeed.caption=Effacer flux
 watch.removefeed.confirm=Étes-vous sûr de vouloir effacer le flux "{0}"?
 watch.removefeed.withArticles=Supprimer également les articles récupérés
+watch.removefeed.accessdenied=Vous n'êtes pas autorisé à effacer ce flux
 watch.removegroup.confirm=Étes-vous sûr de vouloir effacer le group "{0}"?
+watch.removegroup.accessdenied=Vous n'êtes pas autorisé à effacer ce groupe
 watch.removekeyword.confirm=Étes-vous sûr de vouloir effacer le mot-clé "{0}"?
+watch.removekeyword.accessdenied=Vous n'êtes pas autorisé à effacer ce mot-clé
 
 watch.addgroup.invitation=Veuillez ajouter le nom du groupe ci dessous
 watch.addgroup.group=Noms du groupe:
@@ -131,6 +135,7 @@ watch.addgroup.caption=Ajouter un groupe
 watch.addgroup.nogroup=Veuillez entrer un nom pour le groupe
 watch.addgroup.notuniquename=Un groupe avec un tel nom existe déjà. Merci de bien vouloir choisir un autre nom
 watch.addgroup.error.caption=Erreur d'ajout du groupe  
+watch.addgroup.accessdenied=Vous n'êtes pas autorisé à éditer ce groupe
 
 watch.loadingstatus.caption=Statut du chargement de XWiki Watch
 watch.loadingstatus.invitation=Le statut du chargement est le suivant:
@@ -141,9 +146,10 @@ watch.addkeyword.keyword=Mot-clé:
 watch.addkeyword.invitation=Veuillez ajouter votre mot-clé ci-dessous
 watch.addkeyword.caption=Ajouter un mot-clé 
 watch.addkeyword.nokeyword=Veuillez entrer un mot-clé
-watch.addgroup.notuniquename=Ce mot-clé existe déjà. Merci de bien vouloir choisir un autre mot-clé ou un autre groupe
+watch.addkeyword.notuniquename=Ce mot-clé existe déjà. Merci de bien vouloir choisir un autre mot-clé ou un autre groupe
 watch.addkeyword.groups=Groupes
-watch.addkeyword.error.caption=Erreur d'ajout du mot-clé  
+watch.addkeyword.error.caption=Erreur d'ajout du mot-clé 
+watch.addkeyword.accessdenied=Vous n'êtes pas autorisé à éditer ce mot-clé 
 
 watch.standard.caption=Edition du flux
 watch.standard.error.caption=Erreur d'edition du flux
@@ -217,11 +223,13 @@ watch.tagsadd.caption=Ajouter un Tag
 watch.tagsadd.invitation=Vous pouvez éditer les tags pour cet article ci-dessous
 watch.tagsadd.tags=Tags: 
 watch.tagsadd.notag=Veuillez ajouter un tag avant de cliquer sur suivant
+watch.article.flag.accessdenied = Vous n'êtes pas autorisé à éditer cet article
 
 watch.commentadd.caption=Ajouter un Commentaire
 watch.commentadd.invitation=Veuillez entrer votre commentaire pour cet article ci-dessous
 watch.commentadd.comment=Commentaire: 
 watch.commentadd.nocomment=Veuillez ajouter un commentaire avant de cliquer sur suivant
+watch.commentadd.accessdenied=Vous n'êtes pas autorisé à ajouter un commentaire à cet article
 
 watch.newarticles={0} Nouveaux Articles 
 watch.articles={0} Articles
@@ -233,7 +241,8 @@ watch.technoratitag.group=Veuillez choisir un groupe pour ce flux:
 watch.feedster.group=Veuillez choisir un groupe pour ce flux: 
 
 watch.appname=XWiki Watch 
-watch.errorwithcode=Un problème est survenu. Actualisez s'il vous plaît la page courante pour réinitialiser le lecteur de flux.  
+watch.errorwithcode=Un problème est survenu. Actualisez s'il vous plaît la page courante pour réinitialiser le lecteur de flux. 
+watch.missing_rights=Vous n'êtes pas autorisé à réaliser cette action 
 
 watch.chooseaction.caption=Choisissez votre action
 watch.chooseaction.invitation=Voulez vous editer ou effacer ce flux ?
@@ -255,6 +264,8 @@ watch.articlelist_noarticles=Il n'y a pas d'articles pour ce filtre
 
 watch.config=Cliquez ici pour ajouter un flux RSS, un Mot-Clef ou un Groupe
 watch.refresh=Actualiser la liste d'articles
+watch.article.flag.accessdenied = Vous n'êtes pas autorisé à éditer cet article
+watch.article.read.accessdenied = Vous n'êtes pas autorisé à éditer cet article
 watch.flag_this_article=Marquer cet article
 watch.unflag_this_article=Démarquer cet article
 watch.trash_this_article=Mettre cet article à la poubelle
