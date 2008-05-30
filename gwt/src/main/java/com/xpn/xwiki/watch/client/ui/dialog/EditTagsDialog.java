@@ -76,7 +76,7 @@ public class EditTagsDialog extends Dialog {
         tagsTextBox.setVisibleLength(30);
         tagsTextBox.setName("tags");
         WordListSuggestOracle tagListOracle = new WordListSuggestOracle(new TagListSuggestOracle((Watch)this.app),
-                Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
+                Constants.PROPERTY_TAGS_SEPARATORS_EDIT, true);
         tagsSuggestBox = new SuggestBox(tagListOracle, tagsTextBox);
         tagsTextBox.addStyleName(getCSSName("tags"));
         if (tags != null) {
