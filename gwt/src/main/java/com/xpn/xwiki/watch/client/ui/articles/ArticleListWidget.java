@@ -215,20 +215,25 @@ public class ArticleListWidget extends WatchWidget {
             public void onClick(Widget widget) {
                 // trash/untrash article
                 int flagstatus = article.getFlagStatus();
-                if (flagstatus!=-1) {
-                 final int newflagstatus = -1;
-                    watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, new XWikiAsyncCallback(watch) {
-                    	public void onFailure(Throwable caught) {
-                    		super.onFailure(caught);
-                    	}
-                        public void onSuccess(Object result) {
-                            super.onSuccess(result);
-                             article.setFlagStatus(newflagstatus);
-                             actionsPanel.clear();
-                             updateActionsPanel(actionsPanel, article);
-                        }
-                    });
+                final int newflagstatus;
+                if (flagstatus == -1) {
+                    // the article is trashed, untrash it
+                    newflagstatus = 0;
+                } else {
+                    //the article isn't trashed, it can be trashed
+                    newflagstatus = -1;
                 }
+                watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, new XWikiAsyncCallback(watch) {
+                	public void onFailure(Throwable caught) {
+                		super.onFailure(caught);
+                	}
+                    public void onSuccess(Object result) {
+                        super.onSuccess(result);
+                         article.setFlagStatus(newflagstatus);
+                         actionsPanel.clear();
+                         updateActionsPanel(actionsPanel, article);
+                    }
+                });
             }
         });
         actionsPanel.add(trashImage);
