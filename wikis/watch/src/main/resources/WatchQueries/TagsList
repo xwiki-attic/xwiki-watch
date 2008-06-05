@@ -53,5 +53,5 @@
 <tags/>
 </property>
 </object>
-<content>select elements(entry.tags), count(*) from XWiki.FeedEntryClass as entry, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=entry.id and doc.web='${request.space}' group by col_0_0_</content>
+<content>select elements(entry.tags), count(*) from XWiki.FeedEntryClass as entry, XWikiDocument as doc, BaseObject as obj where doc.fullName=obj.name and obj.id=entry.id and doc.web='${request.space}' group by col_0_0_ order by lower(col_0_0_) asc</content>
 </xwikidoc>

@@ -87,6 +87,15 @@ public class KeywordsWidget extends WatchWidget {
         keywordsLink.clear();
         List keywords = watch.getConfig().getKeywords();
         if (keywords!=null) {
+            //sort the keywords alphabetically case insensitive by the keyword
+            Collections.sort(keywords, new Comparator() {
+                public int compare(Object o1, Object o2)
+                {
+                    Keyword kw1 = (Keyword)o1;
+                    Keyword kw2 = (Keyword)o2;
+                    return kw1.getName().toLowerCase().compareTo(kw2.getName().toLowerCase());
+                }
+            });
             Iterator it = keywords.iterator();
             while (it.hasNext()) {
                 final Keyword keyword = (Keyword) it.next();
