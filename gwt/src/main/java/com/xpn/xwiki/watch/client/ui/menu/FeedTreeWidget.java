@@ -81,10 +81,121 @@ public class FeedTreeWidget  extends WatchWidget {
     }
 
     public void refreshData() {
-        // we need to make sure the feed tree has been prepared
-        makeFeedTree();
+        boolean remakeRequired = remakeTreeRequired();
+        boolean updateResult = true;
+        if (!remakeRequired) {
+            updateResult = updateFeedTree();
+        }
+        //if a remake was required or the update has failed, remake the tree
+        if (remakeRequired || !updateResult) {
+            makeFeedTree();
+        }
     }
 
+    /**
+     * Check if tree needs to be rebuilt. This happens when a feed has been added or deleted or a feed has been 
+     * moved from a group to another, or when a feed / group has been renamed and the order of the nodes has
+     * changed due to this rename. 
+     * The comparison is made by comparing the current tree with the data from config.
+     * TODO: implement correctly the notification mechanism to pass events to the UI so that we know 
+     * exactly which type of update we are doing and this function is not needed any more.
+     * see http://jira.xwiki.org/jira/browse/XWATCH-83
+     * 
+     * @return true if a rebuild of the whole feed tree is needed, false if widgets update is enough
+     */
+    private boolean remakeTreeRequired()
+    {
+        if (this.groupTree == null) {
+            return true;
+        }
+        Map feedsbygroup = watch.getConfig().getFeedsByGroupList();
+        Map groups = watch.getConfig().getGroups();
+        // check groups and their order
+        List groupNames = new ArrayList(feedsbygroup.keySet());
+        if (groupNames.size() != this.groupTree.getItemCount()) {
+            return true;
+        }
+        Collections.sort(groupNames);
+        for (int i = 0; i < groupNames.size(); i++) {
+            TreeItem currentGroupItem = this.groupTree.getItem(i);
+            GroupTreeItemObject groupUserObject = (GroupTreeItemObject)currentGroupItem.getUserObject();
+            String treeGroupName = ((Group)groupUserObject.getData()).getName();
+            if (!(((Group)groups.get(groupNames.get(i))).getName()).equals(treeGroupName)) {
+                //the group on this position does not match
+                return true;
+            }
+            Map groupFeeds = (Map)feedsbygroup.get(groupNames.get(i));
+            //check feed names in this group, and their order
+            List feedNames = new ArrayList(groupFeeds.keySet());
+            if (feedNames.size() != currentGroupItem.getChildCount()) {
+                return true;
+            }
+            Collections.sort(feedNames);
+            for (int j = 0; j < feedNames.size(); j++) {
+                if (!feedNames.get(j).equals(
+                    ((Feed) ((FeedTreeItemObject) currentGroupItem.getChild(j).getUserObject()).getData()).getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Updates the feed tree with the new data. Iterates through all the groups and feeds and resets their data with the 
+     * new data obtained from config, refreshing the displayed widget. It also resets selection of the tree widget 
+     * according to the tree item selection. 
+     * 
+     * @return true if update has succeeded, false if inconsistencies have been found during the update process.
+     * call {@link FeedTreeWidget#makeFeedTree()} to create the tree from scratch if this function fails.
+     */
+    private boolean updateFeedTree()
+    {
+        //update the feed tree according to the new data
+        Map feedsbygroup = watch.getConfig().getFeedsByGroupList();
+        List groupKeys = new ArrayList(feedsbygroup.keySet());
+        Collections.sort(groupKeys);
+        Map groups = watch.getConfig().getGroups();
+        for (int i = 0; i < this.groupTree.getItemCount(); i++) {
+            TreeItem currentGroupItem = this.groupTree.getItem(i);
+            GroupTreeItemObject groupUserObject = (GroupTreeItemObject)currentGroupItem.getUserObject();
+            String currentGroupKey = (String)groupKeys.get(i);
+            Group foundGroup = (Group) groups.get(currentGroupKey);
+            //special case for the All group
+            if (foundGroup == null) {
+                foundGroup = new Group();
+                foundGroup.setName(currentGroupKey);
+            }
+            groupUserObject.setData(foundGroup, true);
+            //set selected if needed
+            groupUserObject.setSelected(currentGroupItem.isSelected());
+            Map groupFeeds = (Map) feedsbygroup.get(currentGroupKey);
+            //for each feed in the tree, find it in the data map and update it
+            for (int j = 0; j < currentGroupItem.getChildCount(); j++) {
+                TreeItem currentFeedItem = currentGroupItem.getChild(j);
+                FeedTreeItemObject feedUserObject = (FeedTreeItemObject)currentFeedItem.getUserObject();
+                Feed currentTreeFeed = (Feed)feedUserObject.getData();
+                //get feed from the new data
+                Feed foundFeed = (Feed)groupFeeds.get(currentTreeFeed.getName());
+                if (foundFeed == null) {
+                    //then there is an inconsistency of some sort, better remake tree
+                    return false;
+                } else {
+                    //otherwise, reset the feed of this FeedTreeItemObject and refresh it
+                    feedUserObject.setData(foundFeed, true);
+                    //set widget's state to tree item state
+                    feedUserObject.setSelected(currentFeedItem.isSelected());
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Creates the feed tree from scratch. It is called whenever a radical update of the tree has to be done, i.e.
+     * {@link FeedTreeWidget#remakeTreeRequired()} returns true, or {@link FeedTreeWidget#updateFeedTree()} returns
+     * false.
+     */
     private void  makeFeedTree() {
         //get the state of the tree items on first level -> the groups tree items
         HashMap itemsState = new HashMap();
@@ -169,35 +280,87 @@ public class FeedTreeWidget  extends WatchWidget {
         // Watch.setMaxHeight(panel);
     }
     
-    public class GroupTreeItemObject extends ItemObject {
+    public abstract class TreeItemObject extends ItemObject {
+        //TODO: push this to the ItemObject
+        protected TextWidgetComposite widget;
+
+        public TreeItemObject(String key, Object data)
+        {
+            super(key, data);
+        }
+
+        //TODO: push this to the ItemObject
+        public Object getData() 
+        {
+            return this.data;
+        }
+
+        public void setData(Object data, boolean refreshWidget)
+        {
+            this.data = data;
+            if (refreshWidget)
+            {
+                ((HTML)((TextWidgetComposite)this.widget).getMainWidget()).setHTML(getTitle());
+            }
+        }
+
+        public abstract String getTitle();
+
+        public abstract void setSelected(boolean selected);
+    }
+
+    public class GroupTreeItemObject extends TreeItemObject {
         public GroupTreeItemObject(String key, Object data)
         {
             super(key, data);
         }
 
+        public String getTitle()
+        {
+            return ((Group)getData()).getName();
+        }
+
         public Widget getWidget(boolean selected)
         {
-            final Group group = (Group)this.data;
-            HTML title = new HTML(group.getName(), true);
-            title.addStyleName(watch.getStyleName("feedtree","link"));
-            title.addStyleName(watch.getStyleName("feedtree","group"));
-            title.addClickListener(new ClickListener() {
-                public void onClick(Widget widget) {
-                    watch.refreshOnGroupChange(group.getPageName().trim().equals("") 
-                                               ? group.getName() : group.getPageName());
-                }
-            });            
-            Widget widget = title;
+            if (this.widget == null) {
+                HTML title = new HTML(getTitle(), true);
+                title.addStyleName(watch.getStyleName("feedtree","link"));
+                title.addStyleName(watch.getStyleName("feedtree","group"));
+                title.addClickListener(new ClickListener() {
+                    public void onClick(Widget widget) {
+                        Group group = (Group)getData();
+                        watch.refreshOnGroupChange(group.getPageName().trim().equals("") 
+                                                   ? group.getName() : group.getPageName());
+                    }
+                });
+                this.widget = new TextWidgetComposite(title);
+            }
+            this.setSelected(selected);
+            return this.widget;
+        }
+
+        public void setSelected(boolean selected)
+        {
+            if (this.widget == null) {
+                //nothing to select
+                return;
+            }
+
+            //clear all the widgets in this composite
+            for (Iterator wIt = this.widget.getWidgets().iterator(); wIt.hasNext();) {
+                TextWidgetComposite w = (TextWidgetComposite)wIt.next();
+                this.widget.remove(w);
+            }
+
+            Group group = (Group)getData();
             //if group is All group or it is a non-existent group, we shouldn't be able to edit it
-            if (selected && (!group.getName().equals(watch.getTranslation("all")))
-                && !group.getPageName().equals("")) {
-                //create a composite with link as main widget and some actions
-                widget = new TextWidgetComposite(title);
+            if (selected && (!group.getName().equals(watch.getTranslation("all"))) && !group.getPageName().equals("")) {
+                // create a composite with link as main widget and some actions
                 Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
                 editLabel.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
                         GroupDialog gDialog = new GroupDialog(watch, "addgroup", 
-                            Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, group);
+                            Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, (Group)getData());
                         gDialog.setAsyncCallback(new AsyncCallback() {
                             public void onFailure(Throwable throwable) {
                                 //nothing
@@ -225,11 +388,11 @@ public class FeedTreeWidget  extends WatchWidget {
                 Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
                 deleteLabel.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
-                       String confirmString = watch.getTranslation("removegroup.confirm", 
-                                                                   new String[] {group.getName()});
+                       String confirmString =
+                            watch.getTranslation("removegroup.confirm", new String[] {((Group) getData()).getName()});
                        boolean confirm = Window.confirm(confirmString);
                        if (confirm) {
-                           watch.getDataManager().removeGroup(group, new XWikiAsyncCallback(watch) {
+                           watch.getDataManager().removeGroup((Group)getData(), new XWikiAsyncCallback(watch) {
                                public void onFailure(Throwable caught) {
                                    super.onFailure(caught);
                                }
@@ -253,50 +416,70 @@ public class FeedTreeWidget  extends WatchWidget {
                     + " " + watch.getStyleName("feedtree", "deletegroup"));
                 //add the two actions to the composite, in reverse order since they will
                 //be floated to the right
-                ((TextWidgetComposite)widget).add(deleteComposite);
-                ((TextWidgetComposite)widget).add(editComposite);
+                widget.add(deleteComposite);
+                widget.add(editComposite);
             }
-            return widget;
         }
     }
     
-    public class FeedTreeItemObject extends ItemObject {
-
+    public class FeedTreeItemObject extends TreeItemObject {
         public FeedTreeItemObject(String key, Object data)
         {
             super(key, data);
         }
         
-        private String getFavIcon(Feed feed) {
-            return watch.getFavIcon(feed);
+        public String getTitle() {
+            Feed feed = (Feed)getData();
+            String feedTitle =  feed.getName() + "(" + feed.getNb() + ")";
+            String imgurl = watch.getFavIcon(feed);
+            if (imgurl != null) {
+                feedTitle =
+                    "<img src=\"" + imgurl + "\" class=\"" + watch.getStyleName("feedtree", "logo-icon")
+                        + "\" alt=\"\" />" + feedTitle;
+            }
+            return feedTitle;
         }
-
+        
         public Widget getWidget(boolean selected)
         {
-            //cast data to feed
-            final Feed feed = (Feed)this.data;
-            String feedtitle =  feed.getName() + "(" + feed.getNb() + ")";
-            String imgurl = getFavIcon(feed);     
-            if (imgurl!=null)
-             feedtitle = "<img src=\"" + imgurl + "\" class=\"" + watch.getStyleName("feedtree","logo-icon") + "\" alt=\"\" />" + feedtitle;
-            HTML title = new HTML(feedtitle, true);
-            title.addClickListener(new ClickListener() {
-                public void onClick(Widget widget) {
-                    watch.refreshOnFeedChange(feed);
-                } 
-            });
-            title.addStyleName(watch.getStyleName("feedtree","link"));
-            title.addStyleName(watch.getStyleName("feedtree","feed"));
-            Widget widget = title;
+            if (widget == null) {
+                //create the widget
+                HTML title = new HTML(getTitle(), true);
+                title.addClickListener(new ClickListener() {
+                    public void onClick(Widget widget) {
+                        watch.refreshOnFeedChange((Feed)getData());
+                    } 
+                });
+                title.addStyleName(watch.getStyleName("feedtree","link"));
+                title.addStyleName(watch.getStyleName("feedtree","feed"));
+                widget = new TextWidgetComposite(title);
+            }
+            //set selected or unselected
+            this.setSelected(selected);
+            return widget;
+        }
+
+        public void setSelected(boolean selected)
+        {
+            if (this.widget == null) {
+                //nothing to select, no widget
+                return;
+            }
+            //clear all the widgets in this composite
+            for (Iterator wIt = this.widget.getWidgets().iterator(); wIt.hasNext();) {
+                TextWidgetComposite w = (TextWidgetComposite)wIt.next();
+                this.widget.remove(w);
+            }
             
             //if selected, generate the two action links
             if (selected) {
-                widget = new TextWidgetComposite(title);
                 //create the inner item
                 Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
                 editLabel.addClickListener(new ClickListener() {
                     public void onClick (Widget widget) {
-                        FeedDialog feedDialog = new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, feed);
+                        FeedDialog feedDialog =
+                            new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT,
+                                (Feed) getData());
                         feedDialog.setAsyncCallback(new AsyncCallback() {
                             public void onFailure(Throwable throwable) {
                                 //nothing
@@ -325,7 +508,7 @@ public class FeedTreeWidget  extends WatchWidget {
                 deleteLabel.addClickListener(new ClickListener() {
                    public void onClick(Widget widget) {
                        //use a delete feed dialog
-                       FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", feed);
+                       FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", (Feed)getData());
                        deleteDialog.show();
                    }
                 });
@@ -338,10 +521,9 @@ public class FeedTreeWidget  extends WatchWidget {
                 
                 //add the two actions to the composite, in reverse order since they will
                 //be floated to the right
-                ((TextWidgetComposite)widget).add(deleteComposite);
-                ((TextWidgetComposite)widget).add(editComposite);
+                widget.add(deleteComposite);
+                widget.add(editComposite);
             }
-            return widget;
         }
     }
 }

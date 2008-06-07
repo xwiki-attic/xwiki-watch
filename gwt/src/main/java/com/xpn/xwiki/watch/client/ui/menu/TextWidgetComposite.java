@@ -39,4 +39,9 @@ public class TextWidgetComposite extends Composite
         }
         return widgets;
     }
+
+    public Widget getMainWidget()
+    {
+        return mainWidget;
+    }
 }
