@@ -252,7 +252,7 @@ public class FeedTreeWidget  extends WatchWidget {
                     Feed feed = (Feed) groupFeeds.get(feedname);
                     //set it's userObject to the name of the group + name of the feed since a 
                     //feed can be part of multiple groups and we need to identify it uniquely.
-                    String itemTreeKey = groupname + "." + feedname;
+                    String itemTreeKey = groupname + "." + feed.getPageName();
                     ItemObject feedObj = new FeedTreeItemObject(itemTreeKey, feed);
                     TreeItem feedItem = new TreeItem();
                     feedItem.setUserObject(feedObj);
