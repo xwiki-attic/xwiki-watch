@@ -41,6 +41,7 @@ import java.util.*;
 
 public class FeedTreeWidget  extends WatchWidget {
     private Tree groupTree = new Tree();
+    
     public FeedTreeWidget() {
         super();
     }
@@ -115,7 +116,7 @@ public class FeedTreeWidget  extends WatchWidget {
         if (groupNames.size() != this.groupTree.getItemCount()) {
             return true;
         }
-        Collections.sort(groupNames);
+        Collections.sort(groupNames, new GroupComparator(groups, "All"));
         for (int i = 0; i < groupNames.size(); i++) {
             TreeItem currentGroupItem = this.groupTree.getItem(i);
             GroupTreeItemObject groupUserObject = (GroupTreeItemObject)currentGroupItem.getUserObject();
@@ -153,9 +154,9 @@ public class FeedTreeWidget  extends WatchWidget {
     {
         //update the feed tree according to the new data
         Map feedsbygroup = watch.getConfig().getFeedsByGroupList();
-        List groupKeys = new ArrayList(feedsbygroup.keySet());
-        Collections.sort(groupKeys);
         Map groups = watch.getConfig().getGroups();
+        List groupKeys = new ArrayList(feedsbygroup.keySet());
+        Collections.sort(groupKeys, new GroupComparator(groups, "All"));
         for (int i = 0; i < this.groupTree.getItemCount(); i++) {
             TreeItem currentGroupItem = this.groupTree.getItem(i);
             GroupTreeItemObject groupUserObject = (GroupTreeItemObject)currentGroupItem.getUserObject();
@@ -221,7 +222,7 @@ public class FeedTreeWidget  extends WatchWidget {
         Map groups = watch.getConfig().getGroups();
 
         List keys = new ArrayList(feedsbygroup.keySet());
-        Collections.sort(keys);
+        Collections.sort(keys, new GroupComparator(groups, "All"));
         Iterator groupit = keys.iterator();
         while (groupit.hasNext()) {
             final String groupname = (String) groupit.next();
@@ -525,5 +526,53 @@ public class FeedTreeWidget  extends WatchWidget {
                 widget.add(editComposite);
             }
         }
+    }
+    
+    /**
+     * Compares two group keys based on the group information from the groups map, specifically, by the names of 
+     * the groups referred by the group keys; it also allows a minimum element to be set, to be always returned as 
+     * smaller. To be used for group sorting in tree.
+     */
+    public class GroupComparator implements Comparator {
+        private Map groups;
+        private Object first;
+        
+        public GroupComparator(Map groups, Object first) {
+            this.groups = groups;
+            this.first = first;
+        }
+
+        public int compare(Object o1, Object o2)
+        {
+            if (this.first != null) {
+                //we have first element, must test o1 and o2 against it
+                if (this.first.equals(o1)) {
+                    if (this.first.equals(o2)) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                }
+                if (this.first.equals(o2)) {
+                    return 1;
+                }
+            }
+            Group gr1 = (Group)groups.get(o1);
+            Group gr2 = (Group)groups.get(o2);
+            String gCompareKey1 = (gr1 == null) ? (String)o1 : gr1.getName();
+            String gCompareKey2 = (gr2 == null) ? (String)o2 : gr2.getName();
+
+            if (gCompareKey1 == null) {
+                if (gCompareKey2 == null) {
+                    return 0;
+                } else {
+                    //nulls at the end
+                    return 1;
+                }
+            } else {
+                return gCompareKey1.compareTo(gCompareKey2);
+            }
+        }
+        
     }
 }
