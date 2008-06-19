@@ -431,7 +431,7 @@ public class FeedTreeWidget  extends WatchWidget {
         
         public String getTitle() {
             Feed feed = (Feed)getData();
-            String feedTitle =  feed.getName() + "(" + feed.getNb() + ")";
+            String feedTitle =  feed.getName() + " (" + feed.getNb() + ")";
             String imgurl = watch.getFavIcon(feed);
             if (imgurl != null) {
                 feedTitle =
