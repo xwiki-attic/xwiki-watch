@@ -566,6 +566,10 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     public void refreshOnShowOnlyFlaggedArticles() {
         FilterStatus fstatus = getFilterStatus();
         fstatus.setFlagged(1);
+        // If trashed is set in the filter, unset it
+        if (fstatus.getTrashed() == 1) {
+            fstatus.setTrashed(0);
+        }
         fstatus.setStart(0);
         refreshArticleList();
     }
@@ -608,6 +612,10 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     public void refreshOnShowOnlyTrashedArticles() {
         FilterStatus fstatus = getFilterStatus();
         fstatus.setTrashed(1);
+        // If flagged is set in the filter, unset it 
+        if (fstatus.getFlagged() == 1) {
+            fstatus.setFlagged(0);
+        }
         fstatus.setStart(0);
         refreshArticleList();
     }

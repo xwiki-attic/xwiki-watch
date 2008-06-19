@@ -1,11 +1,4 @@
-package com.xpn.xwiki.watch.client.ui.menu;
-
-import org.gwtwidgets.client.ui.cal.CalendarDate;
-import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.google.gwt.user.client.ui.*;
-
-/**
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  * <p/>
@@ -23,14 +16,20 @@ import com.google.gwt.user.client.ui.*;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client.ui.menu;
+
+import org.gwtwidgets.client.ui.cal.CalendarDate;
+import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.google.gwt.user.client.ui.*;
+
 
 public class FilterBarWidget  extends WatchWidget {
 
     protected TagCloudWidget tagCloudWidget;
     protected KeywordsWidget keywordsWidget;
+    protected StateSelectorsWidget filterWidget;
 
     public FilterBarWidget() {
         super();
@@ -78,65 +77,12 @@ public class FilterBarWidget  extends WatchWidget {
         return keywordsWidget;
     }
 
-    private Widget getSeeOnlyTitlePanel() {
-        FlowPanel p = new FlowPanel();
-        p.setStyleName(watch.getStyleName("filter", "seeonly-title"));
-        HTML titleHTML = new HTML(watch.getTranslation("filter.seeonly.title"));
-        titleHTML.setStyleName(watch.getStyleName("filter", "title-seeonly-text"));
-        p.add(titleHTML);
-        return p;
-    }
-
-
-    private Widget getFilterPanel() {
-        FlowPanel p = new FlowPanel();
-        p.setStyleName(watch.getStyleName("filter", "filter"));
-        p.add(getSeeOnlyTitlePanel());
-        p.add(getCheckBoxPanel("flagged", (watch.getFilterStatus().getFlagged()==1), new ClickListener() {
-            public void onClick(Widget widget) {
-                if (((CheckBox)widget).isChecked())
-                 watch.refreshOnShowOnlyFlaggedArticles();
-                else
-                 watch.refreshOnNotShowOnlyFlaggedArticles();
-            }
-        }));
-        p.add(getCheckBoxPanel("read", (watch.getFilterStatus().getRead()==1), new ClickListener() {
-            public void onClick(Widget widget) {
-                if (((CheckBox)widget).isChecked())
-                 watch.refreshOnShowOnlyReadArticles();
-                else
-                 watch.refreshOnNotShowOnlyReadArticles();
-            }
-        }));
-        p.add(getCheckBoxPanel("unread", (watch.getFilterStatus().getRead()==-1), new ClickListener() {
-            public void onClick(Widget widget) {
-                if (((CheckBox)widget).isChecked())
-                 watch.refreshOnShowOnlyUnReadArticles();
-                else
-                 watch.refreshOnNotShowOnlyUnReadArticles();
-            }
-        }));
-        p.add(getCheckBoxPanel("trashed", (watch.getFilterStatus().getTrashed()==1), new ClickListener() {
-            public void onClick(Widget widget) {
-                if (((CheckBox)widget).isChecked())
-                 watch.refreshOnShowOnlyTrashedArticles();
-                else
-                 watch.refreshOnNotShowOnlyTrashedArticles();
-            }
-        }));
-        return p;
-    }
-
-    private Widget getCheckBoxPanel(String name, boolean checked, ClickListener clickListener) {
-        FlowPanel p = new FlowPanel();
-        p.setStyleName(watch.getStyleName("filter", "seeonly-" + name));
-        CheckBox checkBox = new CheckBox();
-        if (checked)
-            checkBox.setChecked(true);
-        checkBox.setHTML(watch.getTranslation("filter.seeonly." + name));
-        checkBox.addClickListener(clickListener);
-        p.add(checkBox);
-        return p;
+    private Widget getFilterPanel()
+    {
+        if (this.filterWidget == null) {
+            this.filterWidget = new StateSelectorsWidget(watch);
+        }
+        return this.filterWidget;
     }
 
     private Widget getInitFilterPanel() {
