@@ -433,6 +433,9 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         fstatus.setTrashed(-1);
         fstatus.setDateStart(null);
         fstatus.setDateEnd(null);
+        // Also refresh the tree selections
+        fstatus.setGroup(null);
+        fstatus.setFeed(null);
         refreshArticleList();
         userInterface.resetSelections();        
     }
@@ -440,10 +443,13 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     public void refreshOnActivateKeyword(Keyword keyword) {
         FilterStatus fstatus = getFilterStatus();
         fstatus.setKeyword(keyword.getName());
+        // Remove feed selection, since group and feed are exclusive
+        fstatus.setFeed(null);
         fstatus.setGroup(keyword.getGroup());
         fstatus.setStart(0);
         refreshArticleList();
-        userInterface.resetSelections("keywords");                        
+        userInterface.resetSelections("keywords");
+        userInterface.resetSelections("feedtree");
     }
 
     public String getFavIcon(Feed feed) {

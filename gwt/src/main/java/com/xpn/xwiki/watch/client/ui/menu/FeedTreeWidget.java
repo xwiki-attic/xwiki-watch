@@ -6,6 +6,7 @@ import com.xpn.xwiki.watch.client.ui.dialog.GroupDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.StandardFeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDeleteDialog;
+import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Constants;
@@ -308,6 +309,87 @@ public class FeedTreeWidget  extends WatchWidget {
         public abstract String getTitle();
 
         public abstract void setSelected(boolean selected);
+    }
+    
+    public void resetSelections()
+    {
+        // Check the validity of the current selection with respect to the filter
+        FilterStatus fstatus = watch.getFilterStatus();
+        Feed filterFeed = fstatus.getFeed();
+        String filterGroupPageName = fstatus.getGroup();
+        // Get currently selected item
+        TreeItem selectedTreeItem = this.groupTree.getSelectedItem();
+        // Get user object to check the correspondence
+        TreeItemObject selectedTreeItemObject = (TreeItemObject) selectedTreeItem.getUserObject();
+        boolean isValidTreeSelection = true;
+        if (selectedTreeItem != null) {
+            if (selectedTreeItemObject instanceof GroupTreeItemObject) {
+                if(filterGroupPageName != null) {
+                    if(!((Group)selectedTreeItemObject.getData()).getPageName().equals(filterGroupPageName)) {
+                        // The filter group is not the tree group
+                        isValidTreeSelection = false;
+                    }
+                } else {
+                    // Group is selected in the tree but not in the filter
+                    isValidTreeSelection = false;
+                }
+            }
+            if (selectedTreeItemObject instanceof FeedTreeItemObject) {
+                if (filterFeed != null) {
+                    if (!((Feed)selectedTreeItemObject.getData()).equals(filterFeed)) {
+                        // The filter feed is not the tree selected feed
+                        isValidTreeSelection = false;
+                    }
+                } else {
+                    // Feed is selected in the tree but not in the filter
+                    isValidTreeSelection = false;
+                }
+            }
+        }
+        
+        // Now change selection if needed
+        if (!isValidTreeSelection) {
+            TreeItem newSelectedTreeItem = null;
+            // Find the new SelectedItem
+            if (filterGroupPageName != null) {
+                // Iterate groups level and find the current group
+                for (int i = 0; i < this.groupTree.getItemCount(); i++) {
+                    TreeItem currentItem = this.groupTree.getItem(i);
+                    Group currentGroup = (Group) (((GroupTreeItemObject) currentItem.getUserObject()).getData());
+                    if (currentGroup.getPageName().equals(filterGroupPageName)) {
+                        // Found the item
+                        newSelectedTreeItem = currentItem;
+                        break;
+                    }
+                }
+            } else if (filterFeed != null) {
+                // Iterate through the All group and find the current feed
+                TreeItem allTreeGroup = null;
+                if (this.groupTree.getItemCount() > 0) {
+                    allTreeGroup = this.groupTree.getItem(0);
+                }
+                if (allTreeGroup != null) {
+                    // Iterate in this group and find the selected feed
+                    for (int i = 0; i < allTreeGroup.getChildCount(); i++) {
+                        TreeItem currentItem = allTreeGroup.getChild(i);
+                        Feed currentFeed = (Feed) (((FeedTreeItemObject) currentItem.getUserObject()).getData());
+                        if (currentFeed.equals(filterFeed)) {
+                            // Found the item
+                            newSelectedTreeItem = currentItem;
+                            break;
+                        }
+                    }
+                }
+            }
+            // Unselect old selected widget
+            selectedTreeItemObject.setSelected(false);
+            // Select the new tree item 
+            this.groupTree.setSelectedItem(newSelectedTreeItem, false);
+            // Also get the widget and select it            
+            if (newSelectedTreeItem != null) {
+                ((TreeItemObject)newSelectedTreeItem.getUserObject()).setSelected(true);
+            }
+        }
     }
 
     public class GroupTreeItemObject extends TreeItemObject {
