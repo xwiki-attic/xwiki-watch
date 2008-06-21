@@ -336,7 +336,7 @@ public class FeedTreeWidget  extends WatchWidget {
             }
             if (selectedTreeItemObject instanceof FeedTreeItemObject) {
                 if (filterFeed != null) {
-                    if (!((Feed)selectedTreeItemObject.getData()).equals(filterFeed)) {
+                    if (!((Feed)selectedTreeItemObject.getData()).getPageName().equals(filterFeed.getPageName())) {
                         // The filter feed is not the tree selected feed
                         isValidTreeSelection = false;
                     }
@@ -373,7 +373,7 @@ public class FeedTreeWidget  extends WatchWidget {
                     for (int i = 0; i < allTreeGroup.getChildCount(); i++) {
                         TreeItem currentItem = allTreeGroup.getChild(i);
                         Feed currentFeed = (Feed) (((FeedTreeItemObject) currentItem.getUserObject()).getData());
-                        if (currentFeed.equals(filterFeed)) {
+                        if (currentFeed.getPageName().equals(filterFeed.getPageName())) {
                             // Found the item
                             newSelectedTreeItem = currentItem;
                             break;
