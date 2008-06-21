@@ -442,10 +442,16 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
 
     public void refreshOnActivateKeyword(Keyword keyword) {
         FilterStatus fstatus = getFilterStatus();
-        fstatus.setKeyword(keyword.getName());
-        // Remove feed selection, since group and feed are exclusive
-        fstatus.setFeed(null);
-        fstatus.setGroup(keyword.getGroup());
+        if (keyword == null) {
+            // Cancel current filter
+            fstatus.setKeyword(null);
+        } else {
+            // Set keyword and group
+            fstatus.setKeyword(keyword.getName());
+            // Remove feed selection, since group and feed are exclusive
+            fstatus.setFeed(null);
+            fstatus.setGroup(keyword.getGroup());
+        }
         fstatus.setStart(0);
         refreshArticleList();
         userInterface.resetSelections("keywords");

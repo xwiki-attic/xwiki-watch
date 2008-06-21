@@ -141,7 +141,15 @@ public class KeywordsWidget extends WatchWidget {
             keywordLabel.addStyleName(watch.getStyleName("keyword", "link"));
             keywordLabel.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
-                    watch.refreshOnActivateKeyword(keyword);
+                    String keywordactive = watch.getFilterStatus().getKeyword();
+                    String groupactive = watch.getFilterStatus().getGroup();
+                    if (keyword.getName().equals(keywordactive) && keyword.getGroup().equals(groupactive)) {
+                        watch.refreshOnActivateKeyword(null);
+                    }
+                    else
+                    {
+                        watch.refreshOnActivateKeyword(keyword);
+                    }
                 }
             });
             widget = new TextWidgetComposite(keywordLabel);
@@ -214,7 +222,7 @@ public class KeywordsWidget extends WatchWidget {
                                    super.onSuccess(result);
                                    watch.refreshOnNewKeyword();
                                    //cancel the keyword selection
-                                   watch.refreshOnActivateKeyword(new Keyword("", ""));
+                                   watch.refreshOnActivateKeyword(null);
                                }
                            });
                        } else {
