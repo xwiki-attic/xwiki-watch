@@ -256,10 +256,6 @@ div.watch-feedtree-deletefeed, div.watch-feedtree-deletegroup, div.watch-keyword
 	white-space: normal;
 }
 
-#Watch div.watch-main div.watch-feedtree div.watch-feedtree-groups div span div table tbody tr td:first-child  {
-	display: none;
-}
-
 
 
 
