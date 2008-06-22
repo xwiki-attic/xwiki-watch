@@ -83,7 +83,6 @@ public class PressReviewMailDialog extends Dialog {
 
         mailContentTextArea = new TextArea();
         mailContentTextArea.setVisibleLines(5);
-        mailContentTextArea.setWidth("60");
         mailContentTextArea.setName("mailcontent");
         mailContentTextArea.setStyleName(getCSSName("mailcontent"));
         mailContentTextArea.setText(app.getTranslation(getDialogTranslationName() + ".mailcontentdefault"));
