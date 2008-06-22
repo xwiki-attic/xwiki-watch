@@ -281,17 +281,24 @@ watch.all=All
 watch.Ok=Ok
 
 
-watch.loadinginprogress=Articles loading in progress
-watch.nbarticles=Number of articles
-watch.nbfeeds=Number of feeds
-watch.nbfeedswithdata=Number of feeds receiving data
+watch.updateactive = Update active
+watch.updateinprogress = Articles loading in progress
+watch.nbtotalarticles = Number of articles
+watch.nbdefinedfeeds = Number of feeds
+watch.nbdefinedfeedswithdata = Number of feeds receiving data
+watch.feeds = Feeds
+watch.nbloadedfeeds = Loaded feeds
+watch.nbloadedfeedserrors = Feeds with loading errors
+watch.nbarticles=Articles
 watch.previousnbarticlesloaded=Articles loaded previously
 watch.startdata=Data start date
 watch.enddata=Data end date
-watch.loadedfeeds=Loaded feeds
 watch.errorfeeds=Feeds wth errors
 watch.nbarticlesloaded=Number of loaded articles
 watch.exception=Unloaded articles
+watch.loadingstatus.true = Yes
+watch.loadingstatus.false = No
+watch.loadingstatus.title=Watch loading status
 
 watch.chooseproutput.caption=XWiki Watch Press Review
 watch.chooseproutput.invitation=Choose the output type for your press review

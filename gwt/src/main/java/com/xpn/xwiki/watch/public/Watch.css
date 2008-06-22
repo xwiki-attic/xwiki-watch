@@ -829,6 +829,34 @@ div.gwt-DialogBox.watch-commentadd  {
 	width: 424px;
 }
 
+div.loadingstatus-content {
+    margin: 10px;
+}
+
+div.loadingstatus-content h2 {
+    font-size: 1.5em;
+}
+
+div.loadingstatus-content table.wiki-table th {
+    background:#F4F9FE;
+    border:1px solid #E5EFF8;
+    color:#66A3D3;
+    font-size-adjust:none;
+    font-variant:normal;
+    font-weight:bold;
+    line-height:1.4em;
+    padding: 3px 4px;
+    text-align:center;	
+}
+
+div.loadingstatus-content table.wiki-table td {
+    border: 1px solid #E5EFF8;
+    padding: 1px 2px;
+}
+
+div.watch-loadingstatus {
+	width: auto;
+}
 
 
 /* @end */

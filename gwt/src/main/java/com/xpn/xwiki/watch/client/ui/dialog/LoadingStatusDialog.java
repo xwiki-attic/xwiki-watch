@@ -1,7 +1,10 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.Window;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
@@ -30,14 +33,8 @@ import com.xpn.xwiki.watch.client.Constants;
  */
 
 public class LoadingStatusDialog extends Dialog {
-    protected Frame frame;
+    protected HTML contentHtml;
 
-    /**
-     * Choice dialog
-     * @param app  XWiki GWT App object to access translations and css prefix names
-     * @param name dialog name
-     * @param buttonModes button modes Dialog.BUTTON_CANCEL|Dialog.BUTTON_NEXT for Cancel / Next
-     */
     public LoadingStatusDialog(XWikiGWTApp app, String name, int buttonModes) {
         super(app, name, buttonModes);
 
@@ -47,19 +44,28 @@ public class LoadingStatusDialog extends Dialog {
         HTMLPanel invitationPanel = new HTMLPanel(app.getTranslation(getDialogTranslationName() + ".invitation"));
         invitationPanel.addStyleName(getCssPrefix() + "-invitation");
         main.add(invitationPanel);
-        main.add(getFramePanel());
+        main.add(getContentPanel());
         main.add(getActionsPanel());
         add(main);
     }
 
-    protected Widget getFramePanel() {
-        frame = new Frame();
+    protected Widget getContentPanel() {
+        contentHtml = new HTML();
         Watch watch = (Watch) app;
-        frame.setUrl(watch.getViewUrl(Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_LOADING_STATUS, "xpage=plain&space=" + watch.getWatchSpace()));
-        frame.setWidth("400px");
-        frame.setHeight("400px");
-        frame.setStyleName(getCssPrefix() + "-frame");
-        return frame;
+        Map paramMap = new HashMap();
+        paramMap.put("xpage", "plain");
+        paramMap.put("space", watch.getWatchSpace());
+        // Get the content
+        watch.getXWikiServiceInstance().getDocumentContent(
+            Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_LOADING_STATUS, true, paramMap,
+            new AsyncCallback() {
+                public void onSuccess(Object result) {
+                    // Put the result in the content html
+                    contentHtml.setHTML((String)result);
+                }
+                public void onFailure(Throwable caught) {}
+            });
+        contentHtml.setStyleName(getCssPrefix() + "-content");
+        return contentHtml;
     }
-
 }

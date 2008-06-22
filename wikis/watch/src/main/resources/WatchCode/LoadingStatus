@@ -20,7 +20,7 @@
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>&lt;h2&gt;Watch Loading status&lt;/h2&gt;
+<content>&lt;h2&gt;$msg.get("watch.loadingstatus.title")&lt;/h2&gt;
 
 &lt;%
 
@@ -32,8 +32,12 @@ if (request.space) {
   xwiki.feed.startUpdateFeedsInSpace(request.space, 19000);
 def updateThread = xwiki.feed.getUpdateThread(request.space);
 
-println "* ${msg.get("watch.updateactive")}: true"
-println "* ${msg.get("watch.updateinprogress")}: " + updateThread.isUpdateInProgress()
+println "* ${msg.get("watch.updateactive")}: ${msg.get("watch.loadingstatus.true")}";
+if (updateThread.isUpdateInProgress()) {
+  println "* ${msg.get("watch.updateinprogress")}: ${msg.get("watch.loadingstatus.true")}";
+} else {
+  println "* ${msg.get("watch.updateinprogress")}: ${msg.get("watch.loadingstatus.false")}";
+} 
 
 
 sql = "select count(*) from XWikiDocument as doc, BaseObject as obj where doc.web='${request.space}' and doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass'"
