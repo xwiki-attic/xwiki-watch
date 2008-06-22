@@ -89,7 +89,7 @@ public class StandardFeedDialog extends FeedDialog {
     protected Widget getParametersPanel() {
         FlowPanel paramsPanel = new FlowPanel();
         Label feedNameLabel = new Label();
-        feedNameLabel.setStyleName("mailsubject-label");
+        feedNameLabel.setStyleName("feedname-label");
         feedNameLabel.setText(app.getTranslation(getDialogTranslationName() + ".feedname"));
         paramsPanel.add(feedNameLabel);
         feedNameTextBox = new TextBox();

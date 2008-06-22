@@ -643,7 +643,11 @@ div.technoratitag-invitation,
 div.pressreview-invitation,
 div.analysis-invitation,
 div.chooseaction-invitation,
-div.removefeed-invitation
+div.removefeed-invitation,
+div.preview-invitation,
+div.email-invitation,
+div.wikio-invitation,
+div.chooseproutput-invitation
  {
 	text-align: center;
 	font-size: 1.3em;
@@ -717,6 +721,8 @@ input.watch-technoratitag-feedname ,
 input.watch-technoratitag-query,
 input.watch-feedster-feedname ,
 input.watch-feedster-query,
+input.watch-wikio-feedname,
+input.watch-wikio-query,
 input.watch-email-mailsubject,
 input.watch-email-mailto,
 textarea.watch-email-mailcontent
@@ -745,9 +751,10 @@ div.comment-label,
 div.tags-label,
 div.pressreview-html,
 div.keyword-label,
-div.groups-label ,
+div.groups-label,
 div.group-label,
 div.mailsubject-label,
+div.feedname-label,
 div.feedurl-label,
 div.query-label,
 div.mailto-label,

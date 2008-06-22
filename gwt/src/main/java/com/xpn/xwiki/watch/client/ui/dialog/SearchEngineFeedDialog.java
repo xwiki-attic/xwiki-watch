@@ -122,7 +122,7 @@ public class SearchEngineFeedDialog extends FeedDialog {
     protected Widget getParametersPanel() {
         FlowPanel paramsPanel = new FlowPanel();
         Label feedNameLabel = new Label();
-        feedNameLabel.setStyleName("mailsubject-label");
+        feedNameLabel.setStyleName("feedname-label");
         feedNameLabel.setText(app.getTranslation(getDialogTranslationName() + ".feedname"));
         paramsPanel.add(feedNameLabel);
 
