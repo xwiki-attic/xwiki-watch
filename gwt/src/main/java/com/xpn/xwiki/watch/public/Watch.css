@@ -1,8 +1,3 @@
-/*
-html {
-overflow-y:scroll;
-}
-*/
 
 .watch-main {
     width: 100%;
@@ -151,7 +146,6 @@ button.watch-search-button {
     float: left;
     clear: left;
     width: 200px;
-    /*border-right: 1px solid #cccccc;*/
 }
 .watch-feedtree-image {
     float: right;
@@ -215,7 +209,6 @@ span.gwt-TreeItem-selected div.watch-feedtree-link {
 
 div.watch-feedtree-groups div span div table {
 	font-size: 0.9em;
-	/*margin: 0 5px;*/
 	margin: 0;
 	width: 180px;
 }
