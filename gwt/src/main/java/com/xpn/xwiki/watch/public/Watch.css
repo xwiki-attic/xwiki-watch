@@ -1,6 +1,8 @@
+/*
 html {
 overflow-y:scroll;
 }
+*/
 
 .watch-main {
     width: 100%;
@@ -149,7 +151,7 @@ button.watch-search-button {
     float: left;
     clear: left;
     width: 200px;
-    border-right: 1px solid #cccccc;
+    /*border-right: 1px solid #cccccc;*/
 }
 .watch-feedtree-image {
     float: right;
@@ -191,7 +193,7 @@ button.watch-search-button {
 }
 div.watch-feedtree-groups div table {
 	font-size: 0.9em;
-	margin: 0 5px;
+	margin: 0px;
 }
 img.watch-feedtree-logo-icon {
 	margin-right: 5px;
@@ -213,7 +215,8 @@ span.gwt-TreeItem-selected div.watch-feedtree-link {
 
 div.watch-feedtree-groups div span div table {
 	font-size: 0.9em;
-	margin: 0 5px;
+	/*margin: 0 5px;*/
+	margin: 0;
 	width: 180px;
 }
 div.watch-feedtree-link {
@@ -227,11 +230,13 @@ div.watch-feedtree-link {
 div.watch-feedtree-group {
     display: block;
     width: 160px;
+    overflow-x: hidden;
 }
 
 div.watch-feedtree-feed {
     display: block;
     width: 170px;
+    overflow-x: hidden;
 }
 
 .watch-feedtree-feedaction, .watch-feedtree-groupaction, .watch-keyword-keywordaction {
@@ -310,8 +315,14 @@ clear: both;
 .watch-article-logo {
   float: left;
   padding-left: 3px;
-  margin-right:-20px
+  margin-right:-20px;
+  display: inline;
 }
+
+.watch-article-logo  .gwt-HTML {
+       display: inline;
+}
+
 .watch-article-titlebar {
 	position: relative;
 	zoom:1;/* haslayout for IE6  --> to remove*/
@@ -333,6 +344,7 @@ clear: both;
 	width: 90%;
 	margin: 0 50px 0 10px;
 	border: 0px solid yellow;
+	overflow-x: hidden;
 }
  div.watch-article-titleline div {
 	font-weight: bold;
@@ -383,7 +395,13 @@ div.watch-article-date {
 	color:  #888;
 	margin-right: 10px;
 	white-space: nowrap;
+	display: inline;
 }
+
+div.watch-article-date .watch-article-date-text {
+    display: inline;
+}
+
 .watch-article-titleline {
 	margin-left: 0px;
 }
