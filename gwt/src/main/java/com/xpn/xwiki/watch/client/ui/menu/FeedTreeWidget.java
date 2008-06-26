@@ -414,6 +414,8 @@ public class FeedTreeWidget extends WatchWidget
         }
 
         public abstract String getTitle();
+        
+        public abstract String getTooltip();
 
         public abstract void setSelected(boolean selected);
     }
@@ -429,11 +431,17 @@ public class FeedTreeWidget extends WatchWidget
         {
             return ((Group) getData()).getName();
         }
+        
+        public String getTooltip()
+        {
+            return ((Group) getData()).getName();
+        }
 
         public Widget getWidget(boolean selected)
         {
             if (this.widget == null) {
                 HTML title = new HTML(getTitle(), true);
+                title.setTitle(getTooltip());
                 title.addStyleName(watch.getStyleName("feedtree", "link"));
                 title.addStyleName(watch.getStyleName("feedtree", "group"));
                 title.addClickListener(new ClickListener() {
@@ -553,12 +561,18 @@ public class FeedTreeWidget extends WatchWidget
             }
             return feedTitle;
         }
+        
+        public String getTooltip()
+        {
+            return ((Feed) getData()).getName();
+        }
 
         public Widget getWidget(boolean selected)
         {
             if (widget == null) {
                 // create the widget
                 HTML title = new HTML(getTitle(), true);
+                title.setTitle(getTooltip());
                 title.addClickListener(new ClickListener() {
                     public void onClick(Widget widget) {
                         watch.refreshOnFeedChange((Feed) getData());

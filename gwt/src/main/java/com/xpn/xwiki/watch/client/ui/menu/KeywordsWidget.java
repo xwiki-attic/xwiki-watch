@@ -138,6 +138,7 @@ public class KeywordsWidget extends WatchWidget {
         {
             final Keyword keyword = (Keyword)this.data;
             Label keywordLabel = new Label(this.getDisplayName());
+            keywordLabel.setTitle(this.getDisplayName());
             keywordLabel.addStyleName(watch.getStyleName("keyword", "link"));
             keywordLabel.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
