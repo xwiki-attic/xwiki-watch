@@ -534,6 +534,8 @@ div.watch-filter-init-text {
 }
 div.watch-keyword-link {
 	padding: 0 10px;
+	width: 100%;
+	overflow-x: hidden;
 }
 
 div.watch-tagscloud-9, div.watch-tagscloud-10, div.watch-tagscloud-11,
@@ -897,7 +899,7 @@ div.watch-tagscloud-active {
 
 div.watch-keyword {
 	clear: both;
-	padding-right: 5px;
+	padding: 0pt 10px;
 }
 
 div.watch-keyword-active div.watch-keyword-link {
