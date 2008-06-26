@@ -54,9 +54,8 @@ img.watch-feedtree-logo-icon {
     width: 200px;
 }
 div.watch-titlebar {
-	Height: 50px;
+	height: 50px;
 	background-color: #868C94;
-	padding-left: 1.2em;
 }
 img.watch-titlebar-refresh {
 	margin: 13px;
@@ -84,6 +83,7 @@ button.watch-search-button {
 	color: #fff;
 	font-size: 1.1em;
 	padding-top: 17px;
+	margin-left: 1.2em;
 }
 
 /* @end */
@@ -101,25 +101,20 @@ button.watch-search-button {
   border: 0px solid #ccc;
   color: #fff;
 }
-.watch-actionbar-title {
-     float: left;
-}
 
 .watch-actionbar-pressreview, .watch-actionbar-analysis, .watch-actionbar-showhidereadarticles {
   border-left: 3px solid #fff;
   padding-left: 5px;
   cursor: pointer;
+  height: 40px;
 }
 
-.watch-actionbar-title {
-    float: left;
-}
 .watch-imagetext {
     float: right;
     width: 150px;
 }
 
-.watch-imagetext-image {
+img.watch-imagetext-image {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -132,7 +127,9 @@ button.watch-search-button {
     float: right;
 }
 .watch-actionbar-title {
-  margin: 10px;
+  line-height: 40px;
+  float: left;
+  padding: 0pt 10px;
 }
 
 /* @end */
@@ -179,7 +176,7 @@ button.watch-search-button {
     font-weight: normal;
     text-transform: uppercase;
 }
-.watch-feedtree-image {
+img.watch-feedtree-image {
     float: right;
     padding: 0px;
     margin-top: -30px !important;
