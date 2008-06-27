@@ -37,6 +37,7 @@
   &lt;meta name="gwt:property" content="watchspace=${space}" /&gt;
   &lt;meta name="gwt:property" content="resourcepath=$watchbaseurl" /&gt;
   &lt;meta name="gwt:property" content="translations=WatchCode.Translations" /&gt;
+  &lt;link rel=stylesheet href="$watchbaseurl/Watch.css"&gt;
   &lt;script type="text/javascript" src="$watchbaseurl/com.xpn.xwiki.watch.Watch.nocache.js"&gt;&lt;/script&gt;
   &lt;iframe id="__gwt_historyFrame" style="width:0;height:0;border:0"&gt;&lt;/iframe&gt;
   &lt;div id="Watch"&gt;
