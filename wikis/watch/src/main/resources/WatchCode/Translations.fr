@@ -102,7 +102,7 @@ watch.configtype.invitation=Choisissez une action ci-dessous
 watch.configtype.button.addfeed.description=Ajoutez un flux RSS
 watch.configtype.button.addkeyword.description=Ajoutez un Mot-clé
 watch.configtype.button.addgroup.description=Créez un Groupe
-watch.configtype.button.loadingstatus.description=Vérifiez le chargement des flux
+watch.configtype.button.loadingstatus.description=Vérifiez le chargement des &lt;br /&gt;flux
 watch.configtype.noselection=Veuillez sélectionner une action dans la liste avant de cliquer sur "suivant"
 
 watch.button.cancel=Annuler
@@ -114,11 +114,11 @@ watch.addfeed.caption=Ajouter un flux RSS
 watch.addfeed.invitation=Vous pouvez choisir l'une des sources suivantes pour ce flux:
 
 watch.addfeed.button.standard.description=Ajouter l'adresse d'un flux RSS
-watch.addfeed.button.googlenews.description=Créez et ajoutez un flux depuis Google News Search
-watch.addfeed.button.googleblog.description=Créez et ajoutez un flux depuis Google Blog Search
-watch.addfeed.button.technoratitag.description=Créez et ajoutez un flux depuis Technorati
-watch.addfeed.button.feedster.description=Créez et ajoutez un flux depuis Feedster
-watch.addfeed.button.wikio.description=Créez et ajoutez un flux depuis Wikio
+watch.addfeed.button.googlenews.description=Créez et ajoutez un flux &lt;br /&gt;depuis Google News Search
+watch.addfeed.button.googleblog.description=Créez et ajoutez un flux &lt;br /&gt;depuis Google Blog Search
+watch.addfeed.button.technoratitag.description=Créez et ajoutez un flux &lt;br /&gt;depuis Technorati
+watch.addfeed.button.feedster.description=Créez et ajoutez un flux &lt;br /&gt;depuis Feedster
+watch.addfeed.button.wikio.description=Créez et ajoutez un flux &lt;br /&gt;depuis Wikio
 
 watch.removefeed.caption=Effacer flux
 watch.removefeed.confirm=Étes-vous sûr de vouloir effacer le flux "{0}"?

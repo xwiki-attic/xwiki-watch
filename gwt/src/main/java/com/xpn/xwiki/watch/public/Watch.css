@@ -705,6 +705,15 @@ button.gwt-Button{
 }
 
 
+button.watch-addfeed-button-standard, button.watch-addfeed-button-googlenews, 
+button.watch-addfeed-button-googleblog, button.watch-addfeed-button-technoratitag,
+button.watch-addfeed-button-feedster, button.watch-addfeed-button-wikio, 
+button.watch-configtype-button-addfeed, button.watch-configtype-button-addkeyword,
+button.watch-configtype-button-addgroup, button.watch-configtype-button-loadingstatus {
+    overflow-x: auto;
+}
+
+
 div.tk-GlassPanel.tk-ModalDialog-glassPanel {
 	background: #000;
 	filter:alpha(opacity=25);
