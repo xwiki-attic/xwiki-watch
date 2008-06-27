@@ -1,3 +1,7 @@
+/* fix height for containers in toucan, in quirks mode */
+#xwikimaincontainerinner, #contentcontainer {
+    height: auto;
+}
 
 .watch-main {
     width: 100%;
@@ -237,6 +241,10 @@ div.watch-feedtree-feed {
 	color: #FFFFFF;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+.watch-feedtree-feedaction .gwt-Label, .watch-feedtree-groupaction .gwt-Label, .watch-keyword-keywordaction .gwt-Label {
+    display: inline;
 }
 
 div.watch-feedtree-editfeed, div.watch-feedtree-editgroup, div.watch-keyword-editkeyword {
@@ -485,6 +493,7 @@ div.watch-article-tags-text, div.watch-article-comments-title-text {
     float: right;
     width: 200px;
     background-color: #868c94;
+    overflow-x: auto;
 }
 
 div.watch-filter-title-text {
@@ -929,8 +938,8 @@ div.watch-filter-date-title-label, div.watch-filter-date-label {
 table.calendar-panel, button.watch-filter-date-month-button, button.watch-filter-date-year-button {
 	background-color: #E6EAEE;
 }
-table.calendar-panel {
-	margin: auto;
+div.watch-datestartwidget, div.watch-dateendwidget {
+    padding-left: 10px;
 }
 div.calendar-dateCell {
 	cursor: pointer;
