@@ -598,7 +598,7 @@ div.watch-tagscloud, div.watch-keyword-link {
     max-width: 180px;
 }
 
-.gwt-DialogBox {
+div.gwt-DialogBox {
 	position: relative;
     border: 3px solid black;
     background-color: white;
@@ -607,7 +607,7 @@ div.watch-tagscloud, div.watch-keyword-link {
  	overflow: hidden;
 }
 
-.gwt-DialogBox .Caption {
+div.gwt-DialogBox .Caption {
     text-align: center;
     width: 100%;
     font-family: sans-serif;
