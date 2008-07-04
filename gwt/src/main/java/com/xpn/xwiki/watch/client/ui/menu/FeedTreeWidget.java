@@ -135,7 +135,7 @@ public class FeedTreeWidget extends WatchWidget
             if (feedNames.size() != currentGroupItem.getChildCount()) {
                 return true;
             }
-            Collections.sort(feedNames);
+            Collections.sort(feedNames, new FeedComparator(groupFeeds, null));
             for (int j = 0; j < feedNames.size(); j++) {
                 if (!feedNames.get(j).equals(
                     ((Feed) ((FeedTreeItemObject) currentGroupItem.getChild(j).getUserObject()).getData()).getName())) {
@@ -251,7 +251,7 @@ public class FeedTreeWidget extends WatchWidget
                 groupItemTree.setWidget(groupObj.getWidget(selected));
                 groupTree.addItem(groupItemTree);
                 List feedList = new ArrayList(groupFeeds.keySet());
-                Collections.sort(feedList);
+                Collections.sort(feedList, new FeedComparator(groupFeeds, null));
                 Iterator feedgroupit = feedList.iterator();
                 while (feedgroupit.hasNext()) {
                     String feedname = (String) feedgroupit.next();
@@ -553,7 +553,8 @@ public class FeedTreeWidget extends WatchWidget
         public String getTitle()
         {
             Feed feed = (Feed) getData();
-            String feedTitle = feed.getName() + " (" + feed.getNb() + ")";
+            String feedTitle =
+                ((feed.getTitle().trim().length() > 0) ? feed.getTitle() : feed.getName()) + " (" + feed.getNb() + ")";
             String imgurl = watch.getFavIcon(feed);
             if (imgurl != null) {
                 feedTitle = "<img src=\"" + imgurl + "\" class=\"" + watch.getStyleName("feedtree", "logo-icon")
@@ -564,7 +565,8 @@ public class FeedTreeWidget extends WatchWidget
         
         public String getTooltip()
         {
-            return ((Feed) getData()).getName();
+            Feed feed = (Feed)getData();
+            return (feed.getTitle().trim().length() > 0) ? feed.getTitle() : feed.getName();
         }
 
         public Widget getWidget(boolean selected)
@@ -622,8 +624,7 @@ public class FeedTreeWidget extends WatchWidget
 
                                     public void onSuccess(Object result) {
                                         super.onSuccess(result);
-                                        // We need to refreshData the tree
-                                        watch.refreshOnNewFeed();
+                                        watch.refreshOnUpdateFeed();
                                     }
                                 });
                             }
@@ -659,6 +660,7 @@ public class FeedTreeWidget extends WatchWidget
     /**
      * Compares two group keys based on the group information from the groups map, specifically, by the names of the
      * groups referred by the group keys; it also allows a minimum element to be set, to be always returned as smaller.
+     * The comparison is always case insensitive.
      * To be used for group sorting in tree.
      */
     public class GroupComparator implements Comparator
@@ -701,9 +703,60 @@ public class FeedTreeWidget extends WatchWidget
                     return 1;
                 }
             } else {
-                return gCompareKey1.compareTo(gCompareKey2);
+                return gCompareKey1.toLowerCase().compareTo(gCompareKey2.toLowerCase());
             }
         }
+    }
 
+    /**
+     * Compares two feed names based on the feed information from the feeds map, specifically, by the titles of the
+     * feeds referred by the feed names; it also allows a minimum element to be set, to be always returned as smaller.
+     * The comparison is always case insensitive.
+     * To be used for feed sorting alphabetically by title in tree.
+     */
+    public class FeedComparator implements Comparator {
+        private Map feeds;
+
+        private Object first;
+
+        public FeedComparator(Map feeds, Object first)
+        {
+            this.feeds = feeds;
+            this.first = first;
+        }
+
+        public int compare(Object o1, Object o2)
+        {
+            if (this.first != null) {
+                // we have first element, must test o1 and o2 against it
+                if (this.first.equals(o1)) {
+                    if (this.first.equals(o2)) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                }
+                if (this.first.equals(o2)) {
+                    return 1;
+                }
+            }
+            Feed f1 = (Feed) feeds.get(o1);
+            Feed f2 = (Feed) feeds.get(o2);
+            String fCompareKey1 =
+                (f1 == null) ? (String) o1 : ((f1.getTitle().trim().length() > 0) ? f1.getTitle() : f1.getName());
+            String fCompareKey2 =
+                (f2 == null) ? (String) o2 : ((f2.getTitle().trim().length() > 0) ? f2.getTitle() : f2.getName());
+
+            if (fCompareKey1 == null) {
+                if (fCompareKey2 == null) {
+                    return 0;
+                } else {
+                    // nulls at the end
+                    return 1;
+                }
+            } else {
+                return fCompareKey1.toLowerCase().compareTo(fCompareKey2.toLowerCase());
+            }
+        }        
     }
 }

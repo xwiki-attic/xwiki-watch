@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Feed {
     private String pageName;
     private String name;
+    private String title;
     private String url;
     private String imgurl;
     private List groups;
@@ -24,12 +25,20 @@ public class Feed {
 
     public Feed(XObject xobj)  {
         setPageName(xobj.getName());
-        setName((String) xobj.getProperty("name"));
-        setUrl((String) xobj.getProperty("url"));
-        setGroups((List) xobj.getProperty("group"));
-        setDate((String) xobj.getViewProperty("date"));
+        String feedName = (String) xobj.getProperty(Constants.PROPERTY_AGGREGATOR_URL_NAME); 
+        setName(feedName);
+        setUrl((String) xobj.getProperty(Constants.PROPERTY_AGGREGATOR_URL_URL));
+        setGroups((List) xobj.getProperty(Constants.PROPERTY_AGGREGATOR_URL_GROUPS));
+        setDate((String) xobj.getViewProperty(Constants.PROPERTY_AGGREGATOR_URL_DATE));
+        String setTitleProperty = (String)xobj.getViewProperty(Constants.PROPERTY_AGGREGATOR_URL_TITLE);
+        //if title property is not set, set it from the feed name
+        if (setTitleProperty.trim().length() == 0) {
+            setTitle(feedName);
+        } else {
+            setTitle(setTitleProperty);
+        }
         setNb(new Integer(0));
-        setImgurl((String)xobj.getProperty("imgurl"));
+        setImgurl((String)xobj.getProperty(Constants.PROPERTY_AGGREGATOR_URL_IMAGEURL));
     }
 
     public String getName() {
@@ -87,5 +96,15 @@ public class Feed {
 
     public void setPageName(String pageName) {
         this.pageName = pageName;
+    }
+
+    public String getTitle()
+    {
+        return title == null ? "" : title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 }

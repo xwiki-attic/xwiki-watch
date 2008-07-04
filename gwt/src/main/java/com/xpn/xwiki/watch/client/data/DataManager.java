@@ -49,6 +49,8 @@ public class DataManager {
             cb.onFailure(null);
 
         final String feedName = feed.getName();
+        // If feed title is set, get the title, else, use the feed name
+        final String feedTitle = (feed.getTitle().trim().length() > 0) ? feed.getTitle() : feed.getName();
         final String feedURL = feed.getUrl();
         final List feedGroups = feed.getGroups();
         watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), feedName, new XWikiAsyncCallback(watch) {
@@ -68,6 +70,7 @@ public class DataManager {
                 feedObj.setClassName(Constants.CLASS_AGGREGATOR_URL);
                 feedObj.setNumber(0);
                 feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_NAME, feedName);
+                feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_TITLE, feedTitle);
                 feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_URL, feedURL);
                 feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_GROUPS, feedGroups);
                 watch.getXWikiServiceInstance().saveObject(feedObj, new AsyncCallback() {
@@ -129,6 +132,53 @@ public class DataManager {
             + "and obj.id = feed.id and "
             + "lower(trim(both from feed.name)) = lower('" + feedNameEscaped + "')";
 
+        watch.getXWikiServiceInstance().searchDocuments(feedQuery, 1, 0, new AsyncCallback() {
+            public void onFailure(Throwable throwable)
+            {
+                //didn't manage to get a response from the server
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o)
+            {
+                //check the response from the server
+                List docList = (List)o;
+                if (docList.size() > 0) {
+                    cb.onSuccess(Boolean.TRUE);
+                } else {
+                    cb.onSuccess(Boolean.FALSE);
+                }
+            }
+        });
+    }
+
+    /**
+     * Test if a feed aggregator with the specified title exists (case-insensitive).
+     * The response is returned in the <tt>onSuccess(Object o)</tt> function of the passed callback:
+     * {link@Boolean#TRUE} if the feed exists and {link@Boolean#FALSE} otherwise.
+     * The invocation of {link@AsyncCallback#onFailure} for the passed <tt>cb</tt> means that
+     * an error occurred and the test could not be completed.
+     *
+     * @param feedTitle the title of the feed to search for
+     * @param cb callback to return the response
+     */    
+    public void existsFeedWithTitle(String feedTitle, final AsyncCallback cb) {
+        if (feedTitle == null || feedTitle.equals("")) {
+            cb.onFailure(null);
+            return;
+        }
+
+        String feedTitleEscaped = feedTitle.trim().replaceAll("'", "''");
+        //create the query
+        //TODO: replace the title query with this query after custom mapping the feed title 
+//        final String feedQuery = ", BaseObject as obj, XWiki.AggregatorURLClass as feed "
+//            + "where doc.fullName = obj.name and obj.className = 'XWiki.AggregatorURLClass' "
+//            + "and obj.id = feed.id and "
+//            + "lower(trim(both from feed.title)) = lower('" + feedTitleEscaped + "')";
+        
+        final String feedQuery = ", BaseObject as obj, StringProperty prop where doc.fullName = obj.name " 
+            + "and obj.className = 'XWiki.AggregatorURLClass' and obj.id = prop.id.id and prop.id.name = 'title' " 
+            + "and lower(trim(both from prop.value)) = lower('" + feedTitleEscaped + "')";
         watch.getXWikiServiceInstance().searchDocuments(feedQuery, 1, 0, new AsyncCallback() {
             public void onFailure(Throwable throwable)
             {
@@ -252,6 +302,8 @@ public class DataManager {
         feedObj.setNumber(0);
         feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_NAME, feed.getName());
         feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_URL, feed.getUrl());
+        feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_TITLE, 
+                            (feed.getTitle().trim().length() > 0) ? feed.getTitle() : feed.getName());
         feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_GROUPS, feed.getGroups());
         watch.getXWikiServiceInstance().saveObject(feedObj, new AsyncCallback() {
             public void onFailure(Throwable throwable) {

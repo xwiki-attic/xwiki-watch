@@ -37,6 +37,8 @@ public abstract class FeedDialog extends ValidatingDialog {
     protected Feed feed;
     protected ListBox groupsListBox = new ListBox();
     protected String[] languages;
+    
+    public static final int VALIDATE_CHANGED_FEEDNAME = 1;
 
     /**
      * Choice dialog
@@ -75,6 +77,12 @@ public abstract class FeedDialog extends ValidatingDialog {
     {
         //update the feed data
         this.updateFeed();
+        // If the response signals a change in the feed name, adjust the feed
+        if (response.getCode() == FeedDialog.VALIDATE_CHANGED_FEEDNAME) {
+            // Adjust
+            String feedName = (String)response.getData();
+            this.feed.setName(feedName);
+        }
         setCurrentResult(feed);
         if (feed.getPageName().equals("")) {
             ((Watch)app).addFeed(feed, new AsyncCallback() {
@@ -132,9 +140,30 @@ public abstract class FeedDialog extends ValidatingDialog {
     protected abstract void updateFeed();
     protected abstract Widget getParametersPanel();
 
-    protected void checkUniqueFeedName(String feedName, final AsyncCallback cb) {
-        //check feed name for unicity
-        ((Watch)this.app).getDataManager().existsFeed(feedName, new AsyncCallback() {
+    protected void checkUniqueFeedName(final String feedName, final AsyncCallback cb) {
+        //get an unique feed name to use as unique name for feed
+        ((Watch)this.app).getXWikiServiceInstance().getUniquePageName(((Watch)this.app).getWatchSpace(), feedName, new AsyncCallback() {
+            public void onFailure(Throwable throwable) {
+                cb.onFailure(throwable);
+            }
+
+            public void onSuccess(Object o) {
+                //check the response. If it's the feedName we received in parameter, everything is fine
+                String receivedPageName = (String)o;
+                DialogValidationResponse response = new DialogValidationResponse();
+                response.setValid(true);
+                if (!receivedPageName.equalsIgnoreCase(feedName)) {
+                    response.setCode(FeedDialog.VALIDATE_CHANGED_FEEDNAME);
+                    response.setData(receivedPageName);
+                }
+                cb.onSuccess(response);
+            }
+        });        
+    }
+    
+    protected void checkUniqueFeedTitle(String feedTitle, final AsyncCallback cb) {
+        //check feed title to be unique
+        ((Watch)this.app).getDataManager().existsFeedWithTitle(feedTitle, new AsyncCallback() {
             public void onFailure(Throwable throwable) {
                 cb.onFailure(throwable);
             }

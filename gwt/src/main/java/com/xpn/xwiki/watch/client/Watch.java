@@ -407,7 +407,13 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     }
 
     public void refreshOnNewFeed() {
-        refreshFeedTree();        
+        refreshFeedTree();
+    }
+    
+    public void refreshOnUpdateFeed() {
+        // Refresh the feedtree interface and the article list interface
+        userInterface.refreshData("feedtree");
+        userInterface.refreshData("articlelist");
     }
 
     public void refreshOnNewKeyword() {
