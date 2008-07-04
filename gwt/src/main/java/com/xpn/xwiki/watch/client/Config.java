@@ -81,7 +81,11 @@ public class Config {
             public void onSuccess(Object result) {
                 super.onSuccess(result);
                 List feedDocuments = (List) result;
-                clearConfig();
+                // Reset the data
+                feedsList = new HashMap();
+                feedsByGroupList = new HashMap();
+                keywords = new ArrayList();
+                groups = new HashMap();
                 for (int index=0;index<feedDocuments.size();index++) {
                         addToConfig((Document) feedDocuments.get(index));
                 }

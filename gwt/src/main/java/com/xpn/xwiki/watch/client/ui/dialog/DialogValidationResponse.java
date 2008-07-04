@@ -32,6 +32,7 @@ public class DialogValidationResponse
     protected boolean valid;
     protected String message;
     protected int code;
+    protected Object data;
 
     public DialogValidationResponse()
     {
@@ -85,5 +86,15 @@ public class DialogValidationResponse
     public void setValid(boolean valid)
     {
         this.valid = valid;
+    }
+
+    public Object getData()
+    {
+        return data;
+    }
+
+    public void setData(Object data)
+    {
+        this.data = data;
     }
 }

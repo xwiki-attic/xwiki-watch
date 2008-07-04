@@ -24,6 +24,39 @@
 
 &lt;%
 
+def checkAndPerformUpdate() {
+  def isUpdateRequired = true;
+  def expectedVersion = "1.0-rc-2";
+  def watchVersionDoc = xwiki.getDocument("WatchCode.WatchVersionClass");
+  def watchVersionObject = watchVersionDoc.getObject("WatchCode.WatchVersionClass");
+  if (watchVersionObject != null) {
+    //check the version number
+    def versionNumber = watchVersionObject.getProperty("number").getValue();
+    if (versionNumber.trim().equals(expectedVersion)) {
+      isUpdateRequired = false;
+    }
+  }
+
+  if (isUpdateRequired) {
+    def titleFeedsSql = ", BaseObject as obj where doc.fullName = obj.name and obj.className = 'XWiki.AggregatorURLClass' and obj.id not in (select obj2.id from BaseObject as obj2, StringProperty as prop where obj2.id = prop.id.id and obj2.className = 'XWiki.AggregatorURLClass' and prop.id.name = 'title' and prop.value is not null and trim (both from prop.value) != '')";
+    def titleFeeds = xwiki.searchDocuments(titleFeedsSql);
+    for (titleFeed in titleFeeds) {
+      def titleFeedDoc = xwiki.getDocument(titleFeed);
+      def titleFeedObj = titleFeedDoc.getObject('XWiki.AggregatorURLClass');
+      titleFeedObj.set("title", titleFeedObj.getProperty("name").getValue());
+      titleFeedDoc.saveWithProgrammingRights();
+    }
+  }
+  if(watchVersionObject == null) {
+    watchVersionObject = watchVersionDoc.newObject("WatchCode.WatchVersionClass");
+  }
+  watchVersionObject.set("number", expectedVersion);
+  watchVersionDoc.saveWithProgrammingRights();
+}
+
+//update if needed
+checkAndPerformUpdate();
+
 // make sure loading is started
 if (request.space) {
  if (request.force=="1") {

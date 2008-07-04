@@ -78,8 +78,11 @@ public class Constants {
 
     public static final String CLASS_AGGREGATOR_URL = "XWiki.AggregatorURLClass";
     public static final String PROPERTY_AGGREGATOR_URL_NAME = "name";
+    public static final String PROPERTY_AGGREGATOR_URL_TITLE = "title";
     public static final String PROPERTY_AGGREGATOR_URL_URL = "url";
     public static final String PROPERTY_AGGREGATOR_URL_GROUPS = "group";
+    public static final String PROPERTY_AGGREGATOR_URL_DATE = "date";
+    public static final String PROPERTY_AGGREGATOR_URL_IMAGEURL = "imgurl";
     public static final String CLASS_AGGREGATOR_KEYWORD = "XWiki.KeywordClass";
     public static final String PROPERTY_KEYWORD_NAME = "name";
     public static final String PROPERTY_KEYWORD_GROUP = "group";

@@ -46,8 +46,14 @@ public class StandardFeedDialog extends FeedDialog {
 
     protected void updateFeed()
     {
-        feed.setName(feedNameTextBox.getText());
-        feed.setUrl(feedURLTextBox.getText());
+        // If this is a new feed, set the name, if it's an existing feed, edit its title
+        if (feed.getPageName().trim().length() > 0) {
+            feed.setTitle(feedNameTextBox.getText().trim());
+        } else {
+            feed.setName(feedNameTextBox.getText().trim());
+            feed.setTitle(feedNameTextBox.getText().trim());
+        }
+        feed.setUrl(feedURLTextBox.getText().trim());
         List groups = new ArrayList();
         for (int i=0;i<groupsListBox.getItemCount();i++) {
             if (groupsListBox.isItemSelected(i))
@@ -58,9 +64,9 @@ public class StandardFeedDialog extends FeedDialog {
 
     protected void validateDialogData(final AsyncCallback cb)
     {
-        //prepare the reponse
+        // Prepare the response
         final DialogValidationResponse response = new DialogValidationResponse();
-        String feedName = feedNameTextBox.getText().trim();
+        final String feedName = feedNameTextBox.getText().trim();
         if (feedURLTextBox.getText().equals("")) {
             response.setValid(false);
             response.setMessage(app.getTranslation(getDialogTranslationName() + ".nofeedurl"));
@@ -75,13 +81,36 @@ public class StandardFeedDialog extends FeedDialog {
             return;
         }
 
-        if (this.feed.getName().trim().equalsIgnoreCase(feedName)) {
+        // Validate feedname only if we are using it
+        boolean validatingFeedName = (this.feed.getPageName().trim().length() == 0);
+        String feedTitle = (this.feed.getTitle().trim().length() > 0 ? this.feed.getTitle() : this.feed.getName());
+        if ((validatingFeedName && this.feed.getName().trim().equalsIgnoreCase(feedName)) 
+                || (!validatingFeedName && feedTitle.trim().equalsIgnoreCase(feedName))) {
             response.setValid(true);
             cb.onSuccess(response);
             return;
-        } else {
-            //do the unicity check, the feedname was changed
-            this.checkUniqueFeedName(feedName, cb);
+        } else { 
+            if (validatingFeedName) {
+                // Validate feed name only if the feed title is valid 
+                this.checkUniqueFeedTitle(feedName, new AsyncCallback(){
+                    public void onSuccess(Object obj) {
+                        // Get the validation response
+                        DialogValidationResponse response = (DialogValidationResponse)obj;
+                        if (response.isValid()) {
+                            // Do the feed check
+                            StandardFeedDialog.this.checkUniqueFeedName(feedName, cb);
+                        } else {
+                            cb.onSuccess(obj);
+                        }
+                    }
+                    public void onFailure(Throwable t) {
+                        cb.onFailure(t);
+                    }
+                });
+            } else {
+                // Simply validate feed title
+                this.checkUniqueFeedTitle(feedName, cb);
+            }
             return;
         }        
     }
@@ -95,6 +124,12 @@ public class StandardFeedDialog extends FeedDialog {
         feedNameTextBox = new TextBox();
         if ((feed!=null)&&(feed.getName()!=null))
             feedNameTextBox.setText(feed.getName());
+        // If it's a feed update and the feed has a title, print the title
+        if (feed.getPageName().trim().length() > 0) {
+            if (feed.getTitle().trim().length() > 0) {
+                feedNameTextBox.setText(feed.getTitle());
+            }
+        }
         feedNameTextBox.setVisibleLength(60);
         feedNameTextBox.setName("feedname");
         feedNameTextBox.setStyleName(getCSSName("feedname"));
