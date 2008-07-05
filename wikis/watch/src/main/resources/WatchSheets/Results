@@ -95,7 +95,10 @@
           #set($comments = $bentrydoc.getComments(false))
         #end
         #set($createur = $xwiki.getUserName($bentrydoc.author))
-        #set($ptitle = $bentrydoc.getDisplayTitle())
+        #set($ptitle = $bentrydoc.getValue("title"))
+        #if ($!ptitle.equals(""))
+          #set($ptitle = $bentrydoc.getDisplayTitle())
+        #end
         &lt;tr&gt;&lt;td style="text-align:left"&gt;          
           ## LUCENE : entries are typed
           #if ($bentrydoc.type)

@@ -58,11 +58,10 @@
 #set($aggregator = false)
 #set($aggregator = $doc.getObject("XWiki.AggregatorURLClass"))
 #if ($aggregator)
-  &lt;h2 class="heading-1"&gt;$msg.get("watch.wiki.aggregator.title") &lt;a href="$aggregator.getProperty("url").value"&gt; $aggregator.getProperty("name").value&lt;/a&gt;&lt;/h2&gt;
-  ## #set($aggregatorName = $aggregator.getProperty("name").value)
+  &lt;h2 class="heading-1"&gt;$msg.get("watch.wiki.aggregator.title") &lt;a href="$aggregator.getProperty("url").value"&gt; $aggregator.getProperty("title").value&lt;/a&gt;&lt;/h2&gt;
   ## get the name of the document, for this will be used in the names of the feeds
-  #set($aggregatorName = $doc.name)
-  #set($searchSql = ", BaseObject obj where obj.name=doc.fullName and obj.className='XWiki.FeedEntryClass' and doc.web='${doc.space}' and doc.name like '%Feed_${aggregatorName}%'")
+  #set($aggregatorName = $aggregator.getProperty("name").value)
+  #set($searchSql = ", BaseObject obj, XWiki.FeedEntryClass feedentry where obj.name=doc.fullName and obj.className='XWiki.FeedEntryClass' and doc.web='${doc.space}' and obj.id = feedentry.id and feedentry.feedname = '${aggregatorName}'")
   #set($list = $xwiki.searchDocuments($searchSql))
   #includeForm("WatchSheets.Results")
 #else
