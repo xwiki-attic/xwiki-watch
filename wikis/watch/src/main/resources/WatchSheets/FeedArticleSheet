@@ -75,6 +75,7 @@
   #set($parentDocName = $resultsList.get(0))
   #set($parentDoc = $xwiki.getDocument($parentDocName))
 #end
+#set($feedtitle = $parentDoc.getValue("title"))
 &lt;div class="article ${readClass} ${flaggedClass}"&gt;
   &lt;div&gt;
   #set($aggregatorURL = $feedArticle.getProperty("feedurl").value)
@@ -82,9 +83,9 @@
     ## set all links to the parent doc
     #set($aggregator = $parentDoc.getObject("XWiki.AggregatorURLClass"))
     #set($aggregatorURL = $aggregator.url)
-    &lt;a href="$parentDoc.getURL()"&gt;${aggregator.get("name")}&lt;/a&gt;   
+    &lt;a href="$parentDoc.getURL()"&gt;${aggregator.get("title")}&lt;/a&gt;   
   #else
-    $feedArticle.feedname
+    $feedtitle
   #end 
   &lt;span&gt;RSS Feed &lt;a href="$aggregatorURL"&gt;&lt;img src="$xwiki.getSkinFile('icons/black-rss-mini3.png')" /&gt;&lt;/a&gt;&lt;/span&gt;
   &lt;/div&gt;
