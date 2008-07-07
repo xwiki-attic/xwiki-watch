@@ -57,12 +57,16 @@ public class EditTagsDialog extends Dialog {
     }
 
     protected boolean updateData() {
-        tags = tagsSuggestBox.getText();
-        if (tags.equals("")) {
+        String insertedTags =  tagsSuggestBox.getText().trim();
+        // If there were no tags before and no tags were added, display an alert: the user is trying to add tags but no
+        // tags were inserted
+        if (insertedTags.length() == 0 && this.tags.trim().length() == 0) {
             Window.alert(app.getTranslation(getDialogTranslationName() + ".notags"));
             return false;
         }
-
+        // Else, the user either deletes the tags, either adds tags and the tags list is non void 
+        // update tags and return true
+        this.tags = insertedTags;
         return true;
     }
 

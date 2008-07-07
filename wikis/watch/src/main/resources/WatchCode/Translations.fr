@@ -222,7 +222,7 @@ watch.filter.seeonly.trashed=Articles Supprimés
 watch.tagsadd.caption=Ajouter un Tag
 watch.tagsadd.invitation=Vous pouvez éditer les tags pour cet article ci-dessous
 watch.tagsadd.tags=Tags: 
-watch.tagsadd.notag=Veuillez ajouter un tag avant de cliquer sur suivant
+watch.tagsadd.notags=Veuillez ajouter un tag avant de cliquer sur "Suivant"
 watch.article.flag.accessdenied = Vous n'êtes pas autorisé à éditer cet article
 
 watch.commentadd.caption=Ajouter un Commentaire
