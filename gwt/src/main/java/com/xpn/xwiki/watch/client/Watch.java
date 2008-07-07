@@ -411,9 +411,19 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     }
     
     public void refreshOnUpdateFeed() {
-        // Refresh the feedtree interface and the article list interface
-        userInterface.refreshData("feedtree");
-        userInterface.refreshData("articlelist");
+        // Refresh the feedtree interface and the article list interface, after refreshing the data from the server.
+        // TODO: the server data refresh is not needed for this case, we could use locally fetched data but we 
+        // take advantage of this situation and make a full refresh, until automatic refresh will be implemented.
+        config.refreshConfig(new XWikiAsyncCallback(this) {
+            public void onSuccess(Object object) {
+                super.onSuccess(object);
+                // Refresh the feed tree with refreshed config data
+                userInterface.refreshData("feedtree");
+                userInterface.refreshData("articlelist");
+                // Load the number of articles for each feed
+                refreshArticleNumber();
+            }
+        });        
     }
 
     public void refreshOnNewKeyword() {
