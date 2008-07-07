@@ -234,7 +234,7 @@ watch.filter.seeonly.trashed=Trashed articles
 watch.tagsadd.caption=Add a Tag
 watch.tagsadd.invitation=Please edit the tags for this article below
 watch.tagsadd.tags=Tags:
-watch.tagsadd.notag=Please a Tag in the input field before clicking on next
+watch.tagsadd.notags=Please add a tag before clicking "Next"
 watch.tagsadd.accessdenied=You are not allowed to edit this article
 
 watch.commentadd.caption=Add a Comment
