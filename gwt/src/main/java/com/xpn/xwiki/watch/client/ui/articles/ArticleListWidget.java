@@ -436,7 +436,7 @@ public class ArticleListWidget extends WatchWidget {
         int newWidth = windowWidth - feedTreeWidth - filterBarWidth;
         // Handle floating point widths in FF3: decrease by one, to be sure it fits
         // TODO: remove this ugly and unreliable hack when we'll be able to get floating point widths
-        if (Watch.getUserAgent().indexOf("firefox/3.0") != -1) {
+        if (Watch.getUserAgent().toLowerCase().indexOf("firefox/3.0") != -1) {
             newWidth = newWidth - 1;
         }
         if (newWidth < 0)
