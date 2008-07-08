@@ -102,7 +102,8 @@ button.watch-search-button {
     width: 100%;
   background: #808080;
   height: 40px;
-  border: 0px solid #ccc;
+  /*cover the missing pixels in FF3, if adjustment has been made to handle floating point width values*/
+  border-right: 2px solid #808080;
   color: #fff;
 }
 

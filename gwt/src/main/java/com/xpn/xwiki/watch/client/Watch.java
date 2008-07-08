@@ -672,4 +672,13 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     public String[] getPressReviewPages() {
         return getParam("pressreviewpages",Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_PRESSREVIEW).split(",");
     }
+    
+    /**
+     * Returns user agent. 
+     * TODO: push this up in the {@link XWikiGWTDefaultApp}, when changing the web gwt api. 
+     * @return the user agent, as sent by the browser.
+     */
+    public static native String getUserAgent() /*-{
+        return navigator.userAgent.toLowerCase();
+    }-*/;    
 }
