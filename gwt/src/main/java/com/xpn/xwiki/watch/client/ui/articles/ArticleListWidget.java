@@ -427,13 +427,18 @@ public class ArticleListWidget extends WatchWidget {
         articlepanel.add(getTitlePanel(article, articlepanel, contentZonePanel));
         articlepanel.add(contentZonePanel);
         panel.add(articlepanel);
-    }
-
+    } 
+    
     public void resizeWindow() {
         int windowWidth = watch.getUserInterface().getOffsetWidth();
         int feedTreeWidth = watch.getUserInterface().getFeedTreeWidth();
         int filterBarWidth = watch.getUserInterface().getFilterBarWidth();
         int newWidth = windowWidth - feedTreeWidth - filterBarWidth;
+        // Handle floating point widths in FF3: decrease by one, to be sure it fits
+        // TODO: remove this ugly and unreliable hack when we'll be able to get floating point widths
+        if (Watch.getUserAgent().indexOf("firefox/3.0") != -1) {
+            newWidth = newWidth - 1;
+        }
         if (newWidth < 0)
          newWidth = 0;
         setWidth(newWidth + "px");
