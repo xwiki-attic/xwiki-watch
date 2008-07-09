@@ -54,8 +54,9 @@ public class FeedDeleteDialog extends Dialog
 
         FlowPanel main = new FlowPanel();
         main.addStyleName(getCSSName("main"));
+        String feedTitle = feed.getTitle().trim().length() > 0 ? feed.getTitle() : feed.getName();
         HTMLPanel questionPanel = new HTMLPanel(
-            app.getTranslation("removefeed.confirm", new String[] {feed.getName()}));
+            app.getTranslation("removefeed.confirm", new String[] {feedTitle}));
         questionPanel.addStyleName(getCssPrefix() + "-invitation");
         main.add(questionPanel);
         //create the checkbox
