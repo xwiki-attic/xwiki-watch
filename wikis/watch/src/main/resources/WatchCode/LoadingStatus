@@ -65,6 +65,8 @@ if (request.space) {
   xwiki.feed.startUpdateFeedsInSpace(request.space, 19000);
 def updateThread = xwiki.feed.getUpdateThread(request.space);
 
+//print stats only if requested
+if (request.showstats == "1") {
 println "* ${msg.get("watch.updateactive")}: ${msg.get("watch.loadingstatus.true")}";
 if (updateThread.isUpdateInProgress()) {
   println "* ${msg.get("watch.updateinprogress")}: ${msg.get("watch.loadingstatus.true")}";
@@ -95,7 +97,8 @@ if (updateThread.exception!=null)
 
 println "&lt;h2&gt;${msg.get("watch.feeds")}&lt;/h2&gt;"
 
-sql = "select feedentry.feedname, count(*) from XWikiDocument as doc, BaseObject as obj, XWiki.FeedEntryClass as feedentry  where doc.web='${request.space}' and doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' and obj.id=feedentry.id  group by feedentry.feedname"
+// get all feed aggregators with counts for each one of them 
+sql = "select prop.value, (select count(*) from XWikiDocument as doc2, BaseObject as obj2, XWiki.FeedEntryClass as feedentry where feedentry.feedname =feedaggr.name and  doc2.web='${request.space}' and doc2.fullName=obj2.name and obj2.className='XWiki.FeedEntryClass' and obj2.id=feedentry.id) from XWikiDocument as doc, BaseObject as obj, StringProperty prop, XWiki.AggregatorURLClass as feedaggr where doc.web='${request.space}' and doc.fullName = obj.name and obj.id = feedaggr.id and obj.className='XWiki.AggregatorURLClass' and prop.id.id = obj.id and prop.id.name='title'"
 
 println "{table}"
 println "${msg.get("watch.feedname")} | ${msg.get("watch.nbarticles")}"
@@ -106,6 +109,7 @@ for(data in xwiki.search(sql)) {
 }
 
 println "{table}"
+}
 }
 }
 %&gt;</content>

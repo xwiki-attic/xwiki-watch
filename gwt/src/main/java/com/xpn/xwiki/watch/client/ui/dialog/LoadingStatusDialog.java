@@ -55,6 +55,7 @@ public class LoadingStatusDialog extends Dialog {
         Map paramMap = new HashMap();
         paramMap.put("xpage", "plain");
         paramMap.put("space", watch.getWatchSpace());
+        paramMap.put("showstats", "1");
         // Get the content
         watch.getXWikiServiceInstance().getDocumentContent(
             Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_LOADING_STATUS, true, paramMap,
