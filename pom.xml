@@ -71,6 +71,7 @@
         </property>
       </activation>
       <modules>
+        <module>installers</module>
         <module>distribution-test</module>
       </modules>
     </profile> 
