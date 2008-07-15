@@ -166,7 +166,8 @@ public class ArticleListWidget extends WatchWidget {
         // Get the feed title from the feed name in the article and display it
         Feed articleFeed = (Feed)watch.getConfig().getFeedsList().get(article.getFeedName());
         htmlFeedName.setHTML(
-                articleFeed.getTitle().trim().length() > 0 ? articleFeed.getTitle() : articleFeed.getName());
+                articleFeed == null ? article.getFeedName() 
+                : (articleFeed.getTitle().trim().length() > 0 ? articleFeed.getTitle() : articleFeed.getName()));
         p.add(htmlFeedName);
         return p;
     }
