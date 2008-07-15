@@ -32,13 +32,6 @@
   <artifactId>xwiki-watch-test-selenium</artifactId>
   <name>XWiki Products - Watch - Functional Selenium Tests</name>
   <packaging>pom</packaging>
-  <!-- We need to specify SCM information since this module's name doesn't match its artifactId and if this module is checked-out
-       by itself (for example by Continuum) it'll have wrong SCM information computed. -->
-  <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk/distribution-test</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk/distribution-test</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-watch/trunk/distribution-test</url>
-  </scm>
   <description>XWiki Products - Watch - Functional Selenium Tests</description>
   <dependencies>
     <dependency>
