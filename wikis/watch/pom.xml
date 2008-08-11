@@ -26,7 +26,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
-                  <artifactId>xwiki-watch-gwt</artifactId>
+                  <artifactId>xwiki-watch-gwt-client</artifactId>
                   <version>${pom.version}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>

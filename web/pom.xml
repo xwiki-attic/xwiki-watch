@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-watch-parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-watch-web</artifactId>
+  <name>XWiki Products - Watch - Web</name>
+  <!-- We're using a pom packaging type instead of a WAR as we're using the Assembly plugin
+       in order to generate the WAR as a secondary artifact with a classifier name as this is not
+       possible with a primary artifact -->
+  <packaging>war</packaging>
+  <description>The standard Watch WAR</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${product.enterprise.version}</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-watch-gwt-server</artifactId>
+      <version>${pom.version}</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webResources>
+            <!-- Include License resources -->
+            <resource>
+              <directory>${project.build.directory}/maven-shared-archive-resources/META-INF</directory>
+              <targetPath>META-INF</targetPath>
+            </resource>
+            <resource>
+              <directory>${project.build.directory}/maven-shared-archive-resources</directory>
+              <targetPath>WEB-INF</targetPath>
+              <includes>
+                <!--TODO: add the mergewebxml goal to generate a merged web.xml file-->
+                <include>web.xml</include>
+              </includes>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

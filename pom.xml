@@ -54,7 +54,9 @@
     <product.enterprise.version>1.4-SNAPSHOT</product.enterprise.version>
   </properties>
   <modules>
-    <module>gwt</module>
+    <module>gwt-client</module>
+    <module>gwt-server</module>
+    <module>web</module>
     <module>wikis</module>
     <module>database</module>
     <module>distribution</module>

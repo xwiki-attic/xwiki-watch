@@ -36,8 +36,8 @@
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${platform.web.version}</version>
+      <artifactId>xwiki-watch-web</artifactId>
+      <version>${pom.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
