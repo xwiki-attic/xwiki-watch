@@ -1,4 +1,4 @@
-package com.xpn.xwiki.watch.client.test;
+package com.xpn.xwiki.watch.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
