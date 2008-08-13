@@ -1,7 +1,7 @@
 package com.xpn.xwiki.watch.client.ui.wizard;
 
 import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Feed;
 import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.xpn.xwiki.watch.client.ui.dialog.*;

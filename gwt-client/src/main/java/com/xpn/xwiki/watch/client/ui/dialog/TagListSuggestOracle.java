@@ -18,7 +18,7 @@
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
  */
 
-package com.xpn.xwiki.watch.client.ui.articles;
+package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.rpc.AsyncCallback;

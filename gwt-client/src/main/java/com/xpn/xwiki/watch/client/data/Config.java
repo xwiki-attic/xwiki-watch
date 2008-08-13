@@ -1,11 +1,9 @@
-package com.xpn.xwiki.watch.client;
+package com.xpn.xwiki.watch.client.data;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
-import com.xpn.xwiki.watch.client.data.FeedArticle;
-import com.xpn.xwiki.watch.client.data.Group;
-import com.xpn.xwiki.watch.client.data.Keyword;
+import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.*;

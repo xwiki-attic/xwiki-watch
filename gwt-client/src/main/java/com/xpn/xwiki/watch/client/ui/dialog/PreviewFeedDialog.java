@@ -8,7 +8,7 @@ import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Constants;
-import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Feed;
 import com.xpn.xwiki.watch.client.ui.wizard.ConfigWizard;
 
 /**

@@ -1,4 +1,4 @@
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.articles;
 
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.xpn.xwiki.watch.client.Watch;

@@ -1,10 +1,12 @@
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.filterbar;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.xpn.xwiki.watch.client.ui.dialog.GroupDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.KeywordDialog;
+import com.xpn.xwiki.watch.client.ui.utils.ItemObject;
+import com.xpn.xwiki.watch.client.ui.utils.TextWidgetComposite;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;

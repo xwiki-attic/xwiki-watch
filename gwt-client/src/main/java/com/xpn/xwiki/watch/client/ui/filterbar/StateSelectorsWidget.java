@@ -17,15 +17,15 @@
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
  */
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.filterbar;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.xpn.xwiki.watch.client.FilterStatus;
 import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.watch.client.data.FilterStatus;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 
 /**

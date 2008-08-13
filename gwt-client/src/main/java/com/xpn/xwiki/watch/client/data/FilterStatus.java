@@ -1,4 +1,4 @@
-package com.xpn.xwiki.watch.client;
+package com.xpn.xwiki.watch.client.data;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +9,8 @@ import java.util.HashMap;
 import org.gwtwidgets.client.util.SimpleDateFormat;
 
 import com.google.gwt.http.client.URL;
+import com.xpn.xwiki.watch.client.Constants;
+import com.xpn.xwiki.watch.client.Watch;
 
 public class FilterStatus {
     protected Watch watch;

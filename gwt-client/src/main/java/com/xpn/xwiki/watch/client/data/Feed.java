@@ -1,7 +1,8 @@
-package com.xpn.xwiki.watch.client;
+package com.xpn.xwiki.watch.client.data;
 
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
+import com.xpn.xwiki.watch.client.Constants;
 
 import java.util.List;
 import java.util.ArrayList;

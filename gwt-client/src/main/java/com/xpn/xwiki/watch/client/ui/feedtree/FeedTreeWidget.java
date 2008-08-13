@@ -17,17 +17,19 @@
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
  */
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.feedtree;
 
+import com.xpn.xwiki.watch.client.data.Feed;
+import com.xpn.xwiki.watch.client.data.FilterStatus;
 import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
 import com.xpn.xwiki.watch.client.ui.dialog.GroupDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.StandardFeedDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.FeedDeleteDialog;
-import com.xpn.xwiki.watch.client.FilterStatus;
+import com.xpn.xwiki.watch.client.ui.utils.ItemObject;
+import com.xpn.xwiki.watch.client.ui.utils.TextWidgetComposite;
 import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.Feed;
 import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.dialog.Dialog;

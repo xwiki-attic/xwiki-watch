@@ -1,10 +1,8 @@
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.title;
 
-import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.ui.*;
-
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -28,46 +26,50 @@ import com.google.gwt.user.client.ui.*;
  * @author ldubost
  */
 
-public class TitleBarWidget extends WatchWidget {
-    private HTML title = new HTML();
-    private Image refreshImage;
-    private SearchWidget searchWidget;
+public class SearchWidget extends WatchWidget {
+    protected TextBox searchBox = new TextBox();
 
-    public TitleBarWidget() {
+    public SearchWidget() {
         super();
     }
 
     public String getName() {
-        return "titlebar";
+        return "search";
     }
     
-    public TitleBarWidget(Watch watch) {
+    public SearchWidget(Watch watch) {
         super(watch);
         setPanel(new FlowPanel());
         initWidget(panel);
-        init();
     }
 
     public void init() {
         super.init();
-        searchWidget = new SearchWidget(watch);
-        searchWidget.init();
-        refreshImage = new Image(watch.getSkinFile(Constants.IMAGE_REFRESH));
-        refreshImage.setStyleName(watch.getStyleName("titlebar", "refresh"));
-        refreshImage.setTitle(watch.getTranslation("refresh"));
-        refreshImage.addClickListener(new ClickListener() {
+        HTML html = new HTML(watch.getTranslation("search"));
+        html.setStyleName(watch.getStyleName("search-text"));
+        panel.add(html);
+        panel.add(searchBox);
+        searchBox.setStyleName(watch.getStyleName("search-box"));
+        searchBox.setVisibleLength(15);
+        Button okButton = new Button(watch.getTranslation("ok"));
+        okButton.setStyleName(watch.getStyleName("search-button"));
+        okButton.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
-                watch.refreshArticleList();
+                String text = searchBox.getText();
+                if (!text.equals("")) {
+                    watch.refreshOnSearch(text);   
+                } else {
+                    watch.refreshOnSearch(null);
+                }
             }
         });
-        title.setStyleName(watch.getStyleName("titlebar", "title"));
-        panel.add(title);
-        panel.add(refreshImage);
-        panel.add(searchWidget);
-        refreshData();
+        panel.add(okButton);
     }
 
-    public void refreshData() {
-        title.setHTML(watch.getTitleBarText());
+    public void resetSelections()
+    {
+        super.resetSelections();
+        //put the keyword text in the text input
+        this.searchBox.setText(watch.getFilterStatus().getKeyword());
     }
 }

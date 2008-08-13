@@ -1,7 +1,7 @@
 package com.xpn.xwiki.watch.client.ui.dialog;
 
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Feed;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -19,7 +19,7 @@
  *
  */
 
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.filterbar;
 
 import org.gwtwidgets.client.ui.cal.CalendarDate;
 import org.gwtwidgets.client.ui.cal.CalendarListener;

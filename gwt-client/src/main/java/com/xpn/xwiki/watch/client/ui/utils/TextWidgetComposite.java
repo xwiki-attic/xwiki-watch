@@ -1,4 +1,4 @@
-package com.xpn.xwiki.watch.client.ui.menu;
+package com.xpn.xwiki.watch.client.ui.utils;
 
 import java.util.ArrayList;
 import java.util.List;

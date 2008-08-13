@@ -5,8 +5,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
-import com.xpn.xwiki.watch.client.ui.menu.*;
+import com.xpn.xwiki.watch.client.ui.title.*;
 import com.xpn.xwiki.watch.client.ui.articles.ArticleListWidget;
+import com.xpn.xwiki.watch.client.ui.feedtree.FeedTreeWidget;
+import com.xpn.xwiki.watch.client.ui.filterbar.FilterBarWidget;
 import com.xpn.xwiki.watch.client.Watch;
 
 import java.util.*;

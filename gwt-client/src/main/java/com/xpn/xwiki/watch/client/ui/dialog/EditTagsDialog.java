@@ -7,7 +7,6 @@ import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.gwt.api.client.widgets.WordListSuggestOracle;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Constants;
-import com.xpn.xwiki.watch.client.ui.articles.TagListSuggestOracle;
 
 /**
  * See the NOTICE file distributed with this work for additional

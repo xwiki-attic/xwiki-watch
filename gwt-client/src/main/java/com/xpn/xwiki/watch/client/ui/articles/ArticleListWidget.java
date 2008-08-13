@@ -22,13 +22,11 @@ package com.xpn.xwiki.watch.client.ui.articles;
  */
 
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.xpn.xwiki.watch.client.ui.menu.ActionBarWidget;
-import com.xpn.xwiki.watch.client.ui.menu.NavigationBarWidget;
 import com.xpn.xwiki.watch.client.ui.dialog.CommentAddDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.EditTagsDialog;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.Constants;
-import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Feed;
 import com.xpn.xwiki.watch.client.data.FeedArticle;
 import com.xpn.xwiki.watch.client.data.FeedArticleComment;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;

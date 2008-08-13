@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.core.client.GWT;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTApp;
-import com.xpn.xwiki.watch.client.Feed;
+import com.xpn.xwiki.watch.client.data.Feed;
 
 import java.util.ArrayList;
 import java.util.List;
