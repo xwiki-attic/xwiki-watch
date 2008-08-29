@@ -63,6 +63,13 @@ public class Constants {
     public static final String PAGE_PREVIEW_FEED = "PreviewFeed";
     public static final String PAGE_EMAIL_PRESSREVIEW = "SendPressReviewEmail";
 
+    public static final String IMAGE_COMMENT = "comment.png";
+    public static final String IMAGE_TAG = "tag.png";
+    public static final String IMAGE_FEED = "feed.png";
+    public static final String IMAGE_USER = "user.png";
+    public static final String IMAGE_DELETE = "delete.png";
+    public static final String IMAGE_DELETE_ACTIVE = "delete-active.png";
+    
     public static final String IMAGE_PRESS_REVIEW = "pressreview.png";
     public static final String IMAGE_ANALYSIS = "analysis.png";
     public static final String IMAGE_HIDE_READ = "show-read.png";
@@ -75,6 +82,7 @@ public class Constants {
     public static final String IMAGE_TRASH_ON = "news-trash2.png";
     public static final String IMAGE_TRASH_OFF = "news-untrash2.png";
     public static final String IMAGE_EXT_LINK = "news-ext2.png";
+    public static final String IMAGE_LOADING_SPINNER = "spinner.gif";
 
     public static final String CLASS_AGGREGATOR_URL = "XWiki.AggregatorURLClass";
     public static final String PROPERTY_AGGREGATOR_URL_NAME = "name";

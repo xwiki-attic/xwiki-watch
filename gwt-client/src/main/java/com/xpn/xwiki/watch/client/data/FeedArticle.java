@@ -2,6 +2,7 @@ package com.xpn.xwiki.watch.client.data;
 
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
+import com.xpn.xwiki.watch.client.Constants;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class FeedArticle {
     protected String author;
     protected String date;
     protected String content;
-    protected String tags;
+    protected List tags = new ArrayList();
     protected int flagStatus;
     protected int readStatus;
     protected List comments = new ArrayList();
@@ -56,7 +57,10 @@ public class FeedArticle {
         author = feedentry.getViewProperty("author");
         date = feedentry.getViewProperty("date");
         content = feedentry.getViewProperty("content");
-        tags = feedentry.getViewProperty("tags");
+        // split the tags string and get the list
+        String tagsString = feedentry.getViewProperty("tags");
+        this.tags.clear();
+        this.tags.addAll(parseTagsString(tagsString, true));
         Integer iFlag = (Integer) feedentry.getProperty("flag");
         flagStatus = (iFlag==null) ? 0 : iFlag.intValue();
         Integer iRead = (Integer) feedentry.getProperty("read");
@@ -71,6 +75,34 @@ public class FeedArticle {
                 comments.add(new FeedArticleComment(comment_author, comment_date, comment_content));
             }
         }
+    }
+    
+    public static List parseTagsString(String tagsString, boolean removeDuplicates) {
+        List tagsList = new ArrayList();
+        if (tagsString != null) {
+            String[] tagarray = tagsString.split(Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
+            for (int i = 0; i < tagarray.length; i++) {
+                if (tagarray[i].trim().length() > 0 && (!tagsList.contains(tagarray[i].trim()))) {
+                    tagsList.add(tagarray[i].trim());
+                }
+            }
+        }
+        return tagsList;
+    }
+    
+    public static List joinTagsLists(List l1, List l2, boolean removeDuplicates) {
+        List newList = new ArrayList();
+        newList.addAll(l1);
+        if (removeDuplicates) {
+            for (int i = 0; i < l2.size(); i++) {
+                if (!newList.contains(l2.get(i))) {
+                    newList.add(l2.get(i));
+                }
+            }
+        } else {
+            newList.addAll(l2);
+        }
+        return newList;
     }
 
     public String getTitle() {
@@ -129,14 +161,11 @@ public class FeedArticle {
         this.content = content;
     }
 
-    public String getTags() {
-        if (tags==null)
-         return "";
-        else
-         return tags;
+    public List getTags() {
+        return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List tags) {
         this.tags = tags;
     }
 

@@ -94,8 +94,10 @@ watch.read=Read
 watch.content=Content 	
 
 watch.search=Search
-watch.tags=Tags
+watch.tags=Tags:
+watch.notags=No Tags
 watch.comments=Comments
+watch.nocomments=No Comments
 watch.ok=OK
 watch.on=ON
 loading.loading_msg=The page is loading...
@@ -117,6 +119,7 @@ watch.configtype.button.addgroup.description=Create a Group
 watch.configtype.button.loadingstatus.description=Check the loading status
 watch.configtype.noselection=You have not selected any action
 
+watch.button.add=Add
 watch.button.cancel=Cancel
 watch.button.next=Next
 watch.button.back=Back
@@ -237,7 +240,7 @@ watch.tagsadd.tags=Tags:
 watch.tagsadd.notags=Please add a tag before clicking "Next"
 watch.tagsadd.accessdenied=You are not allowed to edit this article
 
-watch.commentadd.caption=Add a Comment
+watch.commentadd.caption=Add a comment ...
 watch.commentadd.invitation=Please enter your comment for this article below
 watch.commentadd.comment=Comment:
 watch.commentadd.nocomment=Please add your comment in the box below before clicking on next
@@ -276,6 +279,8 @@ watch.article.flag.add.caption=Flag this article
 watch.article.flag.remove.caption=Unflag this article
 watch.article.trash.add.caption=Trash this article
 watch.article.trash.remove.caption=Untrash this article
+watch.article.tag.add.caption= Add tag
+watch.article.tag.remove.caption= Delete tag
 
 watch.all=All
 watch.Ok=Ok

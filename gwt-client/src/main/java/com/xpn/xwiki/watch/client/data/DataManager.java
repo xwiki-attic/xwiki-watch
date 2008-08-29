@@ -632,13 +632,11 @@ public class DataManager {
     }
 
     public void addComment(FeedArticle article, String text, final AsyncCallback cb) {
-        watch.getXWikiServiceInstance().addComment(article.getPageName(), text, new XWikiAsyncCallback(watch) {
+        watch.getXWikiServiceInstance().addComment(article.getPageName(), text, new AsyncCallback() {
             public void onFailure(Throwable throwable) {
-                super.onFailure(throwable);
                 cb.onFailure(throwable);
             }
             public void onSuccess(Object object) {
-                super.onSuccess(object);
                 if (!((Boolean)object).booleanValue()) {
                     String errorMessaqe = watch.getTranslation("commentadd.accessdenied");
                     cb.onFailure(getAccessDeniedException(errorMessaqe, errorMessaqe));
@@ -741,14 +739,12 @@ public class DataManager {
      * @return
      */
     public void getArticle(String pageName, final AsyncCallback cb) {
-        watch.getXWikiServiceInstance().getDocument(pageName, true, true, false, new XWikiAsyncCallback(watch) {
+        watch.getXWikiServiceInstance().getDocument(pageName, true, true, false, new AsyncCallback() {
             public void onFailure(Throwable caught) {
-                super.onFailure(caught);
                 cb.onFailure(caught);
             }
 
             public void onSuccess(Object result) {
-                super.onSuccess(result);
                 // We encapsulate the result in a FeedArticle object
                 FeedArticle article = new FeedArticle((Document) result);
                 cb.onSuccess(article);
@@ -756,15 +752,7 @@ public class DataManager {
         });
     }
 
-    public void updateTags(FeedArticle article, String tags, final AsyncCallback cb) {
-        List taglist = new ArrayList();
-        tags = (tags==null) ? "" : tags;
-        String[] tagarray = tags.split(Constants.PROPERTY_TAGS_SEPARATORS_EDIT);
-        for (int i = 0; i < tagarray.length; i++) {
-            if (tagarray[i].trim().length() > 0) {
-                taglist.add(tagarray[i].trim());
-            }
-        }
+    public void updateTags(FeedArticle article, List taglist, final AsyncCallback cb) {
         watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
                 "tags", taglist, new AsyncCallback(){
             public void onFailure(Throwable throwable) {
@@ -779,6 +767,44 @@ public class DataManager {
                 }
             }
         });
+    }
+    
+    /**
+     * Removes a tag from the specified article.
+     * 
+     * @param article
+     * @param tag
+     * @param cb
+     */
+    public void removeTag(FeedArticle article, String tag, final AsyncCallback cb)
+    {
+        if (article != null && tag != null && tag.length() > 0) {
+            List tagsToSet = new ArrayList();
+            tagsToSet.addAll(article.getTags());
+            if (tagsToSet.contains(tag)) {
+                tagsToSet.remove(tag);
+                // send update to server
+                watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
+                    "tags", tagsToSet, new AsyncCallback(){
+                        public void onFailure(Throwable throwable) {
+                            cb.onFailure(throwable);
+                        }
+                        public void onSuccess(Object result) {
+                            if (!((Boolean)result).booleanValue()) {
+                                String errorMessage = watch.getTranslation("tagsadd.accessdenied");
+                                cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                            } else {
+                                cb.onSuccess(result);
+                            }
+                        }
+                    });                
+            } else {
+                cb.onSuccess(null);
+            }
+        } else {
+            // parameters are invalid but still call success, no failure has occurred
+            cb.onSuccess(null);
+        }
     }
 
     public void getTagsList(AsyncCallback cb) {
@@ -807,7 +833,7 @@ public class DataManager {
         watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "." + Constants.QUERY_PAGE_ARTICLENUMBER, params, 0, 0, cb);
     }
 
-    public void updateArticleFlagStatus(FeedArticle article, int newflagstatus, final XWikiAsyncCallback cb) {
+    public void updateArticleFlagStatus(FeedArticle article, int newflagstatus, final AsyncCallback cb) {
         watch.getXWikiServiceInstance().updateProperty(article.getPageName(), "XWiki.FeedEntryClass", 
                 "flag", newflagstatus, new AsyncCallback() {
             public void onFailure(Throwable caught) {

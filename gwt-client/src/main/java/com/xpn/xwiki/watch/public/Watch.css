@@ -302,97 +302,95 @@ cursor: pointer;
 
 .watch-articlelist {
     float: left;
+    background-color: #fff;
+}
+/*put a nice margin to the info*/
+.watch-articlelist div.info {
+	margin: 20px;
 }
 .watch-article {
     width: 100%;
     float: left;
 
 }
-.watch-aricle-commentsnb{
-clear: both;
-}
-.watch-article-logo {
-  float: left;
-  padding-left: 3px;
-  margin-right:-20px;
-  display: inline;
-}
-
-.watch-article-logo  .gwt-HTML {
-       display: inline;
-}
-
-.watch-article-titlebar {
+.watch-article-headline {
 	position: relative;
 	zoom:1;/* haslayout for IE6  --> to remove*/
 	display: block;
   overflow: auto;
-  margin: 4px 10px 0 10px;
-  padding: 5px;
-  border: 0px solid red;
-}
-.watch-article-read div.watch-article-titlebar {
-	background: #fff9d8;
-}
-.watch-article-unread div.watch-article-titlebar {
-	  background: #E5F2FF;
-}
-.watch-article-titleline{
-	float: left;
-	width: auto !important;
-	width: 90%;
-	margin: 0 50px 0 10px;
-	border: 0px solid yellow;
-	overflow-x: hidden;
-}
- div.watch-article-titleline div {
-	font-weight: bold;
-	text-decoration: none;
-	cursor: pointer; 
-}
-.watch-article-unread div.watch-article-titleline a {
-	color: #000;
-}
-.watch-article-read div.watch-article-titleline a {
-	color: #555;
+	margin: 4px 10px 0px 10px;
+	padding: 5px 0px;
+	border-top: 1px dotted #e6e6e6;
 }
 
-div.watch-article-actions {
-	position: absolute;
-	right:  7px;
-	top:  5px;
-	border: 0px solid #333;
+.watch-article-read div.watch-article-headline {
+	background: #ffffff;
 }
-div.watch-article-actions img{
-	margin-left: 10px;
+
+.watch-article-unread div.watch-article-headline {
+	background: #ffffff;
+}
+
+.watch-article-unread div.watch-article-title div.gwt-HTML {
+	color: #000;
+	font-size: 1.1em;
+}
+
+.watch-article-read div.watch-article-title div.gwt-HTML {
+	color: #868c94;
+	font-size: 1.1em;
+}
+
+.watch-article-header {
+	margin: 0px 0px 0px 5px;
+	width: 90%;
+}
+
+.watch-article-title {
+	float: none;
+	overflow-x: hidden;
+	width: auto !important;
+	width: 80%;
+	margin: 0 50px 0 0;
+}
+
+div.watch-article-title div {
 	cursor: pointer;
+	display: inline;
+	font-weight: bold;
+	text-decoration: none;
 }
-img.watch-article-action-trash {
-	width:  16px;
-	height: 16px;
+
+.watch-article-details {
+	float: none;
+	overflow-x: hidden;
+	width: auto !important;
+	width: 80%;
+	margin: 0 50px 0 0;
 }
 
 div.watch-article-feedname {
 	position: relative;
 	float: left;
-	clear: both;
 	font-size: 0.9em;
-	color:  #888;
-	margin-right: 10px;
+	color: #43464A;
 		zoom:1;/* haslayout for IE6  --> to remove*/
 }
+
 div.watch-article-feedname-text {
 		position: relative;
 float: left;
 width: auto;
 white-space: nowrap;
+	padding: 0;
+	margin: 0pt 1em 0 5px;
 }
+
 div.watch-article-date {
 	position: relative;
 	float: left;
 	font-size: 0.9em;
-	color:  #888;
-	margin-right: 10px;
+	color: #43464A;
 	white-space: nowrap;
 	display: inline;
 }
@@ -401,40 +399,223 @@ div.watch-article-date .watch-article-date-text {
     display: inline;
 }
 
-.watch-article-titleline {
-	margin-left: 0px;
-}
-.watch-article-titleline div{
+.watch-article-logo {
+	float: left;
 	display: inline;
-	margin-left: 25px;
 }
 
-
-img.watch-article-title-extlink {
-	margin-left: 5px;
-}
-.watch-article-titlebar-bis {}
-.watch-article-contentzone {
-  background: #Fff;
-  margin: -1px 0px 10px;
-  border: 0px solid #B2D8FF;
-  border-top: 0;
-  padding: 5px;
-}
-.watch-article-tags, .watch-article-comments {
-  background: #fdffef;
-  padding: 0 5px;
-  margin: 0 5px;
+.watch-article-logo .gwt-HTML {
+	display: inline;
 }
 
-img.watch-article-tags-add-image, img.watch-article-comments-add-image {
+div.watch-article-actionsleft {
+	position: relative;
+	float: left;
+	margin: 0px 5px 0px 0px;
+	display: inline;
+}
+
+div.watch-article-actionsleft img {
+	margin-left: 2px;
 	cursor: pointer;
+}
+
+div.watch-article-actionsright {
+	top: 5px;
+	right: 0px;
+	position: absolute;
+}
+
+div.watch-article-actionsright img {
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+div.watch-article-trash, div.watch-article-flag {
+   display: inline;
+}
+
+.watch-article-status {
+	display: block;
+	overflow-x: hidden;
+	width: auto !important;
+}
+
+.watch-article-content {
+	margin: 10px 0px;
+	text-align: justify;
+}
+
+.watch-article-comments-status {
+	float: left;
+	display: inline;
+	font-size: 0.9em;
+	margin-right: 20px;
+	margin-left: 5px;
+	color: #43464A;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.watch-article-tags-status {
+	float: left;
+	display: inline;
+	color: #43464A;
+	font-size: 0.9em;
+	margin-right: 5px;
+	margin-left: 5px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.watch-article-comments-add {
+	float: left;
+	overflow-x: hidden;
+	width: 90%;
+	margin-left: 20px;
+}
+
+.watch-article-comments-add .gwt-Label {
+	font-size: 0.9em;
+	color: #43464A;
+}
+
+.watch-article-comments-add .gwt-TextArea {
+	width: 450px;
+	height: 100px;
+	border: 1px solid #43464A;
+}
+
+.watch-article-comments-add .gwt-HTML {
+	float: left;
+	font-size: 0.8em;
+	color: #43464A;
+	padding: 3px;
+	margin: 5px;
+	text-decoration: underlined;
+}
+
+.watch-article-comments-add button.watch-article-comment-add,
+.watch-article-comments-add button.watch-article-comment-add:hover {
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.8em;
+    color: #E6EAEE;
+    background-color: #43464A;
+    border: 0px;
+    padding: 3px;
+    margin: 5px;
+    float: left;
+}
+
+.watch-article-comments-add button.watch-article-comment-cancel,
+.watch-article-comments-add button.watch-article-comment-cancel:hover {
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.8em;
+    color: #43464A;
+    background-color: #FFFFFF;
+    border: 0px;
+    padding: 3px;
+    margin: 5px;
+    float: left;
+}
+
+.watch-article-comment {
+	font-size: 0.9em;
+	background-color: #fff;
+	margin: 10px 0px;
+	padding: 5px 0px;
+}
+
+.watch-article-comment-details {
+	width: 120px;
+}
+
+
+.watch-article-comment-author {
+    clear: both;
+    float: left;
+
+}
+
+.watch-article-comment-author {
+	font-size: 0.7em;
+	padding: 0px 5px;
+	color: #43464A;
+	font-weight: bold;
+	overflow: hidden;
+	float: left;
+	margin: 0xp;
+	width: 90%;
+}
+
+.watch-article-comment-date {
+	clear: both;
+	color: #43464A;
+	font-size: 0.8em;
+}
+
+.watch-article-date-on {
+    padding: 0;
+    margin: 0 1em 0 0;
+    color: #43464A;
+    float: left;
+}
+
+.watch-article-comment-content {
+	border-left: 1px dotted #43464A;
+	background-color: #fff;
+	font-size: 0.9em;
+	color: #43464A;
+	text-align: justify;
+	margin: 0px 5px;
+	padding: 0px 5px;
+}
+
+.watch-article-tag {
+	float: left;
+	margin-right: 10px;
+}
+
+.watch-article-tag-remove .gwt-Image {
+    cursor: pointer;	
+}
+
+.watch-article-tag-remove {
+	padding: 3px 4px 5px;
+}
+
+
+.watch-article-tag-name {
+	font-size: 0.9em;
+	color: #43464A;
+}
+
+.watch-article-tags-add .gwt-TextBox {
+	border: 1px solid #43464A;
+	width: 100px;
+	font-size: 0.7em;
+	padding: 0px;
+	margin: 0px;
+}
+
+.watch-article-tags-add .gwt-Button,.watch-article-tags-add .gwt-Button:hover {
+	text-align: center;
+	font-weight: normal;
+	font-size: 0.6em;
+	color: #E6EAEE;
+	background-color: #43464A;
+	padding: 1px;
+	margin: 0px 2px;
+	float: left;
 }
 
 /* add padding to suggestions list*/
 .gwt-SuggestBoxPopup td.item {
     padding: 2px;
 }
+
 /* highlight current selected suggestion */
 .gwt-SuggestBoxPopup .item-selected {
     background-color: #43464a;
@@ -442,14 +623,8 @@ img.watch-article-tags-add-image, img.watch-article-comments-add-image {
 }
 
 .gwt-SuggestBoxPopup {
-    background-color: #FFFFFF;
-}
-
-div.watch-article-content {
-	margin: 0 5px 1.5em  5px;
-}
-
-.watch-article-comments-content  {
+	background-color: #E6EAEE;
+    border: 1px outset #868C94;
 }
 
 div.watch-article-comment {
@@ -478,9 +653,8 @@ div.watch-article-tags-text, div.watch-article-comments-title-text {
 }
 .watch-article-comment-date {
 	float:  left;
-	font-weight: bold;
   	text-transform: lowercase;
-  	margin-left: 10px;
+	margin-left: 21px;
 }
 
 /* @end */
@@ -597,6 +771,24 @@ div.watch-tagscloud, div.watch-keyword-link {
     overflow: visible;
     display: block;
     max-width: 180px;
+}
+
+div.dialog-message .gwt-ModalDialog-Content {
+    padding: 10px;
+    text-align: center;
+}
+
+div.dialog-message .gwt-ModalDialog-Content .gwt-Button {
+	margin: 0;
+}
+
+div.dialog-loading .gwt-ModalDialog-Content {
+    padding: 10px;
+    text-align: center;
+}
+
+div.dialog-loading .gwt-ModalDialog-Content .gwt-Button {
+    margin: 0;
 }
 
 div.gwt-DialogBox {
@@ -953,6 +1145,14 @@ div.watch-datestartwidget, div.watch-dateendwidget {
 }
 div.calendar-dateCell {
 	cursor: pointer;
+}
+
+/* Styles for the HTMLMessages, universal across watch application */
+div.info {
+	padding: 16px 10px 16px 42px;
+	background: #E8F1FF url('watch-info.png') 5px center no-repeat; 
+    border: 1px solid #5599FF;
+    color: #5599FF;
 }
 
 /* Tag cloud styles: although they are generated and inserted in HTML by the TagCloud page, */ 

@@ -82,8 +82,10 @@ watch.actionbar.hidereadarticles=Montrer/Cacher les Articles
 watch.actionbar.analysis=Analyse Textuelle
 
 watch.search=Rechercher
-watch.tags=Tags
+watch.tags=Tags:
+watch.notags=Aucun tag
 watch.comments=Commentaires
+watch.nocomments=Aucun commentaire
 watch.ok=OK
 watch.on=Activé
 loading.loading_msg=La page est en cours de chargement...
@@ -105,6 +107,7 @@ watch.configtype.button.addgroup.description=Créez un Groupe
 watch.configtype.button.loadingstatus.description=Vérifiez le chargement des &lt;br /&gt;flux
 watch.configtype.noselection=Veuillez sélectionner une action dans la liste avant de cliquer sur "suivant"
 
+watch.button.add=Ajouter
 watch.button.cancel=Annuler
 watch.button.next=Suivant
 watch.button.back=Retour
@@ -225,7 +228,8 @@ watch.tagsadd.tags=Tags:
 watch.tagsadd.notags=Veuillez ajouter un tag avant de cliquer sur "Suivant"
 watch.article.flag.accessdenied = Vous n'êtes pas autorisé à éditer cet article
 
-watch.commentadd.caption=Ajouter un Commentaire
+watch.commentadd.caption=Ajouter un commentaire
+watch.commentadd.caption=Ajouter un commentaire...
 watch.commentadd.invitation=Veuillez entrer votre commentaire pour cet article ci-dessous
 watch.commentadd.comment=Commentaire: 
 watch.commentadd.nocomment=Veuillez ajouter un commentaire avant de cliquer sur suivant
@@ -270,6 +274,8 @@ watch.article.flag.add.caption=Marquer cet article
 watch.article.flag.remove.caption=Démarquer cet article
 watch.article.trash.add.caption=Mettre cet article à la poubelle
 watch.article.trash.remove.caption=Sortir cet article de la poubelle
+watch.article.tag.add.caption=Ajouter un tag
+watch.article.tag.remove.caption=Effacer un tag 
 
 watch.all=All
 watch.ok=Ok
