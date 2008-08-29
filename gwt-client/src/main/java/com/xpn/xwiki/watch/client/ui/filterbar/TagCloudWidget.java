@@ -20,9 +20,11 @@
 package com.xpn.xwiki.watch.client.ui.filterbar;
 
 import com.google.gwt.user.client.ui.*;
+import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Watch;
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
+import com.xpn.xwiki.watch.client.ui.utils.LoadingAsyncCallback;
+import com.xpn.xwiki.watch.client.ui.utils.LoadingWidget;
 
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,13 @@ public class TagCloudWidget extends WatchWidget {
     
     public TagCloudWidget(Watch watch) {
         super(watch);
-        panel = new FlowPanel();
-        panel.add(getTitlePanel());
+        Image loadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
+        Panel loadingWidgetPanel = new FlowPanel();
+        loadingWidgetPanel.add(loadingImage);
+        loadingWidgetPanel.addStyleName(watch.getStyleName("tagcloud-loading"));
+        Panel tagsPanel = new FlowPanel();
+        tagsPanel.add(getTitlePanel());
+        panel = new LoadingWidget(tagsPanel, loadingWidgetPanel);
         initWidget(panel);
         init();
     }
@@ -60,10 +67,14 @@ public class TagCloudWidget extends WatchWidget {
 
     public void refreshData() {
         // Load the tags list
-        watch.getDataManager().getTagsList(new XWikiAsyncCallback(watch) {
+        watch.getDataManager().getTagsList(new LoadingAsyncCallback((LoadingWidget)panel) {
             public void onSuccess(Object result) {
                 super.onSuccess(result);
                 updateTagsList((List) result);
+            }
+            public void onFailure(Throwable t)
+            {
+                super.onFailure(t);
             }
         });
     }
@@ -73,8 +84,9 @@ public class TagCloudWidget extends WatchWidget {
     }
 
     public void updateTagsList(List list) {
-        panel.clear();
-        panel.add(getTitlePanel());
+        Panel tagsPanel = (Panel)((LoadingWidget)panel).getMainWidget();
+        tagsPanel.clear();
+        tagsPanel.add(getTitlePanel());
         tagsLink.clear();
         if (list!=null) {
             for (int i=0;i<list.size();i++) {
@@ -94,7 +106,7 @@ public class TagCloudWidget extends WatchWidget {
                             watch.refreshOnTagActivated(name);
                         }
                     });
-                panel.add(label);
+                tagsPanel.add(label);
             }
         }
     }
