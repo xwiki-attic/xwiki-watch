@@ -1,5 +1,4 @@
-package com.xpn.xwiki.watch.client.ui.articles;
-/**
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  * <p/>
@@ -17,13 +16,10 @@ package com.xpn.xwiki.watch.client.ui.articles;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client.ui.articles;
 
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
-import com.xpn.xwiki.watch.client.ui.dialog.CommentAddDialog;
-import com.xpn.xwiki.watch.client.ui.dialog.EditTagsDialog;
 import com.xpn.xwiki.watch.client.ui.dialog.TagListSuggestOracle;
 import com.xpn.xwiki.watch.client.ui.utils.DefaultLoadingWidget;
 import com.xpn.xwiki.watch.client.ui.utils.HTMLMessages;
@@ -34,16 +30,11 @@ import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.data.Feed;
 import com.xpn.xwiki.watch.client.data.FeedArticle;
 import com.xpn.xwiki.watch.client.data.FeedArticleComment;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.app.XWikiGWTAppConstants;
-import com.xpn.xwiki.gwt.api.client.dialog.Dialog;
 import com.xpn.xwiki.gwt.api.client.widgets.WordListSuggestOracle;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleListWidget extends WatchWidget {
