@@ -41,14 +41,6 @@
       <version>${gwtVersion}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwtVersion}</version>
-      <!-- This JAR is used to generate JS files and shouldn't be included in the server side
-           WAR -->
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
       <version>${platform.core.version}</version>
