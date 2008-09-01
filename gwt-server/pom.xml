@@ -48,6 +48,18 @@
            overlayed with the Standard WAR which already contains all the required libs -->
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-watch-gwt-client</artifactId>
+      <version>${pom.version}</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform</groupId>
+      <artifactId>xwiki-web-gwt</artifactId>
+      <version>${platform.web.version}</version>
+      <scope>provided</scope>
+    </dependency>    
     <!-- Not sure why we have to add again this dependency. It's already defined in xwiki-core
          but it doesn't get imported as a transitive dependency. Maybe because we're importing
          xwiki-ocre with a provided scope... -->
@@ -59,7 +71,7 @@
       <version>2.4</version>
       <scope>provided</scope>
     </dependency>
-  </dependencies>
+  </dependencies>  
   <repositories>
     <repository>
       <id>gwt-maven</id>

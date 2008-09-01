@@ -656,53 +656,56 @@ public class DataManager {
     public void getArticles(FilterStatus filterStatus, int nb, int start, final AsyncCallback cb) {
         try {
             String sql = prepareSQLQuery(filterStatus);
-            watch.getXWikiServiceInstance().getDocuments(sql, nb, start, true, true, false, cb);
+            watch.getXWatchServiceInstance().getArticles(sql, nb, start, cb);
         } catch(Exception e) {
             cb.onFailure(e);
         }
     }
 
-    private String prepareSQLQuery(FilterStatus filterStatus) {
-        String skeyword = (filterStatus.getKeyword() ==null) ? null : filterStatus.getKeyword().replaceAll("'", "''");
-        String sql = ", BaseObject as obj, XWiki.FeedEntryClass as feedentry ";
-        String wheresql = "where doc.fullName=obj.name and obj.className='XWiki.FeedEntryClass' and obj.id=feedentry.id ";
+    private String prepareSQLQuery(FilterStatus filterStatus)
+    {
+        String skeyword = (filterStatus.getKeyword() == null) ? null : filterStatus.getKeyword().replaceAll("'", "''");
+        String sql = ", XWiki.FeedEntryClass as feedentry ";
+        String wheresql = "where obj.id=feedentry.id and obj.className='XWiki.FeedEntryClass'";
 
-        if ((filterStatus.getTags() !=null)&&(filterStatus.getTags().size()>0)) {
-            for(int i=0;i< filterStatus.getTags().size();i++) {
+        if ((filterStatus.getTags() != null) && (filterStatus.getTags().size() > 0)) {
+            for (int i = 0; i < filterStatus.getTags().size(); i++) {
                 String tag = (String) filterStatus.getTags().get(i);
-                wheresql += " and '" + tag.replaceAll("'","''") + "' in elements(feedentry.tags) ";
+                wheresql += " and '" + tag.replaceAll("'", "''") + "' in elements(feedentry.tags) ";
             }
         }
 
         if ((skeyword != null) && (!skeyword.trim().equals(""))) {
-            wheresql  += " and (lower(feedentry.title) like '%" + skeyword.toLowerCase() + "%' "
+            wheresql +=
+                " and (lower(feedentry.title) like '%" + skeyword.toLowerCase() + "%' "
                     + " or lower(feedentry.content) like '%" + skeyword.toLowerCase() + "%' "
                     + " or lower(feedentry.fullContent) like '%" + skeyword.toLowerCase() + "%') ";
         }
 
-        if (filterStatus.getFlagged() ==1) {
+        if (filterStatus.getFlagged() == 1) {
             wheresql += " and feedentry.flag=1";
-        } else if ((filterStatus.getFlagged() ==-1)&&(filterStatus.getTrashed() ==-1)) {
+        } else if ((filterStatus.getFlagged() == -1) && (filterStatus.getTrashed() == -1)) {
             wheresql += " and (feedentry.flag=0 or feedentry.flag is null)";
-        } else if (filterStatus.getTrashed() ==1) {
+        } else if (filterStatus.getTrashed() == 1) {
             wheresql += " and feedentry.flag=-1";
-        } else if (filterStatus.getTrashed() ==-1) {
+        } else if (filterStatus.getTrashed() == -1) {
             wheresql += " and (feedentry.flag>-1 or feedentry.flag is null)";
-        } else if (filterStatus.getFlagged() ==-1) {
+        } else if (filterStatus.getFlagged() == -1) {
             wheresql += " and (feedentry.flag<1 or feedentry.flag is null)";
         }
 
         Feed feed = filterStatus.getFeed();
-        String feedurl = (feed==null) ? null : feed.getUrl();
-        if ((feedurl !=null)&&(!feedurl.trim().equals(""))) {
-            wheresql += " and feedentry.feedurl='" + feedurl.replaceAll("'","''") + "'";
-        } else if ((filterStatus.getGroup() !=null)&&(!filterStatus.getGroup().trim().equals(""))) {
-            wheresql += "and feedentry.feedurl in ("
-                + "select feed.url from XWiki.AggregatorURLClass as feed where '" + filterStatus.getGroup().replaceAll("'","''") + "' in elements(feed.group))";
+        String feedurl = (feed == null) ? null : feed.getUrl();
+        if ((feedurl != null) && (!feedurl.trim().equals(""))) {
+            wheresql += " and feedentry.feedurl='" + feedurl.replaceAll("'", "''") + "'";
+        } else if ((filterStatus.getGroup() != null) && (!filterStatus.getGroup().trim().equals(""))) {
+            wheresql +=
+                "and feedentry.feedurl in (" + "select feed.url from XWiki.AggregatorURLClass as feed where '"
+                    + filterStatus.getGroup().replaceAll("'", "''") + "' in elements(feed.group))";
         }
 
-        if (filterStatus.getDateStart() !=null) {
-            //format date
+        if (filterStatus.getDateStart() != null) {
+            // format date
             SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
             String sdate = format.format(filterStatus.getDateStart());
             wheresql += " and feedentry.date >= '" + sdate + "' ";
@@ -722,14 +725,14 @@ public class DataManager {
             wheresql += " and feedentry.date <= '" + sdate + "'";
         }
 
-        if (filterStatus.getRead() ==1) {
+        if (filterStatus.getRead() == 1) {
             wheresql += " and feedentry.read=1";
-        } else if (filterStatus.getRead() ==-1) {
+        } else if (filterStatus.getRead() == -1) {
             wheresql += " and (feedentry.read is null or feedentry.read=0)";
         }
 
-        sql += wheresql + " and doc.web='" + watch.getWatchSpace() + "' order by feedentry.date desc";
-        return sql;
+        sql += wheresql + " and obj.name like '" + watch.getWatchSpace() + ".%' order by feedentry.date desc";
+        return sql;        
     }
 
     /**

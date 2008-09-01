@@ -35,15 +35,21 @@
               <directory>${project.build.directory}/maven-shared-archive-resources/META-INF</directory>
               <targetPath>META-INF</targetPath>
             </resource>
+            <!--
             <resource>
-              <directory>${project.build.directory}/maven-shared-archive-resources</directory>
+              <directory>${project.basedir}/src/main/webapp/WEB-INF</directory>
               <targetPath>WEB-INF</targetPath>
-              <includes>
-                <!--TODO: add the mergewebxml goal to generate a merged web.xml file-->
-                <include>web.xml</include>
-              </includes>
+              <excludes>
+                <exclude>web.xml</exclude>
+              </excludes>
             </resource>
+            -->
           </webResources>
+          <!-- Exclude the source jars from the war. 
+            They shouldn't be here in the first place but all the provided scopes seem to not keep them away -->
+            <warSourceExcludes>
+            WEB-INF/lib/gwt-user*.jar,WEB-INF/lib/gwt-widgets*.jar,WEB-INF/lib/xwiki-web-gwt*-sources.jar
+            </warSourceExcludes>
         </configuration>
       </plugin>
     </plugins>

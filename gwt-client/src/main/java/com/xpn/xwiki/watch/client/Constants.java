@@ -26,6 +26,8 @@ public class Constants {
 
     public Constants() {};
 
+    public static final String XWATCH_SERVICE = "/XWatchService";
+
     public static final int DEFAULT_PARAM_NB_ARTICLES_PER_PAGE = 10;
     public static final int DEFAULT_PARAM_NEWARTICLES_MONITORING_TIMER = 30000;
     public static final String DEFAULT_LOCALE = "en";

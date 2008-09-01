@@ -1,5 +1,6 @@
 package com.xpn.xwiki.watch.client;
 
+import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTDefaultApp;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.app.XWikiGWTAppConstants;
@@ -16,6 +17,7 @@ import com.xpn.xwiki.watch.client.data.Group;
 import com.xpn.xwiki.watch.client.data.Keyword;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -674,5 +676,32 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
 
     public String[] getPressReviewPages() {
         return getParam("pressreviewpages",Constants.DEFAULT_CODE_SPACE + "." + Constants.PAGE_PRESSREVIEW).split(",");
+    }
+
+    public XWikiServiceAsync getXWikiServiceInstance()
+    {
+        // Return the XWatchService instance
+        return getXWatchServiceInstance();
+    }
+
+    public XWatchServiceAsync getXWatchServiceInstance()
+    {
+        if (serviceInstance == null) {
+            serviceInstance = (XWikiServiceAsync) GWT.create(XWatchService.class);
+            String defaultXWikiService;
+            if (GWT.isScript()) {
+                defaultXWikiService = XWikiGWTAppConstants.XWIKI_DEFAULT_BASE_URL + Constants.XWATCH_SERVICE;
+            } else {
+                // Since GWT does not document the format of the URL returned by this function
+                // and it seems to have changed from the last version, we do a test
+                String moduleBaseURL = GWT.getModuleBaseURL();
+                if (moduleBaseURL.endsWith("/")) {
+                    moduleBaseURL = moduleBaseURL.substring(0, moduleBaseURL.length() - 1);
+                }
+                defaultXWikiService = moduleBaseURL + Constants.XWATCH_SERVICE;
+            }
+            ((ServiceDefTarget) serviceInstance).setServiceEntryPoint(defaultXWikiService);
+        }
+        return (XWatchServiceAsync) serviceInstance;
     }
 }
