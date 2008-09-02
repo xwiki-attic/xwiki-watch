@@ -172,7 +172,7 @@ public class FeedTest extends GWTTestCase {
 
     private void checkHasOneFeed(final String feedName, final String feedURL, final boolean runRemove) {
         DataManager datamgr = new DataManager(watch);
-        datamgr.getFeedList(new XWikiAsyncCallback(watch) {
+        datamgr.getConfigurationDocuments(new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 assertTrue("Error retrieving feed list", false);
@@ -196,7 +196,7 @@ public class FeedTest extends GWTTestCase {
 
     private void checkHasNoFeed() {
         DataManager datamgr = new DataManager(watch);
-        datamgr.getFeedList(new XWikiAsyncCallback(watch) {
+        datamgr.getConfigurationDocuments(new XWikiAsyncCallback(watch) {
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
                 assertTrue("Error retrieving feed list", false);

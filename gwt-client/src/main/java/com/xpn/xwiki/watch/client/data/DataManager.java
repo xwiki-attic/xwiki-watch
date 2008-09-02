@@ -647,11 +647,9 @@ public class DataManager {
         });
     }
 
-    public void getFeedList(final XWikiAsyncCallback cb) {
-        watch.getXWikiServiceInstance().getDocuments(", BaseObject as obj where doc.fullName=obj.name and obj.className in ('XWiki.AggregatorURLClass','XWiki.AggregatorGroupClass', 'XWiki.KeywordClass') and doc.web='" + watch.getWatchSpace() + "'",
-                0, 0, true, true, false, cb);
+    public void getConfigurationDocuments(final XWikiAsyncCallback cb) {
+        watch.getXWatchServiceInstance().getConfigDocuments(watch.getWatchSpace(), cb);
     }
-
 
     public void getArticles(FilterStatus filterStatus, int nb, int start, final AsyncCallback cb) {
         try {

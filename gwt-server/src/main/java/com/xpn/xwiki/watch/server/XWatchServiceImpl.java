@@ -44,18 +44,17 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
     {
         try {
             XWikiContext context = getXWikiContext();
-            return getArticles(sql, nb, start, context);
+            return getDocumentsFromObjects(sql, nb, start, context);
         } catch (Exception e) {
             throw getXWikiGWTException(e);
         }
     }
 
-    private List getArticles(String sql, int nb, int start, XWikiContext context)
+    private List getDocumentsFromObjects(String sql, int nb, int start, XWikiContext context)
         throws XWikiGWTException
     {
         List docList = new ArrayList();
         try {
-            long timeStart = Calendar.getInstance().getTimeInMillis();
             // removed distinct to have faster querying and because it's useless
             String objectsSql = "select obj.name from BaseObject as obj " + sql; 
             List list = context.getWiki().search(objectsSql, nb, start, context);
@@ -71,6 +70,19 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
                 }
             }
             return docList;
+        } catch (Exception e) {
+            throw getXWikiGWTException(e);
+        }
+    }
+
+    public List getConfigDocuments(String watchSpace) throws XWikiGWTException
+    {
+        try {
+            String query = " where obj.className in " 
+                + "('XWiki.AggregatorURLClass','XWiki.AggregatorGroupClass', 'XWiki.KeywordClass') and obj.name like '"
+                + watchSpace + ".%'";
+            XWikiContext context = getXWikiContext();
+            return getDocumentsFromObjects(query, 0, 0, context);
         } catch (Exception e) {
             throw getXWikiGWTException(e);
         }

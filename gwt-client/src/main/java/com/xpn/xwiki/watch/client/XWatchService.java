@@ -29,4 +29,14 @@ import com.xpn.xwiki.gwt.api.client.XWikiService;
 public interface XWatchService extends XWikiService
 {
     public List getArticles(String sql, int nb, int start) throws XWikiGWTException;
+    
+    /**
+     * Returns the configuration documents for the instance of Watch in the specified space: the feeds, groups and 
+     * the keywords.
+     * 
+     * @param watchSpace the Watch space
+     * @return the list of configuration documents in the specified space
+     * @throws XWikiGWTException
+     */
+    public List getConfigDocuments(String watchSpace) throws XWikiGWTException;
 }

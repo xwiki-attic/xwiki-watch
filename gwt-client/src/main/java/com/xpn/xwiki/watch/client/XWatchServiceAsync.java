@@ -29,4 +29,6 @@ import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
 public interface XWatchServiceAsync extends XWikiServiceAsync
 {   
     public void getArticles(String sql, int nb, int start, AsyncCallback cb);
+    
+    public void getConfigDocuments(String watchSpace, AsyncCallback cb);
 }

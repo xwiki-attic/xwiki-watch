@@ -75,7 +75,7 @@ public class Config {
      * Read the feed list, groups and keywords on the server
      */
     public void refreshConfig(final XWikiAsyncCallback cb) {
-        watch.getDataManager().getFeedList(new XWikiAsyncCallback(watch) {
+        watch.getDataManager().getConfigurationDocuments(new XWikiAsyncCallback(watch) {
             public void onSuccess(Object result) {
                 super.onSuccess(result);
                 List feedDocuments = (List) result;
