@@ -9,17 +9,46 @@
   <display-name>xwiki</display-name>
   <description>XWiki Application</description>
 
+  <!-- Filter that sets a custom encoding to all requests, since usually clients don't specificy
+       the encoding used for submitting the request, so by default containers fall back to the
+       encoding globally configured in their settings. This allows XWiki to use a custom encoding,
+       without affecting the whole container (and the other applications hosted). -->
   <filter>
     <filter-name>Set Character Encoding</filter-name>
     <filter-class>com.xpn.xwiki.web.SetCharacterEncodingFilter</filter-class>
+    <!-- The encoding to use. This must be the same as the one in xwiki.cfg (hopefully only one
+         encoding will be used later). -->
     <init-param>
       <param-name>encoding</param-name>
       <param-value>ISO-8859-1</param-value>
     </init-param>
+    <!-- Whether to ignore and override the encoding specified by the client, when this actually
+         happens. For example, AJAX requests made through XmlHttpRequests specify UTF-8. When this
+         is set to false, the custom encoding is used only when there wasn't any encoding specified
+         by the client. -->
+    <init-param>
+      <param-name>ignore</param-name>
+      <param-value>false</param-value>
+    </init-param>
   </filter>
 
+  <!-- A filter that allows requests to be saved and reused later. For example when the current request contains an expired
+       authentication token, and the authorization module redirects to the login page, all the information sent by the
+       client would be lost; this filter allows to save all that information, and after a successful login, injects the
+       saved data in the new request. -->
+  <filter>
+    <filter-name>RequestRestorer</filter-name>
+    <filter-class>com.xpn.xwiki.web.SavedRequestRestorerFilter</filter-class>
+  </filter>
+
+  <!-- The encoding filter MUST always be the first one, as setting the encoding does not work after accessing the request data. -->
   <filter-mapping>
     <filter-name>Set Character Encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>RequestRestorer</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
@@ -70,6 +99,15 @@
   <servlet>
     <servlet-name>redirectHomeServlet</servlet-name>
     <servlet-class>com.xpn.xwiki.web.HomePageRedirectServlet</servlet-class>
+    <!-- Uncomment and edit this if you want to redirect to a different home page, or if you have different mappings.
+         Note: the URL should not start with /, because it allows the context name to be changed. If it starts with /,
+         then it should be an absolute URL, including the application context path.
+    <init-param>
+      <param-name>homePage</param-name>
+      <param-value>bin/Main/</param-value>
+      <description>The address to redirect to when the client hits the root of the application.</description>
+    </init-param>
+    -->
   </servlet>
 
   <servlet>
