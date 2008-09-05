@@ -43,14 +43,8 @@ public class Constants {
     public static final String DEFAULT_WATCH_SPACE = "Watch";
     public static final String DEFAULT_CODE_SPACE = "WatchCode";
     public static final String DEFAULT_SHEETS_SPACE = "WatchSheets";
-    public static final String DEFAULT_QUERIES_SPACE = "WatchQueries";
     public static final String DEFAULT_TEMPLATE_SPACE = "WatchTemplate";
     public static final String DEFAULT_TRANSLATIONS_PAGE = "WatchCode.Translations";
-
-    // Query pages for custom queries
-    public static final String QUERY_PAGE_TAGSLIST = "TagsList";
-    public static final String QUERY_PAGE_NEWARTICLES = "NewArticles";
-    public static final String QUERY_PAGE_ARTICLENUMBER = "ArticleNumber";
     
     //Sheets
     public static final String SHEET_FEED = "FeedSheet";

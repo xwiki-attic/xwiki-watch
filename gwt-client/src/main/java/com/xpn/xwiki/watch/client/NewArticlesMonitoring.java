@@ -65,7 +65,7 @@ public class NewArticlesMonitoring {
     private void onCheckNew() {
         if (queryActive==false) {
             queryActive = true;
-            watch.getDataManager().getNewArticles(new AsyncCallback() {
+            watch.getDataManager().getArticlesCount(new AsyncCallback() {
                 public void onFailure(Throwable throwable) {
                     queryActive = false;
                 }
@@ -74,8 +74,7 @@ public class NewArticlesMonitoring {
                     queryActive = false;
                     if (object!=null) {
                         List nblist= (List) ((List) object).get(0);
-                        Integer nb = (nblist==null) ? null 
-                                     : new Integer(((Number)nblist.get(0)).intValue());
+                        Integer nb = (Integer)object;
                         if (nb!=null) {
                             int newNbArticles = nb.intValue();
                             if (currentNbArticles==-1)

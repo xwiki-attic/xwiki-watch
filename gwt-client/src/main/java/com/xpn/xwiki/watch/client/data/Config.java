@@ -190,7 +190,7 @@ public class Config {
 
      public void refreshArticleNumber(final AsyncCallback cb) {
          // Load the article counts
-        watch.getDataManager().getArticleCount(new AsyncCallback() {
+        watch.getDataManager().getNewArticlesCount(new AsyncCallback() {
             public void onFailure(Throwable throwable) {
                 if (cb != null) {
                     cb.onFailure(throwable);

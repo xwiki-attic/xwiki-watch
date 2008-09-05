@@ -20,13 +20,13 @@
 package com.xpn.xwiki.watch.server;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
@@ -86,5 +86,77 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
         } catch (Exception e) {
             throw getXWikiGWTException(e);
         }
+    }
+
+    public int getArticlesCount(String watchSpace) throws XWikiGWTException
+    {
+        try {
+            XWikiContext context = getXWikiContext();
+            String articleCountQuery = "select count(*) from XWiki.FeedEntryClass as entry, BaseObject as obj " 
+                + "where obj.id = entry.id and obj.name like '" + watchSpace + ".%'";
+            List resultList = context.getWiki().search(articleCountQuery, context);
+            if (resultList == null || resultList.size() < 1) {
+                return 0; // TODO: or throw exception? We didn't really expect that...
+            } else {
+                return ((Number)resultList.get(0)).intValue();
+            }
+        } catch (Exception e) {
+            throw getXWikiGWTException(e);
+        }
+    }
+
+    public List getNewArticlesCountPerFeeds(String watchSpace) throws XWikiGWTException
+    {
+        try {
+            String newArticlesPerFeedQuery = "select entry.feedname, sum(1 - coalesce(entry.read, 0)) " 
+                + "from XWiki.FeedEntryClass as entry, BaseObject as obj " 
+                + "where obj.id = entry.id and obj.name like '" + watchSpace + ".%' group by entry.feedname";
+            XWikiContext context = getXWikiContext();
+            List resultList = context.getWiki().search(newArticlesPerFeedQuery, context);
+            return prepareResultList(resultList);
+        } catch (XWikiException e) {
+            throw getXWikiGWTException(e);
+        }
+    }
+
+    public List getTagsList(String watchSpace, String like) throws XWikiGWTException
+    {   
+        try {
+            String tagsListQuery = "select elements(entry.tags), count(*) " 
+                + " from XWiki.FeedEntryClass as entry, BaseObject as obj " 
+                + " where obj.id = entry.id and obj.name like '"+ watchSpace + ".%'";
+            if (like != null && like.length() != 0) {
+                tagsListQuery += " and col_0_0_ like '" + like + "%' ";
+            }
+            String orderGroupQuery = " group by col_0_0_ order by lower(col_0_0_) asc";
+            
+            XWikiContext context = getXWikiContext();
+            List resultList = context.getWiki().search(tagsListQuery + orderGroupQuery, context);
+            return prepareResultList(resultList);
+        } catch (XWikiException e) {
+            throw getXWikiGWTException(e); 
+        }
+    }
+
+    /**
+     * Transforms a list of arrays (Object[]) into a list of lists, since we cannot send Object[]'s through GWT.
+     * To be used to prepare the results returned by database search functions.
+     * 
+     * @param results the List of arrays to be wrapped
+     * @return the list, with all arrays transformed into lists
+     */
+    private List prepareResultList(List results)
+    {
+        ArrayList newList = new ArrayList();
+
+        for (int i = 0; i < results.size(); i++) {
+            List currentList = new ArrayList();
+            Object[] array = (Object[])results.get(i);
+            for (int j = 0; j < array.length; j++) {
+                currentList.add(array[j]);
+            }
+            newList.add(currentList);
+        }
+        return newList;
     }
 }

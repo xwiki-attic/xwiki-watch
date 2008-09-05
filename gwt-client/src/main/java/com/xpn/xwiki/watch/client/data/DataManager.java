@@ -813,25 +813,15 @@ public class DataManager {
     }
 
     public void getTagsList(String like, AsyncCallback cb) {
-        Map params = new HashMap();
-        params.put("space", watch.getWatchSpace());
-        if (like != null && !like.equals("")) {
-            params.put("query", like);
-        }
-        watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "."
-                + Constants.QUERY_PAGE_TAGSLIST, params, 0, 0, cb);
+        watch.getXWatchServiceInstance().getTagsList(watch.getWatchSpace(), like, cb);
     }
 
-    public void getNewArticles(AsyncCallback cb) {
-        Map params = new HashMap();
-        params.put("space", watch.getWatchSpace());
-        watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "." + Constants.QUERY_PAGE_NEWARTICLES, params, 0, 0, cb);
+    public void getArticlesCount(AsyncCallback cb) {
+        watch.getXWatchServiceInstance().getArticlesCount(watch.getWatchSpace(), cb);
     }
 
-    public void getArticleCount(AsyncCallback cb) {
-        Map params = new HashMap();
-        params.put("space", watch.getWatchSpace());
-        watch.getXWikiServiceInstance().customQuery(Constants.DEFAULT_QUERIES_SPACE + "." + Constants.QUERY_PAGE_ARTICLENUMBER, params, 0, 0, cb);
+    public void getNewArticlesCount(AsyncCallback cb) {
+        watch.getXWatchServiceInstance().getNewArticlesCountPerFeeds(watch.getWatchSpace(), cb);
     }
 
     public void updateArticleFlagStatus(FeedArticle article, int newflagstatus, final AsyncCallback cb) {

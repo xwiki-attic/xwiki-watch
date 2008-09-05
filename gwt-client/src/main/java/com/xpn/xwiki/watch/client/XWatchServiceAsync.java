@@ -31,4 +31,10 @@ public interface XWatchServiceAsync extends XWikiServiceAsync
     public void getArticles(String sql, int nb, int start, AsyncCallback cb);
     
     public void getConfigDocuments(String watchSpace, AsyncCallback cb);
+    
+    public void getArticlesCount(String watchSpace, AsyncCallback cb);
+    
+    public void getNewArticlesCountPerFeeds(String watchSpace, AsyncCallback cb);
+    
+    public void getTagsList(String watchSpace, String like, AsyncCallback cb);    
 }

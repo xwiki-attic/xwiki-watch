@@ -39,4 +39,28 @@ public interface XWatchService extends XWikiService
      * @throws XWikiGWTException
      */
     public List getConfigDocuments(String watchSpace) throws XWikiGWTException;
+
+    /**
+     * Returns the total number of articles fetched for the specified Watch space.
+     */
+    public int getArticlesCount(String watchSpace) throws XWikiGWTException;
+    
+    /**
+     * Returns the number of new articles for each feed, for the specified Watch space.
+     * This function returns a list of lists in which the first position is the name of the feed and the second position
+     * is the number of new articles in that feed.
+     */
+    public List getNewArticlesCountPerFeeds(String watchSpace) throws XWikiGWTException;
+    
+    /**
+     * Returns the list of tags, each one joined by the tag count, for the specified Watch space. If the <tt>like</tt>
+     * parameter is not null, the tags returned will be the ones matching the like expression.
+     * 
+     * @param watchSpace the Watch space to return the tags for
+     * @param like the pattern that returned tags must match. If null, all tags will be returned.
+     * @return a list of tags, each one with its count. The returned list will contain lists which will have, on first 
+     * position, the tag and on the second position the tag count.
+     * @throws XWikiGWTException
+     */
+    public List getTagsList(String watchSpace, String like) throws XWikiGWTException;
 }
