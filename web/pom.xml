@@ -14,7 +14,7 @@
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
       <version>${product.enterprise.version}</version>
-      <type>pom</type>
+      <type>war</type>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
