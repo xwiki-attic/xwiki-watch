@@ -40,7 +40,7 @@ body {
 	line-height: 1.1em;
 }
 #company {
-	height: 100px;
+	height: 80px;
 	position: relative;
 	float: left;
 	width: 100%;
@@ -50,12 +50,12 @@ body {
 	padding: 0;
 	background-color: #FFF;
 	margin-right: 220px;
-	height: 100px;
+	height: 80px;
 }
 #companylogo a {
 	display: block;
-	height:  100px;
-	width: 300px;
+	height:  80px;
+	width: 220px;
 	text-decoration: none;
 }
 
@@ -64,8 +64,8 @@ body {
 	border: none;
 }
 #companylogo a img {
-	height: 100px;
-	width: 300px;
+	height: 80px;
+	width: 220px;
 }
 #companylogo a img {
 	position: relative; 
@@ -81,7 +81,7 @@ body {
 body#body.editbody #globallinks, #globallinks {
 	float:right;
 	font-size:1em;
-	height:100px;	
+	height:80px;	
 	line-height:1.2em;
 	margin-left:-220px;
 	position:relative;
