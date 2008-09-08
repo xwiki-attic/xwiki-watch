@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import java.lang.reflect.Method;
 
+import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
@@ -49,7 +50,7 @@ public class AllTests extends TestCase
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
         addTestCase(suite, WatchGWTLoadingTest.class);
 
-        return new XWikiTestSetup(suite);
+        return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }
 
     private static void addTestCase(TestSuite suite, Class testClass) throws Exception
