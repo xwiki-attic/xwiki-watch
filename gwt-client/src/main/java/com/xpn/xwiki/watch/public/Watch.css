@@ -453,7 +453,7 @@ div.watch-article-trash, div.watch-article-flag {
 	margin-right: 20px;
 	margin-left: 5px;
 	color: #43464A;
-	cursor: pointer;
+	cursor: default;
 	white-space: nowrap;
 }
 
@@ -465,7 +465,11 @@ div.watch-article-trash, div.watch-article-flag {
 	margin-right: 5px;
 	margin-left: 5px;
 	white-space: nowrap;
-	cursor: pointer;
+	cursor: default;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 .watch-article-comments-add {

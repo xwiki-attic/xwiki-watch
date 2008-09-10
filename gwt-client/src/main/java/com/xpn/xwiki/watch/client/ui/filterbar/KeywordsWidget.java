@@ -180,69 +180,73 @@ public class KeywordsWidget extends WatchWidget {
             final Keyword keyword = (Keyword)this.data;
             //now add some actions if needed
             if (selected && !keyword.getPageName().equals("")) {
-                //create a composite with link as main widget and some actions
-                Label editLabel = new Label(watch.getTranslation("keyword.edit"));
-                editLabel.addClickListener(new ClickListener() {
-                    public void onClick (Widget widget) {
-                        KeywordDialog kwDialog = new KeywordDialog(watch, "addkeyword", 
-                            Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, keyword);
-                        kwDialog.setAsyncCallback(new AsyncCallback() {
-                            public void onFailure(Throwable throwable) {
-                                //nothing
-                            }
-                            public void onSuccess(Object object) {
-                                Keyword newKeyword = (Keyword)object;
-                                watch.getDataManager().updateKeyword(newKeyword, new XWikiAsyncCallback(watch) {
-                                    public void onFailure(Throwable caught) {
-                                        super.onFailure(caught);
-                                    }
-    
-                                    public void onSuccess(Object result) {
-                                        super.onSuccess(result);
-                                        //refresh on the new keyword
-                                        watch.refreshOnNewKeyword();
-                                        watch.refreshOnActivateKeyword(keyword);
-                                    }
-                                });
-                            }
-                        });
-                        kwDialog.show();
-                    }
-                });
-                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
-                Label deleteLabel = new Label(watch.getTranslation("keyword.delete"));
-                deleteLabel.addClickListener(new ClickListener() {
-                   public void onClick(Widget widget) {
-                       String confirmString = watch.getTranslation("removekeyword.confirm", 
-                           new String[] {KeywordItemObject.this.getDisplayName()});
-                       boolean confirm = Window.confirm(confirmString);
-                       if (confirm) {
-                           watch.getDataManager().removeKeyword(keyword, new XWikiAsyncCallback(watch) {
-                               public void onFailure(Throwable caught) {
-                                   super.onFailure(caught);
-                               }
-                               public void onSuccess(Object result) {
-                                   super.onSuccess(result);
-                                   watch.refreshOnNewKeyword();
-                                   //cancel the keyword selection
-                                   watch.refreshOnActivateKeyword(null);
-                               }
-                           });
-                       } else {
-                           //nothing
-                       }
-                   } 
-                });
-                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
-                //set styles
-                editComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
-                    + " " + watch.getStyleName("keyword", "editkeyword"));
-                deleteComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
-                    + " " + watch.getStyleName("keyword", "deletekeyword"));
-                //add the two actions to the hyperlink composite, in reverse order since they will
-                //be floated to the right
-                this.widget.add(deleteComposite);
-                this.widget.add(editComposite);
+                // create a composite with link as main widget and delete and edit actions
+                // these actions are created and added in reverse order because they will be floated to the right
+                // Create the delete label and add it only if the user has the delete right
+                if (watch.getConfig().getHasDeleteRight()) {
+                    Label deleteLabel = new Label(watch.getTranslation("keyword.delete"));
+                    deleteLabel.addClickListener(new ClickListener() {
+                       public void onClick(Widget widget) {
+                           String confirmString = watch.getTranslation("removekeyword.confirm", 
+                               new String[] {KeywordItemObject.this.getDisplayName()});
+                           boolean confirm = Window.confirm(confirmString);
+                           if (confirm) {
+                               watch.getDataManager().removeKeyword(keyword, new XWikiAsyncCallback(watch) {
+                                   public void onFailure(Throwable caught) {
+                                       super.onFailure(caught);
+                                   }
+                                   public void onSuccess(Object result) {
+                                       super.onSuccess(result);
+                                       watch.refreshOnNewKeyword();
+                                       //cancel the keyword selection
+                                       watch.refreshOnActivateKeyword(null);
+                                   }
+                               });
+                           } else {
+                               //nothing
+                           }
+                       } 
+                    });
+                    TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
+                    deleteComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
+                        + " " + watch.getStyleName("keyword", "deletekeyword"));
+                    this.widget.add(deleteComposite);
+                }
+                // Create the edit label and add it only if the user has the rights to edit
+                if (watch.getConfig().getHasEditRight()) {
+                    Label editLabel = new Label(watch.getTranslation("keyword.edit"));
+                    editLabel.addClickListener(new ClickListener() {
+                        public void onClick (Widget widget) {
+                            KeywordDialog kwDialog = new KeywordDialog(watch, "addkeyword", 
+                                Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, keyword);
+                            kwDialog.setAsyncCallback(new AsyncCallback() {
+                                public void onFailure(Throwable throwable) {
+                                    //nothing
+                                }
+                                public void onSuccess(Object object) {
+                                    Keyword newKeyword = (Keyword)object;
+                                    watch.getDataManager().updateKeyword(newKeyword, new XWikiAsyncCallback(watch) {
+                                        public void onFailure(Throwable caught) {
+                                            super.onFailure(caught);
+                                        }
+        
+                                        public void onSuccess(Object result) {
+                                            super.onSuccess(result);
+                                            //refresh on the new keyword
+                                            watch.refreshOnNewKeyword();
+                                            watch.refreshOnActivateKeyword(keyword);
+                                        }
+                                    });
+                                }
+                            });
+                            kwDialog.show();
+                        }
+                    });
+                    TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
+                    editComposite.setStyleName(watch.getStyleName("keyword", "keywordaction") 
+                        + " " + watch.getStyleName("keyword", "editkeyword"));                
+                    this.widget.add(editComposite);
+                }
             }
         }
 

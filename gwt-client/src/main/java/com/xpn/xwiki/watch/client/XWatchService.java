@@ -20,6 +20,8 @@
 package com.xpn.xwiki.watch.client;
 
 import java.util.List;
+import java.util.Map;
+
 import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
 import com.xpn.xwiki.gwt.api.client.XWikiService;
 
@@ -63,4 +65,13 @@ public interface XWatchService extends XWikiService
      * @throws XWikiGWTException
      */
     public List getTagsList(String watchSpace, String like) throws XWikiGWTException;
+    
+    /**
+     * Returns the access rights specified in the passed list for the specified resource, for the current user.
+     * 
+     * @param rights the list of rights to be queried for the specified resource
+     * @param docname the resource to query the rights for 
+     * @return the access rights specified in the passed list for the specified resource, for the current user.
+     */
+    public Map getAccessLevels(List rights, String docname) throws XWikiGWTException;
 }

@@ -40,36 +40,49 @@ public class ConfigWizard extends Wizard {
         super(watch, callback);
 
         ChoiceDialog chooseConfigDialog = new ChoiceDialog(watch, "configtype", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, true);
-        chooseConfigDialog.addChoice("addfeed");
-        chooseConfigDialog.addChoice("addkeyword");
-        chooseConfigDialog.addChoice("addgroup");
+        // Add the add feed / group / keyword buttons only if the user has the right to
+        if (watch.getConfig().getHasEditRight()) {
+            chooseConfigDialog.addChoice("addfeed");
+            chooseConfigDialog.addChoice("addkeyword");
+            chooseConfigDialog.addChoice("addgroup");
+        }
         chooseConfigDialog.addChoice("loadingstatus");
         addDialog(chooseConfigDialog);
 
-        ChoiceDialog chooseFeedTypeDialog = new ChoiceDialog(watch, "addfeed", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, true);
-        chooseFeedTypeDialog.addChoice("standard");
-        chooseFeedTypeDialog.addChoice("googlenews");
-        chooseFeedTypeDialog.addChoice("googleblog");
-        chooseFeedTypeDialog.addChoice("technoratitag");
-        chooseFeedTypeDialog.addChoice("feedster");
-        chooseFeedTypeDialog.addChoice("wikio");
-        addDialog(chooseFeedTypeDialog);
+        // Add the add feed / keyword / group dialogs only if the user has the right to
+        if (watch.getConfig().getHasEditRight()) {
+            ChoiceDialog chooseFeedTypeDialog = new ChoiceDialog(watch, "addfeed", 
+                Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, true);
+            chooseFeedTypeDialog.addChoice("standard");
+            chooseFeedTypeDialog.addChoice("googlenews");
+            chooseFeedTypeDialog.addChoice("googleblog");
+            chooseFeedTypeDialog.addChoice("technoratitag");
+            chooseFeedTypeDialog.addChoice("feedster");
+            chooseFeedTypeDialog.addChoice("wikio");
+            addDialog(chooseFeedTypeDialog);
 
-        StandardFeedDialog standardFeedDialog = new StandardFeedDialog(watch, "standard", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Feed());
-        addDialog(standardFeedDialog, "end");
+            StandardFeedDialog standardFeedDialog = new StandardFeedDialog(watch, "standard", 
+                Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Feed());
+            addDialog(standardFeedDialog, "end");
 
-        String[] languages = { "en", "fr" };
-        addSearchEngineDialog("googlenews", "http://news.google.fr/news?hl={1}&ned={1}&ie=UTF-8&output=atom&num=40&q={0}", languages);
-        addSearchEngineDialog("googleblog", "http://blogsearch.google.com/blogsearch_feeds?hl={1}&tab=wb&ie=utf-8&num=40&output=atom&q={0}", languages);
-        addSearchEngineDialog("technoratitag", "http://feeds.technorati.com/feed/posts/tag/{0}");
-        addSearchEngineDialog("feedster", "http://www.feedster.com/search/type/rss/{0}");
-        addSearchEngineDialog("wikio", "http://rss.wikio.fr/search/{0}.rss");
+            String[] languages = { "en", "fr" };
+            addSearchEngineDialog("googlenews", 
+                "http://news.google.fr/news?hl={1}&ned={1}&ie=UTF-8&output=atom&num=40&q={0}", languages);
+            addSearchEngineDialog("googleblog", 
+                "http://blogsearch.google.com/blogsearch_feeds?hl={1}&tab=wb&ie=utf-8&num=40&output=atom&q={0}", 
+                languages);
+            addSearchEngineDialog("technoratitag", "http://feeds.technorati.com/feed/posts/tag/{0}");
+            addSearchEngineDialog("feedster", "http://www.feedster.com/search/type/rss/{0}");
+            addSearchEngineDialog("wikio", "http://rss.wikio.fr/search/{0}.rss");
 
-        KeywordDialog addKeywordDialog = new KeywordDialog(watch, "addkeyword", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Keyword("", ""));
-        addDialog(addKeywordDialog, "end");
+            KeywordDialog addKeywordDialog = new KeywordDialog(watch, "addkeyword", 
+                Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Keyword("", ""));
+            addDialog(addKeywordDialog, "end");
 
-        GroupDialog addGroupDialog = new GroupDialog(watch, "addgroup", Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Group());
-        addDialog(addGroupDialog, "end");
+            GroupDialog addGroupDialog = new GroupDialog(watch, "addgroup", 
+                Dialog.BUTTON_PREVIOUS | Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT, new Group());
+            addDialog(addGroupDialog, "end");
+        }
 
         LoadingStatusDialog loadingStatusDialog = new LoadingStatusDialog(watch, "loadingstatus", Dialog.BUTTON_CANCEL);
         loadingStatusDialog.setCancelText("close");

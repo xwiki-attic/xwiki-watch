@@ -20,7 +20,9 @@
 package com.xpn.xwiki.watch.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -158,5 +160,14 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
             newList.add(currentList);
         }
         return newList;
+    }
+
+    public Map getAccessLevels(List rights, String docname) throws XWikiGWTException
+    {
+        Map rightsMap = new HashMap();        
+        for (int i = 0; i < rights.size(); i++) {
+            rightsMap.put(rights.get(i), this.hasAccessLevel((String)rights.get(i), docname));
+        }
+        return rightsMap;
     }
 }

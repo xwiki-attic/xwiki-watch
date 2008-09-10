@@ -19,6 +19,8 @@
  */
 package com.xpn.xwiki.watch.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
 
@@ -37,4 +39,6 @@ public interface XWatchServiceAsync extends XWikiServiceAsync
     public void getNewArticlesCountPerFeeds(String watchSpace, AsyncCallback cb);
     
     public void getTagsList(String watchSpace, String like, AsyncCallback cb);    
+
+    public void getAccessLevels(List rights, String docname, AsyncCallback cb);
 }

@@ -476,24 +476,22 @@ public class FeedTreeWidget extends WatchWidget
             // if group is All group or it is a non-existent group, we shouldn't be able to edit it
             if (selected && (!group.getName().equals(watch.getTranslation("all"))) && !group.getPageName().equals("")) {
                 // create a composite with link as main widget and some actions
-                Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
-                editLabel.addClickListener(new ClickListener() {
-                    public void onClick(Widget widget) {
-                        GroupDialog gDialog =
-                            new GroupDialog(watch, "addgroup", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT,
-                                (Group) getData());
-                        gDialog.setAsyncCallback(new AsyncCallback() {
-                            public void onFailure(Throwable throwable) {
-                                // nothing
-                            }
-
-                            public void onSuccess(Object object) {
-                                Group newGroup = (Group) object;
-                                watch.getDataManager().updateGroup(newGroup, new XWikiAsyncCallback(watch) {
+                // Create and add the delete and edit actions in reverse order because they will be floated to the right
+                
+                // Create the delete label only if the user has the right to delete
+                if (watch.getConfig().getHasDeleteRight()) {
+                    Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
+                    deleteLabel.addClickListener(new ClickListener() {
+                        public void onClick(Widget widget) {
+                            String confirmString = watch.getTranslation("removegroup.confirm", 
+                                new String[] {((Group) getData()).getName()});
+                            boolean confirm = Window.confirm(confirmString);
+                            if (confirm) {
+                                watch.getDataManager().removeGroup((Group) getData(), new XWikiAsyncCallback(watch) {
                                     public void onFailure(Throwable caught) {
                                         super.onFailure(caught);
                                     }
-
+    
                                     public void onSuccess(Object result) {
                                         super.onSuccess(result);
                                         // We need to refreshData the tree
@@ -501,46 +499,54 @@ public class FeedTreeWidget extends WatchWidget
                                         watch.refreshOnNewKeyword();
                                     }
                                 });
+                            } else {
+                                // nothing
                             }
-                        });
-                        gDialog.show();
-                    }
-                });
-                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
-                Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
-                deleteLabel.addClickListener(new ClickListener() {
-                    public void onClick(Widget widget) {
-                        String confirmString =
-                            watch.getTranslation("removegroup.confirm", new String[] {((Group) getData()).getName()});
-                        boolean confirm = Window.confirm(confirmString);
-                        if (confirm) {
-                            watch.getDataManager().removeGroup((Group) getData(), new XWikiAsyncCallback(watch) {
-                                public void onFailure(Throwable caught) {
-                                    super.onFailure(caught);
+                        }
+                    });
+                    TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
+                    deleteComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") + " "
+                        + watch.getStyleName("feedtree", "deletegroup"));
+                    widget.add(deleteComposite);
+                }
+                
+                // Create and add the edit link only if the user has the right to edit
+                if (watch.getConfig().getHasEditRight()) {
+                    Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
+                    editLabel.addClickListener(new ClickListener() {
+                        public void onClick(Widget widget) {
+                            GroupDialog gDialog =
+                                new GroupDialog(watch, "addgroup", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT,
+                                    (Group) getData());
+                            gDialog.setAsyncCallback(new AsyncCallback() {
+                                public void onFailure(Throwable throwable) {
+                                    // nothing
                                 }
-
-                                public void onSuccess(Object result) {
-                                    super.onSuccess(result);
-                                    // We need to refreshData the tree
-                                    watch.refreshOnNewGroup();
-                                    watch.refreshOnNewKeyword();
+    
+                                public void onSuccess(Object object) {
+                                    Group newGroup = (Group) object;
+                                    watch.getDataManager().updateGroup(newGroup, new XWikiAsyncCallback(watch) {
+                                        public void onFailure(Throwable caught) {
+                                            super.onFailure(caught);
+                                        }
+    
+                                        public void onSuccess(Object result) {
+                                            super.onSuccess(result);
+                                            // We need to refreshData the tree
+                                            watch.refreshOnNewGroup();
+                                            watch.refreshOnNewKeyword();
+                                        }
+                                    });
                                 }
                             });
-                        } else {
-                            // nothing
+                            gDialog.show();
                         }
-                    }
-                });
-                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
-                // set styles
-                editComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") + " "
-                    + watch.getStyleName("feedtree", "editgroup"));
-                deleteComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") + " "
-                    + watch.getStyleName("feedtree", "deletegroup"));
-                // add the two actions to the composite, in reverse order since they will
-                // be floated to the right
-                widget.add(deleteComposite);
-                widget.add(editComposite);
+                    });
+                    TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
+                    editComposite.setStyleName(watch.getStyleName("feedtree", "groupaction") + " "
+                        + watch.getStyleName("feedtree", "editgroup"));
+                    widget.add(editComposite);
+                }
             }
         }
     }
@@ -603,58 +609,60 @@ public class FeedTreeWidget extends WatchWidget
                 this.widget.remove(w);
             }
 
-            // if selected, generate the two action links
+            // if selected, generate the two action links. Actions are created and added in reverse order 
+            // because they will be floated to the right
             if (selected) {
-                // create the inner item
-                Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
-                editLabel.addClickListener(new ClickListener() {
-                    public void onClick(Widget widget) {
-                        FeedDialog feedDialog =
-                            new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT,
-                                (Feed) getData());
-                        feedDialog.setAsyncCallback(new AsyncCallback() {
-                            public void onFailure(Throwable throwable) {
-                                // nothing
-                            }
-
-                            public void onSuccess(Object object) {
-                                Feed newfeed = (Feed) object;
-                                watch.getDataManager().updateFeed(newfeed, new XWikiAsyncCallback(watch) {
-                                    public void onFailure(Throwable caught) {
-                                        super.onFailure(caught);
-                                    }
-
-                                    public void onSuccess(Object result) {
-                                        super.onSuccess(result);
-                                        watch.refreshOnUpdateFeed();
-                                    }
-                                });
-                            }
-                        });
-                        feedDialog.show();
-                    }
-                });
-                TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
-
-                Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
-                deleteLabel.addClickListener(new ClickListener() {
-                    public void onClick(Widget widget) {
-                        // use a delete feed dialog
-                        FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", (Feed) getData());
-                        deleteDialog.show();
-                    }
-                });
-                TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
-                // set styles
-                editComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") + " "
-                    + watch.getStyleName("feedtree", "editfeed"));
-                deleteComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") + " "
-                    + watch.getStyleName("feedtree", "deletefeed"));
-
-                // add the two actions to the composite, in reverse order since they will
-                // be floated to the right
-                widget.add(deleteComposite);
-                widget.add(editComposite);
+                // Add the delete action only if the user has the delete right
+                if (watch.getConfig().getHasDeleteRight()) {
+                    Label deleteLabel = new Label(watch.getTranslation("feedtree.delete"));
+                    deleteLabel.addClickListener(new ClickListener() {
+                        public void onClick(Widget widget) {
+                            // use a delete feed dialog
+                            FeedDeleteDialog deleteDialog = new FeedDeleteDialog(watch, "removefeed", (Feed) getData());
+                            deleteDialog.show();
+                        }
+                    });
+                    TextWidgetComposite deleteComposite = new TextWidgetComposite(deleteLabel);
+                    deleteComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") + " "
+                        + watch.getStyleName("feedtree", "deletefeed"));
+                    widget.add(deleteComposite);
+                }
+                
+                // Add the edit action only if the user has the right to edit
+                if (watch.getConfig().getHasEditRight()) {
+                    Label editLabel = new Label(watch.getTranslation("feedtree.edit"));
+                    editLabel.addClickListener(new ClickListener() {
+                        public void onClick(Widget widget) {
+                            FeedDialog feedDialog =
+                                new StandardFeedDialog(watch, "standard", Dialog.BUTTON_CANCEL | Dialog.BUTTON_NEXT,
+                                    (Feed) getData());
+                            feedDialog.setAsyncCallback(new AsyncCallback() {
+                                public void onFailure(Throwable throwable) {
+                                    // nothing
+                                }
+    
+                                public void onSuccess(Object object) {
+                                    Feed newfeed = (Feed) object;
+                                    watch.getDataManager().updateFeed(newfeed, new XWikiAsyncCallback(watch) {
+                                        public void onFailure(Throwable caught) {
+                                            super.onFailure(caught);
+                                        }
+    
+                                        public void onSuccess(Object result) {
+                                            super.onSuccess(result);
+                                            watch.refreshOnUpdateFeed();
+                                        }
+                                    });
+                                }
+                            });
+                            feedDialog.show();
+                        }
+                    });
+                    TextWidgetComposite editComposite = new TextWidgetComposite(editLabel);
+                    editComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") + " "
+                        + watch.getStyleName("feedtree", "editfeed"));
+                    widget.add(editComposite);
+                }
             }
         }
     }

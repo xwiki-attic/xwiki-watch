@@ -58,6 +58,8 @@ public class Constants {
     public static final String PAGE_LOADING_STATUS = "LoadingStatus";
     public static final String PAGE_PREVIEW_FEED = "PreviewFeed";
     public static final String PAGE_EMAIL_PRESSREVIEW = "SendPressReviewEmail";
+    
+    public static final String PAGE_READER = "Reader";
 
     public static final String IMAGE_COMMENT = "comment.png";
     public static final String IMAGE_TAG = "tag.png";

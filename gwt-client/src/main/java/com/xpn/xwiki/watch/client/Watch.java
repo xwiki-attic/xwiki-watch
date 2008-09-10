@@ -204,18 +204,24 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
         config.refreshConfig(new XWikiAsyncCallback(this) {
             public void onSuccess(Object object) {
                 super.onSuccess(object);
-                // Refresh the Feed Tree UI
-                userInterface.init();
-                userInterface.refreshData("feedtree");
-                // Load the number of articles for each feed
-                refreshArticleNumber();
-                // Refresh tag cloud aynchronously
-                refreshTagCloud();
-                refreshKeywords();
-                refreshArticleList();
-                // Make sure server has started loading feed
-                startServerLoading();
-                userInterface.resizeWindow();
+                //load the rights too
+                Watch.this.config.refreshRights(new XWikiAsyncCallback(Watch.this) {
+                    public void onSuccess(Object result) {
+                        super.onSuccess(result);
+                        // Refresh the Feed Tree UI
+                        Watch.this.userInterface.init();
+                        Watch.this.userInterface.refreshData("feedtree");
+                        // Load the number of articles for each feed
+                        Watch.this.refreshArticleNumber();
+                        // Refresh tag cloud asynchronously
+                        Watch.this.refreshTagCloud();
+                        Watch.this.refreshKeywords();
+                        Watch.this.refreshArticleList();
+                        // Make sure server has started loading feed
+                        Watch.this.startServerLoading();
+                        Watch.this.userInterface.resizeWindow();
+                    }
+                });
             }
         });
     }

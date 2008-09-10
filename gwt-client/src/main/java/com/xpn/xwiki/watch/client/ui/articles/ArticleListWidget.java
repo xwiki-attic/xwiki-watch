@@ -110,6 +110,9 @@ public class ArticleListWidget extends WatchWidget {
         HTML commentsStatus = new HTML ();
         commentsStatus.setStyleName(watch.getStyleName("article", "comments-status"));
         int nbcomments = article.getCommentsNumber();
+        if ((nbcomments > 0) || watch.getConfig().getHasCommentRight()) {
+            commentsStatus.addStyleName("clickable");
+        }
         String commentTitle = watch.getTranslation("nocomments");
         if (nbcomments != 0) {
             commentTitle = nbcomments + " " + watch.getTranslation("comments");
@@ -235,35 +238,38 @@ public class ArticleListWidget extends WatchWidget {
 //        });
 //        actionsPanel.add(selectArticle);
         
-        Image loadingFlagImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
-        Image flagImage = new Image(watch.getSkinFile((article.getFlagStatus() == 1) 
-                                                      ? Constants.IMAGE_FLAG_ON 
-                                                      : Constants.IMAGE_FLAG_OFF));
-        flagImage.setTitle(watch.getTranslation((article.getFlagStatus() == 1) 
-                                                ? "article.flag.remove.caption" 
-                                                : "article.flag.add.caption"));
-        //create a loading widget with the flag image as main widget and loadingFlagImage as loading widget
-        final LoadingWidget flagLoadingWidget = new DefaultLoadingWidget(watch, flagImage, loadingFlagImage);
-        flagLoadingWidget.addStyleName(watch.getStyleName("article-flag"));
-        flagImage.addClickListener(new ClickListener() {
-            public void onClick(Widget widget) {
-                    int flagstatus = article.getFlagStatus();
-                    final int newflagstatus = (flagstatus == 1) ? 0 : 1;
-                    watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, 
-                        new LoadingAsyncCallback(flagLoadingWidget) {
-                        	public void onFailure(Throwable caught) {
-                        		super.onFailure(caught);
-                        	}
-                            public void onSuccess(Object result) {
-                                 super.onSuccess(result);
-                                 article.setFlagStatus(newflagstatus);
-                                 actionsPanel.clear();
-                                 updateLeftActionsPanel(actionsPanel, article);
-                            }
-                        });
-                }
-        });
-        actionsPanel.add(flagLoadingWidget);
+        // put the flag action only if the user has the right to edit
+        if (watch.getConfig().getHasEditRight()) {
+            Image loadingFlagImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
+            Image flagImage = new Image(watch.getSkinFile((article.getFlagStatus() == 1) 
+                                                          ? Constants.IMAGE_FLAG_ON 
+                                                          : Constants.IMAGE_FLAG_OFF));
+            flagImage.setTitle(watch.getTranslation((article.getFlagStatus() == 1) 
+                                                    ? "article.flag.remove.caption" 
+                                                    : "article.flag.add.caption"));
+            //create a loading widget with the flag image as main widget and loadingFlagImage as loading widget
+            final LoadingWidget flagLoadingWidget = new DefaultLoadingWidget(watch, flagImage, loadingFlagImage);
+            flagLoadingWidget.addStyleName(watch.getStyleName("article-flag"));
+            flagImage.addClickListener(new ClickListener() {
+                public void onClick(Widget widget) {
+                        int flagstatus = article.getFlagStatus();
+                        final int newflagstatus = (flagstatus == 1) ? 0 : 1;
+                        watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, 
+                            new LoadingAsyncCallback(flagLoadingWidget) {
+                            	public void onFailure(Throwable caught) {
+                            		super.onFailure(caught);
+                            	}
+                                public void onSuccess(Object result) {
+                                     super.onSuccess(result);
+                                     article.setFlagStatus(newflagstatus);
+                                     actionsPanel.clear();
+                                     updateLeftActionsPanel(actionsPanel, article);
+                                }
+                            });
+                    }
+            });
+            actionsPanel.add(flagLoadingWidget);
+        }
     }
     
     protected Widget getRightActionsPanel(final FeedArticle article) {
@@ -283,40 +289,43 @@ public class ArticleListWidget extends WatchWidget {
             });
         actionsPanel.add(extLinkImage);
     
-        Image trashLoadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
-        Image trashImage = new Image(watch.getSkinFile((article.getFlagStatus() == -1) 
-                                     ? Constants.IMAGE_TRASH_ON : Constants.IMAGE_TRASH_OFF));
-        trashImage.setTitle(watch.getTranslation((article.getFlagStatus() == -1) 
-                            ? "article.trash.remove.caption" : "article.trash.add.caption"));
-        final LoadingWidget trashLoadingWidget = new DefaultLoadingWidget(watch, trashImage, trashLoadingImage);
-        trashLoadingWidget.addStyleName(watch.getStyleName("article-trash"));
-        trashImage.addClickListener(new ClickListener() {
-            public void onClick(Widget widget) {
-                // trash/untrash article
-                int flagstatus = article.getFlagStatus();
-                final int newflagstatus;
-                if (flagstatus == -1) {
-                    // the article is trashed, untrash it
-                    newflagstatus = 0;
-                } else {
-                    //the article isn't trashed, it can be trashed
-                    newflagstatus = -1;
+        // add the trash button only if the user has the right to edit
+        if (watch.getConfig().getHasEditRight()) {
+            Image trashLoadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
+            Image trashImage = new Image(watch.getSkinFile((article.getFlagStatus() == -1) 
+                                         ? Constants.IMAGE_TRASH_ON : Constants.IMAGE_TRASH_OFF));
+            trashImage.setTitle(watch.getTranslation((article.getFlagStatus() == -1) 
+                                ? "article.trash.remove.caption" : "article.trash.add.caption"));
+            final LoadingWidget trashLoadingWidget = new DefaultLoadingWidget(watch, trashImage, trashLoadingImage);
+            trashLoadingWidget.addStyleName(watch.getStyleName("article-trash"));
+            trashImage.addClickListener(new ClickListener() {
+                public void onClick(Widget widget) {
+                    // trash/untrash article
+                    int flagstatus = article.getFlagStatus();
+                    final int newflagstatus;
+                    if (flagstatus == -1) {
+                        // the article is trashed, untrash it
+                        newflagstatus = 0;
+                    } else {
+                        //the article isn't trashed, it can be trashed
+                        newflagstatus = -1;
+                    }
+                    watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, 
+                        new LoadingAsyncCallback(trashLoadingWidget) {
+                        	public void onFailure(Throwable caught) {
+                        		super.onFailure(caught);
+                        	}
+                            public void onSuccess(Object result) {
+                                super.onSuccess(result);
+                                 article.setFlagStatus(newflagstatus);
+                                 actionsPanel.clear();
+                                 updateRightActionsPanel(actionsPanel, article);
+                            }
+                        });
                 }
-                watch.getDataManager().updateArticleFlagStatus(article, newflagstatus, 
-                    new LoadingAsyncCallback(trashLoadingWidget) {
-                    	public void onFailure(Throwable caught) {
-                    		super.onFailure(caught);
-                    	}
-                        public void onSuccess(Object result) {
-                            super.onSuccess(result);
-                             article.setFlagStatus(newflagstatus);
-                             actionsPanel.clear();
-                             updateRightActionsPanel(actionsPanel, article);
-                        }
-                    });
-            }
-        });
-        actionsPanel.add(trashLoadingWidget);
+            });
+            actionsPanel.add(trashLoadingWidget);
+        }
     }
     
     protected Widget getStatusPanel(FeedArticle article, Widget commentsZonePanel, HTML commentsStatus) {
@@ -342,15 +351,18 @@ public class ArticleListWidget extends WatchWidget {
         HTML tagsStatus = new HTML (getTagsStatusTitle(article));
         tagsStatus.setStyleName(watch.getStyleName("article", "tags-status"));
         tagsStatusPanel.add(tagsStatus);
-        // Create the tags add panel. invisible, to be set to visible / invisible on tags status click        
-        final Widget tagsAdd = getTagsAddZonePanel(tagsContainer, article, tagsStatus);
-        tagsStatusPanel.add(tagsAdd);
-        tagsStatus.addClickListener(new ClickListener(){
-            public void onClick(Widget sender) {
-                tagsAdd.setVisible(!tagsAdd.isVisible());
-                resizeWindow();
-            }
-        });
+        // Create the tags add panel. invisible, to be set to visible / invisible on tags status click
+        if (watch.getConfig().getHasEditRight()) {
+            tagsStatus.addStyleName("clickable");
+            final Widget tagsAdd = getTagsAddZonePanel(tagsContainer, article, tagsStatus);
+            tagsStatusPanel.add(tagsAdd);
+            tagsStatus.addClickListener(new ClickListener(){
+                public void onClick(Widget sender) {
+                    tagsAdd.setVisible(!tagsAdd.isVisible());
+                    resizeWindow();
+                }
+            });
+        }
         // Populate the tagsContainer panel
         refreshTagsContainer(tagsContainer, article, tagsStatus);
     }
@@ -564,72 +576,75 @@ public class ArticleListWidget extends WatchWidget {
             commentPanel.add(commentsZonePanel);
         }
         
-        VerticalPanel g = new VerticalPanel();
-        Image commentAddLoadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
-        Panel commentAddLoadingPanel = new FlowPanel();
-        commentAddLoadingPanel.add(commentAddLoadingImage);
-        final LoadingWidget commentAddLoadingWidget = new DefaultLoadingWidget(watch, g, commentAddLoadingPanel);
-        Label t = new Label(watch.getTranslation("commentadd.caption"));
-        g.add(t);
-        final TextArea commentTextArea = new TextArea();
-        g.add(commentTextArea);
-        HorizontalPanel buttonsContainer = new HorizontalPanel();
-        Button cancelAction = new Button(watch.getTranslation("button.cancel"));
-        cancelAction.addStyleName(watch.getStyleName("article-comment-cancel"));
-        cancelAction.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                commentTextArea.setText("");
-            }
-        });
-        Button saveAction = new Button(watch.getTranslation("button.add"));
-        saveAction.addStyleName(watch.getStyleName("article-comment-add"));
-        buttonsContainer.add(saveAction);
-        buttonsContainer.add(cancelAction);
-        g.add(buttonsContainer);
-        commentPanel.add(commentAddLoadingWidget);
-        
-        saveAction.addClickListener(new ClickListener() {
-            public void onClick(Widget widget) {
-                // Send the comment
-                final String comment = commentTextArea.getText().trim();
-                if (comment.length() > 0) {
-                    watch.getDataManager().addComment(article, comment, 
-                        new LoadingAsyncCallback(commentAddLoadingWidget) {
-                            public void onFailure(Throwable caught) {
-                                // failure we show the exception
-                                super.onFailure(caught);
-                            }
-
-                            public void onSuccess(Object result) {
-                                super.onSuccess(result);
-                                // success - We need to refreshData the number of comments
-                                // we reread the article to make sure we get it right
-                                // TODO: it should be an ArticleLoadingWidget here, not a comment one, but the comment
-                                // looks a lot better
-                                watch.getDataManager().getArticle(article.getPageName(), 
-                                        new LoadingAsyncCallback(commentAddLoadingWidget) {
-                                            public void onFailure(Throwable caught) {
-                                                super.onFailure(caught);
-                                            }
-            
-                                            public void onSuccess(Object result) {
-                                                super.onSuccess(result);
-                                                if (article.getCommentsNumber() != 0) {
-                                                    commentsStatus.setHTML(article.getCommentsNumber() + " "
-                                                        + watch.getTranslation("comments"));
-                                                }
-                                                // Refresh the comment panel
-                                                refreshCommentsContainer(commentPanel, (FeedArticle) result, 
-                                                                     commentsStatus);
-                                                // We need to resize in case this brings up a scroll bar
-                                                resizeWindow();
-                                            }
-                                        });
-                            }
-                        });
+        // add the comments panel only if the user has the right to comment
+        if (watch.getConfig().getHasCommentRight()) {
+            VerticalPanel g = new VerticalPanel();
+            Image commentAddLoadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
+            Panel commentAddLoadingPanel = new FlowPanel();
+            commentAddLoadingPanel.add(commentAddLoadingImage);
+            final LoadingWidget commentAddLoadingWidget = new DefaultLoadingWidget(watch, g, commentAddLoadingPanel);
+            Label t = new Label(watch.getTranslation("commentadd.caption"));
+            g.add(t);
+            final TextArea commentTextArea = new TextArea();
+            g.add(commentTextArea);
+            HorizontalPanel buttonsContainer = new HorizontalPanel();
+            Button cancelAction = new Button(watch.getTranslation("button.cancel"));
+            cancelAction.addStyleName(watch.getStyleName("article-comment-cancel"));
+            cancelAction.addClickListener(new ClickListener() {
+                public void onClick(Widget sender) {
+                    commentTextArea.setText("");
                 }
-            }
-        });
+            });
+            Button saveAction = new Button(watch.getTranslation("button.add"));
+            saveAction.addStyleName(watch.getStyleName("article-comment-add"));
+            buttonsContainer.add(saveAction);
+            buttonsContainer.add(cancelAction);
+            g.add(buttonsContainer);
+            commentPanel.add(commentAddLoadingWidget);
+        
+            saveAction.addClickListener(new ClickListener() {
+                public void onClick(Widget widget) {
+                    // Send the comment
+                    final String comment = commentTextArea.getText().trim();
+                    if (comment.length() > 0) {
+                        watch.getDataManager().addComment(article, comment, 
+                            new LoadingAsyncCallback(commentAddLoadingWidget) {
+                                public void onFailure(Throwable caught) {
+                                    // failure we show the exception
+                                    super.onFailure(caught);
+                                }
+    
+                                public void onSuccess(Object result) {
+                                    super.onSuccess(result);
+                                    // success - We need to refreshData the number of comments
+                                    // we reread the article to make sure we get it right
+                                    // TODO: it should be an ArticleLoadingWidget here, not a comment one, but the comment
+                                    // looks a lot better
+                                    watch.getDataManager().getArticle(article.getPageName(), 
+                                            new LoadingAsyncCallback(commentAddLoadingWidget) {
+                                                public void onFailure(Throwable caught) {
+                                                    super.onFailure(caught);
+                                                }
+                
+                                                public void onSuccess(Object result) {
+                                                    super.onSuccess(result);
+                                                    if (article.getCommentsNumber() != 0) {
+                                                        commentsStatus.setHTML(article.getCommentsNumber() + " "
+                                                            + watch.getTranslation("comments"));
+                                                    }
+                                                    // Refresh the comment panel
+                                                    refreshCommentsContainer(commentPanel, (FeedArticle) result, 
+                                                                         commentsStatus);
+                                                    // We need to resize in case this brings up a scroll bar
+                                                    resizeWindow();
+                                                }
+                                            });
+                                }
+                            });
+                    }
+                }
+            });
+        }
     }
 
     protected Widget getCommentElementPanel(FeedArticleComment comment) {

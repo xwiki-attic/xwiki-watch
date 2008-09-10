@@ -3,6 +3,7 @@ package com.xpn.xwiki.watch.client.data;
 import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.gwt.api.client.Document;
 import com.xpn.xwiki.gwt.api.client.XObject;
+import com.xpn.xwiki.watch.client.Constants;
 import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -36,7 +37,16 @@ public class Config {
     private List keywords;
     private Map groups;
     private List articles;
-    private boolean lastPage; 
+    private boolean lastPage;
+    
+    /*
+     * variables to store the access rights for the watch space. By default, they are all true to enable all actions
+     * in the UI (even if the actions are present on the UI, if an action is not allowed, it will be signaled on the
+     * server side when the action will be attempted).
+     */
+    private boolean hasEditRight = true;
+    private boolean hasDeleteRight = true;
+    private boolean hasCommentRight = true;
 
     public Config() {
     }
@@ -62,12 +72,28 @@ public class Config {
         return keywords;
     }
 
+    public boolean getHasEditRight()
+    {
+        return hasEditRight;
+    }
+
+    public boolean getHasDeleteRight()
+    {
+        return hasDeleteRight;
+    }
+
+    public boolean getHasCommentRight()
+    {
+        return hasCommentRight;
+    }
+
     public void clearConfig() {
         feedsList = new HashMap();
         feedsByGroupList = new HashMap();
         keywords = new ArrayList();
         groups = new HashMap();
         articles = new ArrayList();
+        this.hasCommentRight = this.hasEditRight = this.hasDeleteRight = true;
         this.lastPage = false;
     }
 
@@ -131,6 +157,40 @@ public class Config {
         //update the articles list
         for (Iterator rIt = result.iterator(); rIt.hasNext();) {
             this.articles.add(new FeedArticle((Document)rIt.next()));
+        }
+    }    
+    
+    public void refreshRights(final AsyncCallback cb)
+    {
+        List rightsList = new ArrayList();
+        rightsList.add("edit"); rightsList.add("comment"); rightsList.add("delete");
+        //test rights on the Reader document in Watch space, assuming that the rights on this document are 
+        // the ones on the space.
+        String documentName = watch.getWatchSpace() + "." + Constants.PAGE_READER;
+        watch.getXWatchServiceInstance().getAccessLevels(rightsList, documentName, new AsyncCallback() {
+            public void onSuccess(Object result) {
+                updateRights((Map)result);
+                if (cb != null) {
+                    cb.onSuccess(result);
+                }
+            }
+            public void onFailure(Throwable t) {
+                if (cb != null) {
+                    cb.onFailure(t);
+                }
+            }
+        });
+    }
+    
+    private void updateRights(Map result) {
+        if (result.get("edit") != null) {
+            this.hasEditRight = ((Boolean)result.get("edit")).booleanValue();
+        }
+        if (result.get("delete") != null) {
+            this.hasDeleteRight = ((Boolean)result.get("delete")).booleanValue();
+        }
+        if (result.get("comment") != null) {
+            this.hasCommentRight = ((Boolean)result.get("comment")).booleanValue();
         }
     }
 
