@@ -25,7 +25,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-watch-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-milestone-1</version>
   </parent>
   <artifactId>xwiki-watch-gwt-server</artifactId>
   <name>XWiki Products - Watch - GWT Server</name>
