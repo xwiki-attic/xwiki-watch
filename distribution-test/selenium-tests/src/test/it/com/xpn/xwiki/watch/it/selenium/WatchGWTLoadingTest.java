@@ -46,6 +46,9 @@ public class WatchGWTLoadingTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
+    /**
+     * Simply tests that GWT compiled JS code loads properly in the wiki page of Watch reader. 
+     */
     public void testGWTLoading()
     {
         // Wait for the reader page to load
