@@ -49,6 +49,7 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
         addTestCase(suite, WatchGWTLoadingTest.class);
+        addTestCase(suite, WatchFeedReaderTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }
