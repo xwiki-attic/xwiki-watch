@@ -51,7 +51,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/gwt/watch.zip</file>
-              <sourceDocument>${basedir}/src/main/resources/WatchCode/GWT</sourceDocument>
+              <sourceDocument>${basedir}/src/main/resources/WatchCode/GWT.xml</sourceDocument>
             </configuration>
           </execution>
         </executions>
