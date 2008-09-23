@@ -46,12 +46,12 @@ def checkAndPerformUpdate() {
       titleFeedObj.set("title", titleFeedObj.getProperty("name").getValue());
       titleFeedDoc.saveWithProgrammingRights();
     }
+    if(watchVersionObject == null) {
+      watchVersionObject = watchVersionDoc.newObject("WatchCode.WatchVersionClass");
+    }
+    watchVersionObject.set("number", expectedVersion);
+    watchVersionDoc.saveWithProgrammingRights();    
   }
-  if(watchVersionObject == null) {
-    watchVersionObject = watchVersionDoc.newObject("WatchCode.WatchVersionClass");
-  }
-  watchVersionObject.set("number", expectedVersion);
-  watchVersionDoc.saveWithProgrammingRights();
 }
 
 //update if needed
