@@ -417,7 +417,6 @@ div.watch-article-actionsleft {
 
 div.watch-article-actionsleft img {
 	margin-left: 2px;
-	cursor: pointer;
 }
 
 div.watch-article-actionsright {
@@ -428,7 +427,6 @@ div.watch-article-actionsright {
 
 div.watch-article-actionsright img {
 	margin-left: 5px;
-	cursor: pointer;
 }
 
 div.watch-article-trash, div.watch-article-flag {

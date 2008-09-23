@@ -237,19 +237,20 @@ public class ArticleListWidget extends WatchWidget {
 //            }
 //        });
 //        actionsPanel.add(selectArticle);
+
+        Image flagImage = new Image(watch.getSkinFile((article.getFlagStatus() == 1) 
+            ? Constants.IMAGE_FLAG_ON  : Constants.IMAGE_FLAG_OFF));
         
         // put the flag action only if the user has the right to edit
         if (watch.getConfig().getHasEditRight()) {
             Image loadingFlagImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
-            Image flagImage = new Image(watch.getSkinFile((article.getFlagStatus() == 1) 
-                                                          ? Constants.IMAGE_FLAG_ON 
-                                                          : Constants.IMAGE_FLAG_OFF));
             flagImage.setTitle(watch.getTranslation((article.getFlagStatus() == 1) 
                                                     ? "article.flag.remove.caption" 
                                                     : "article.flag.add.caption"));
             //create a loading widget with the flag image as main widget and loadingFlagImage as loading widget
             final LoadingWidget flagLoadingWidget = new DefaultLoadingWidget(watch, flagImage, loadingFlagImage);
             flagLoadingWidget.addStyleName(watch.getStyleName("article-flag"));
+            flagImage.addStyleName("clickable");
             flagImage.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                         int flagstatus = article.getFlagStatus();
@@ -269,6 +270,9 @@ public class ArticleListWidget extends WatchWidget {
                     }
             });
             actionsPanel.add(flagLoadingWidget);
+        } else {
+            // otherwise, add only the image 
+            actionsPanel.add(flagImage);
         }
     }
     
@@ -282,22 +286,25 @@ public class ArticleListWidget extends WatchWidget {
     protected void updateRightActionsPanel(final FlowPanel actionsPanel, final FeedArticle article) {
         Image extLinkImage = new Image(watch.getSkinFile(Constants.IMAGE_EXT_LINK));
         extLinkImage.setTitle(watch.getTranslation("articlelist.open"));
+        extLinkImage.addStyleName("clickable");
         extLinkImage.addClickListener(new ClickListener() {
             public void onClick(Widget widget) {
                 Window.open(article.getUrl(), "_blank", "");
                 }
             });
         actionsPanel.add(extLinkImage);
-    
+
+        Image trashImage = new Image(watch.getSkinFile((article.getFlagStatus() == -1) 
+            ? Constants.IMAGE_TRASH_ON : Constants.IMAGE_TRASH_OFF));
+
         // add the trash button only if the user has the right to edit
         if (watch.getConfig().getHasEditRight()) {
             Image trashLoadingImage = new Image(watch.getSkinFile(Constants.IMAGE_LOADING_SPINNER));
-            Image trashImage = new Image(watch.getSkinFile((article.getFlagStatus() == -1) 
-                                         ? Constants.IMAGE_TRASH_ON : Constants.IMAGE_TRASH_OFF));
             trashImage.setTitle(watch.getTranslation((article.getFlagStatus() == -1) 
                                 ? "article.trash.remove.caption" : "article.trash.add.caption"));
             final LoadingWidget trashLoadingWidget = new DefaultLoadingWidget(watch, trashImage, trashLoadingImage);
             trashLoadingWidget.addStyleName(watch.getStyleName("article-trash"));
+            trashImage.addStyleName("clickable");
             trashImage.addClickListener(new ClickListener() {
                 public void onClick(Widget widget) {
                     // trash/untrash article
@@ -325,6 +332,9 @@ public class ArticleListWidget extends WatchWidget {
                 }
             });
             actionsPanel.add(trashLoadingWidget);
+        } else {
+            //otherwise add just the image
+            actionsPanel.add(trashImage);
         }
     }
     
