@@ -158,7 +158,7 @@
     #set($url = $itemdoc.display("url"))
     #set($feedname = $itemdoc.display("feedname"))
     &lt;div class='article'&gt;
-    &lt;span class='article-title'&gt;&lt;a class='article-url' href="${url}"&gt;${atitle}&lt;/a&gt; $msg.get("watch.pressreview.in") ${feedname}&lt;/span&gt;
+    &lt;span class='article-title'&gt;&lt;a class='article-url' href="${url}"&gt;{pre}${atitle}{/pre}&lt;/a&gt; $msg.get("watch.pressreview.in") ${feedname}&lt;/span&gt;
     #if ($withcontent &amp;&amp; !$withcontent.equals("0") &amp;&amp; $withcontent != 0)
       &lt;p class="article-content"&gt;$itemdoc.display("content")&lt;/p&gt;
     #end
