@@ -1,6 +1,7 @@
 package com.xpn.xwiki.watch.client.ui.title;
 
 import com.xpn.xwiki.watch.client.ui.WatchWidget;
+import com.xpn.xwiki.watch.client.ui.utils.ButtonClickReturnHandler;
 import com.xpn.xwiki.watch.client.Watch;
 import com.google.gwt.user.client.ui.*;
 
@@ -63,6 +64,7 @@ public class SearchWidget extends WatchWidget {
                 }
             }
         });
+        searchBox.addKeyboardListener(new ButtonClickReturnHandler(okButton));
         panel.add(okButton);
     }
 
