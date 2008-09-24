@@ -76,7 +76,7 @@
 
     ## use a limit, put it on default 50 if none else specified
     #set($iLimit = $limit)
-    #if ($oLimit)
+    #if ($iLimit)
       #set($iLimit = $xwiki.parseInt($iLimit))
     #else
       #set($iLimit = 50)
