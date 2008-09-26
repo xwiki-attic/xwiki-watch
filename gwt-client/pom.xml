@@ -47,6 +47,17 @@
     </dependency>
   </dependencies>
   <build>
+    <!-- exclude all svg images from resources -->
+    <!-- this does not work for the maven-googlewebtoolkit2-plugin, which copies everything in the 
+    target folder so we excluded them in the gwt assembly-->
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <excludes>
+          <exclude>**/*.svg</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <!-- Download and unpack the GWT compiler -->
       <plugin>

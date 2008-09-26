@@ -27,8 +27,12 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-  	  <directory>${basedir}/target/${pom.artifactId}-${pom.version}/com.xpn.xwiki.watch.Watch/</directory>
+    <directory>${basedir}/target/${pom.artifactId}-${pom.version}/com.xpn.xwiki.watch.Watch/</directory>
       <outputDirectory>/</outputDirectory>
+      <!-- exclude the image svg sources -->
+      <excludes>
+        <exclude>**/*.svg</exclude>
+      </excludes>      
     </fileSet>
   </fileSets>
 </assembly>
