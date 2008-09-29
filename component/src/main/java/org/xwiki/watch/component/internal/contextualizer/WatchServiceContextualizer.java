@@ -18,7 +18,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
  */
-package org.xwiki.watch.component.contextualizer;
+package org.xwiki.watch.component.internal.contextualizer;
 
 import org.apache.velocity.VelocityContext;
 import org.xwiki.velocity.VelocityContextInitializer;

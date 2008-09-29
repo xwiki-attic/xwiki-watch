@@ -2,13 +2,13 @@
   <components>
     <component>
       <role>org.xwiki.watch.component.WatchService</role>
-      <implementation>org.xwiki.watch.component.DefaultWatchService</implementation>
+      <implementation>org.xwiki.watch.component.internal.DefaultWatchService</implementation>
       <instantiation-strategy>singleton</instantiation-strategy>      
     </component>
     <component>
       <role>org.xwiki.velocity.VelocityContextInitializer</role>
       <role-hint>watch</role-hint>
-      <implementation>org.xwiki.watch.component.contextualizer.WatchServiceContextualizer</implementation>
+      <implementation>org.xwiki.watch.component.internal.contextualizer.WatchServiceContextualizer</implementation>
       <instantiation-strategy>singleton</instantiation-strategy>
       <requirements>
         <requirement>

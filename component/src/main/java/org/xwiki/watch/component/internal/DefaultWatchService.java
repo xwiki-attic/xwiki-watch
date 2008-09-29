@@ -18,7 +18,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
  */
-package org.xwiki.watch.component;
+package org.xwiki.watch.component.internal;
+
+import org.xwiki.watch.component.WatchService;
 
 /**
  * Concrete implementation of a <tt>WatchService</tt> component.
