@@ -55,6 +55,7 @@
   </properties>
   <modules>
     <module>gwt-client</module>
+    <module>component</module>
     <module>gwt-server</module>
     <module>web</module>
     <module>wikis</module>
