@@ -18,7 +18,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
  */
-package org.xwiki.watch.component.internal.contextualizer;
+package org.xwiki.watch.component.internal.vcinitializer;
 
 import org.apache.velocity.VelocityContext;
 import org.xwiki.velocity.VelocityContextInitializer;
@@ -29,7 +29,7 @@ import org.xwiki.watch.component.WatchService;
  * 
  * @version $Id$
  */
-public class WatchServiceContextualizer implements VelocityContextInitializer
+public class WatchServiceVelocityContextInitializer implements VelocityContextInitializer
 {
     public static final String VELOCITY_CONTEXT_KEY = "watch";
     
