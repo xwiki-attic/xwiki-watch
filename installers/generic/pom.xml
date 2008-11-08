@@ -93,17 +93,10 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
-                  <!-- Note: we use XE war, as watch has no war by itself, it uses an unaltered XE war -->
-                  <artifactId>xwiki-enterprise-web</artifactId>
-                  <version>${product.enterprise.version}</version>
+                  <artifactId>xwiki-watch-web</artifactId>
+                  <version>${pom.version}</version>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
-                  <!-- Exclude default Hibernate config file since we're instead using one with the
-                       selected database configuration defined.
-                       NOTE: This is only supported by version 2.0-alpha-5 and above of the Dependency plugin which is
-                       why we are using the AntRun plugin below to remove the Hibernate config file. Uncomment when
-                       the 2.0-alpha-5 release is out. -->
-                  <!--excludes>**/hibernate.cfg.xml</excludes-->
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
