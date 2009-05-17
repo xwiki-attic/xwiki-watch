@@ -44,7 +44,14 @@
       <groupId>com.xpn.xwiki.platform.tools</groupId>
       <artifactId>xwiki-jetty-resources</artifactId>
       <version>${platform.tool.jetty.version}</version>
+      <type>zip</type>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.tools</groupId>
+      <artifactId>xwiki-rootwebapp</artifactId>
+      <version>${platform.tool.rootwebapp.version}</version>
+      <type>war</type>
+    </dependency>    
     <!-- Add the database JAR so that it's included in the expanded WAR since it's not included
          by default in the XEM WAR. -->
     <dependency>

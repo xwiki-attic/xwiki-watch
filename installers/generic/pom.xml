@@ -86,10 +86,18 @@
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
-                  <outputDirectory>${project.build.directory}/container/jetty</outputDirectory>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/container</outputDirectory>
                   <!-- Note: This the Dependency plugin doesn't support includes/excludes we
                        copy all the jetty resources in the jetty/ dir and then using the AntRun
                        plugin below we move all shell scripts file into the root. -->
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <artifactId>xwiki-rootwebapp</artifactId>
+                  <version>${platform.tool.rootwebapp.version}</version>
+                  <type>war</type>
+                  <outputDirectory>${xwiki.container}/webapps/root</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>

@@ -21,14 +21,11 @@
 <validationScript></validationScript>
 <comment></comment>
 <content>#if ($context.action.equals("view") &amp;&amp; !$doc.fullName.equals("WatchSheets.WebHomeSheet"))
-## if we didn't get the noDoctype parameter, redirect to the page with the parameter to get the GWT working right.
-#set($hasNoDoctype = false)
-#set($hasNoDoctype = $!request.noDoctype.trim().equalsIgnoreCase("true"))
 ## if we didn't receive the xpage=plain parameter, redirect
 #set($isPlain = false)
 #set($isPlain = $!request.xpage.trim().equals("plain"))
 ##if everything is fine, show the page
-#if ($hasNoDoctype &amp;&amp; $isPlain)
+#if ($isPlain)
   {pre}
   #set($watchbaseurl =  $xwiki.getAttachmentURL("WatchCode.GWT", "watch.zip"))
   #if($request.space)
@@ -36,7 +33,7 @@
   #else
     #set($space = $doc.web)
   #end
-  
+    &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;  
     &lt;html&gt;
     &lt;head&gt;
     &lt;title&gt;${doc.fullName}&lt;/title&gt;
@@ -67,9 +64,6 @@
   {/pre}
 #else
   #set($params = "")
-  #if (!$hasNoDoctype)
-    #set($params = $params + "noDoctype=true")
-  #end
   #if (!$isPlain)
     #if(!$params.equals(""))
       #set($params = $params + "&amp;")

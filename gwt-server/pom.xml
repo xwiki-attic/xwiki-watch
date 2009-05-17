@@ -31,14 +31,11 @@
   <name>XWiki Products - Watch - GWT Server</name>
   <packaging>jar</packaging>
   <description>XWiki Watch GWT Service</description>
-  <properties>
-    <gwtVersion>1.4.61</gwtVersion>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
-      <version>${gwtVersion}</version>
+      <version>${gwt.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
@@ -71,11 +68,5 @@
       <version>2.4</version>
       <scope>provided</scope>
     </dependency>
-  </dependencies>  
-  <repositories>
-    <repository>
-      <id>gwt-maven</id>
-      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
-    </repository>
-  </repositories>
+  </dependencies>
 </project>

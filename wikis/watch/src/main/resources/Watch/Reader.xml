@@ -53,6 +53,5 @@
 <tags/>
 </property>
 </object>
-<content>{pre}&lt;style&gt;#rightPanels, #leftPanels {display:none; width: 0px;} #contentcontainer {border-left: 0px; border-right: 0px;} &lt;/style&gt;{/pre}
-#includeForm("WatchSheets.WebHomeSheet")</content>
+<content>#includeForm("WatchSheets.WebHomeSheet")</content>
 </xwikidoc>

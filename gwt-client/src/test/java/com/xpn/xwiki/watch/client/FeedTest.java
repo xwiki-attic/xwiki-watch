@@ -1,15 +1,14 @@
 package com.xpn.xwiki.watch.client;
 
+import java.util.List;
+
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.xpn.xwiki.watch.client.Watch;
+import com.xpn.xwiki.gwt.api.client.Document;
+import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
 import com.xpn.xwiki.watch.client.data.DataManager;
 import com.xpn.xwiki.watch.client.data.Feed;
-import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
-import com.xpn.xwiki.gwt.api.client.Document;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-
-import java.util.List;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -43,13 +42,13 @@ public class FeedTest extends GWTTestCase {
         return "com.xpn.xwiki.watch.Watch";
     }
 
-    protected void setUp() throws Exception {
+    protected void gwtSetUp() throws Exception {
         super.setUp();
         watch = new Watch();
         watch.setWatchSpace("WatchTest");
     }
 
-    protected void tearDown() throws Exception {
+    protected void gwtTearDown() throws Exception {
         super.tearDown();
     }
 

@@ -263,7 +263,6 @@ public class FeedTreeWidget extends WatchWidget
                     String itemTreeKey = groupname + "." + feed.getPageName();
                     ItemObject feedObj = new FeedTreeItemObject(itemTreeKey, feed);
                     TreeItem feedItem = new TreeItem();
-                    hideExpandButton(feedItem);
                     feedItem.setUserObject(feedObj);
                     selected = false;
                     if (selectedItemKey != null && itemTreeKey.equals(selectedItemKey)) {
@@ -371,19 +370,6 @@ public class FeedTreeWidget extends WatchWidget
                 ((TreeItemObject) newSelectedTreeItem.getUserObject()).setSelected(true);
             }
         }
-    }
-    
-    /**
-     * Hides the passed TreeItem by adding display: none inline style. This should be achieved only by CSS but 
-     * IE seems to not apply the CSS set styles. 
-     * TODO: remove this function when we find a better method of preventing the expand button cell to be displayed 
-     * (GWT Api support for it or a CSS pure method).
-     */
-    private void hideExpandButton(TreeItem item)
-    {
-        Element treeItemElt = item.getElement();
-        Element expandingElt = DOM.getFirstChild(DOM.getFirstChild(DOM.getFirstChild(DOM.getFirstChild(treeItemElt))));
-        DOM.setStyleAttribute(expandingElt, "display", "none");
     }
 
     public void resizeWindow()

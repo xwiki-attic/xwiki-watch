@@ -22,7 +22,6 @@
 <comment></comment>
 <content>
 #includeMacros("WatchCode.PressReviewMacros")
-{pre}
 #set($withcomments = true)
 #if($!request.withcomments.equals("0"))
   #set($withcomments = false)
@@ -32,6 +31,5 @@
   #set($withcontent = true)
 #end
 #htmlPressReview($request.space, $request.read, $request.flagged, $request.trashed, $request.feed, $request.group, $request.getParameterValues("tags"), $request.keyword, $request.limit, $request.dateStart, $request.dateEnd, $withcontent, $withcomments)
-{/pre}
 </content>
 </xwikidoc>

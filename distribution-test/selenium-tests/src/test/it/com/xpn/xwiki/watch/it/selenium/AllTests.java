@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 import java.lang.reflect.Method;
 
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
-import com.xpn.xwiki.test.XWikiTestSetup;
+import org.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than

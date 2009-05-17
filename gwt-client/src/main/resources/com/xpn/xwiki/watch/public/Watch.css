@@ -230,7 +230,7 @@ div.watch-feedtree-group {
 
 div.watch-feedtree-feed {
     display: block;
-    width: 170px;
+    width: 150px;
     overflow-x: hidden;
 }
 
@@ -317,7 +317,7 @@ cursor: pointer;
 	position: relative;
 	zoom:1;/* haslayout for IE6  --> to remove*/
 	display: block;
-  overflow: auto;
+    overflow: auto;
 	margin: 4px 10px 0px 10px;
 	padding: 5px 0px;
 	border-top: 1px dotted #e6e6e6;
@@ -429,7 +429,7 @@ div.watch-article-actionsright img {
 	margin-left: 5px;
 }
 
-div.watch-article-trash, div.watch-article-flag {
+div.watch-article-trash, div.watch-article-flag, div.watch-article-trash div {
    display: inline;
 }
 
@@ -804,7 +804,6 @@ div.gwt-DialogBox {
 
 div.gwt-DialogBox .Caption {
     text-align: center;
-    width: 100%;
     font-family: sans-serif;
     font-size: 90%;
     font-weight: bold;

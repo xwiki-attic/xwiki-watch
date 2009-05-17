@@ -56,6 +56,8 @@
 </property>
 </object>
 <content>#set($aggregator = false)
+$xwiki.jsfx.use("js/xwiki/table/livetable.js", true)
+$xwiki.ssfx.use("js/xwiki/table/livetable.css", true)
 #set($aggregator = $doc.getObject("XWiki.AggregatorURLClass"))
 #if ($aggregator)
 &lt;h2 class="heading-1"&gt;$msg.get("watch.wiki.aggregator.title") &lt;a href="$aggregator.getProperty("url").value"&gt; $aggregator.getProperty("title").value&lt;/a&gt;&lt;/h2&gt;
