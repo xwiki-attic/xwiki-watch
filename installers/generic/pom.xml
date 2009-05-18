@@ -33,6 +33,14 @@
   <name>XWiki Products - Watch - Installers - Generic</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Watch - Installers - Generic</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.izpack</groupId>
+      <artifactId>izpack-standalone-compiler</artifactId>
+      <version>${izpack.compiler.version}</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
   <build>
     <resources>
       <resource>
@@ -164,11 +172,10 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
+        <groupId>org.codehaus.izpack</groupId>
         <artifactId>izpack-maven-plugin</artifactId>
-        <version>1.0-20070710-dev</version>
         <configuration>
-          <izpackConfig>${project.build.directory}/classes/install.xml</izpackConfig>
+          <izpackBasedir>${project.build.directory}/classes</izpackBasedir>
         </configuration>
         <executions>
           <execution>
@@ -177,6 +184,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.izpack</groupId>
+            <artifactId>izpack-standalone-compiler</artifactId>
+            <version>${izpack.compiler.version}</version>
+          </dependency>
+        </dependencies>        
       </plugin>
       <!-- Use the Maven build-helper plugin to attach the generated installer JAR to this
            project's main artifact -->
@@ -204,6 +218,7 @@
     </plugins>
   </build>
   <properties>
+    <izpack.compiler.version>4.2.1</izpack.compiler.version>
     <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
     <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
