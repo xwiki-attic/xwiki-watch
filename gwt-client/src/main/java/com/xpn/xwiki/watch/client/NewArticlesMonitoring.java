@@ -3,13 +3,7 @@ package com.xpn.xwiki.watch.client;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.xpn.xwiki.gwt.api.client.XWikiService;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-
-import java.util.List;
 import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -73,7 +67,6 @@ public class NewArticlesMonitoring {
                 public void onSuccess(Object object) {
                     queryActive = false;
                     if (object!=null) {
-                        List nblist= (List) ((List) object).get(0);
                         Integer nb = (Integer)object;
                         if (nb!=null) {
                             int newNbArticles = nb.intValue();

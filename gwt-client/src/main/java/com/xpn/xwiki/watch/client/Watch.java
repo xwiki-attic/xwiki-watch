@@ -694,19 +694,21 @@ public class Watch extends XWikiGWTDefaultApp implements EntryPoint {
     {
         if (serviceInstance == null) {
             serviceInstance = (XWikiServiceAsync) GWT.create(XWatchService.class);
-            String defaultXWikiService;
-            if (GWT.isScript()) {
-                defaultXWikiService = XWikiGWTAppConstants.XWIKI_DEFAULT_BASE_URL + Constants.XWATCH_SERVICE;
-            } else {
-                // Since GWT does not document the format of the URL returned by this function
-                // and it seems to have changed from the last version, we do a test
-                String moduleBaseURL = GWT.getModuleBaseURL();
-                if (moduleBaseURL.endsWith("/")) {
-                    moduleBaseURL = moduleBaseURL.substring(0, moduleBaseURL.length() - 1);
-                }
-                defaultXWikiService = moduleBaseURL + Constants.XWATCH_SERVICE;
+            String serviceUrl = getProperty("serviceurl");
+            if ((serviceUrl == null) || (serviceUrl.equals(""))) {
+                if (GWT.isScript()) {
+                    serviceUrl = XWikiGWTAppConstants.XWIKI_DEFAULT_BASE_URL + Constants.XWATCH_SERVICE;
+                } else {
+                    // Since GWT does not document the format of the URL returned by this function
+                    // and it seems to have changed from the last version, we do a test
+                    String moduleBaseURL = GWT.getModuleBaseURL();
+                    if (moduleBaseURL.endsWith("/")) {
+                        moduleBaseURL = moduleBaseURL.substring(0, moduleBaseURL.length() - 1);
+                    }
+                    serviceUrl = moduleBaseURL + Constants.XWATCH_SERVICE;
+                }            	
             }
-            ((ServiceDefTarget) serviceInstance).setServiceEntryPoint(defaultXWikiService);
+            ((ServiceDefTarget) serviceInstance).setServiceEntryPoint(serviceUrl);
         }
         return (XWatchServiceAsync) serviceInstance;
     }
