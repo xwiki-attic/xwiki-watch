@@ -1,11 +1,4 @@
-package com.xpn.xwiki.watch.client;
-
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import java.util.Date;
-
-/**
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  * <p/>
@@ -23,9 +16,15 @@ import java.util.Date;
  * License along with this software;if not,write to the Free
  * Software Foundation,Inc.,51 Franklin St,Fifth Floor,Boston,MA
  * 02110-1301 USA,or see the FSF site:http://www.fsf.org.
- *
- * @author ldubost
  */
+package com.xpn.xwiki.watch.client;
+
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.Date;
+import java.util.List;
+
 public class NewArticlesMonitoring {
 
     private Watch watch;
@@ -34,7 +33,9 @@ public class NewArticlesMonitoring {
     private Timer blinkTimer;
     private String windowTitle;
     private String messageTitle;
-    private int currentNbArticles;
+    // initialize on -1 just to be sure that it's going to be updated at least once
+    private int totalArticles = -1;
+    private int newArticles = -1;
     private Date lastChange;
     private boolean blinking = false;
     private boolean queryActive = false;
@@ -56,38 +57,52 @@ public class NewArticlesMonitoring {
     /**
      * Checking if we have articles
      */
-    private void onCheckNew() {
-        if (queryActive==false) {
+    private void onCheckNew()
+    {
+        if (queryActive == false) {
             queryActive = true;
-            watch.getDataManager().getArticlesCount(new AsyncCallback() {
-                public void onFailure(Throwable throwable) {
+            watch.getDataManager().getNewArticlesCount(new AsyncCallback()
+            {
+                public void onFailure(Throwable throwable)
+                {
                     queryActive = false;
                 }
 
-                public void onSuccess(Object object) {
+                public void onSuccess(Object object)
+                {
                     queryActive = false;
-                    if (object!=null) {
-                        Integer nb = (Integer)object;
-                        if (nb!=null) {
-                            int newNbArticles = nb.intValue();
-                            if (currentNbArticles==-1)
-                                currentNbArticles = newNbArticles;
-                            else {
-                                int newNb = newNbArticles - currentNbArticles;
-                                if (newNb > 0) {
-                                    String[] args1 = new String[1];
-                                    args1[0] = "" + newNb;
-
-                                    String[] args2 = new String[1];
-                                    args2[0] = "" + currentNbArticles;
-                                    // Let's update the last change date
-                                    lastChange = new Date();
-                                    startBlinking(watch.getTranslation("newarticles", args1), watch.getTranslation("articles", args2));
-                                    // let's refresh the article numbers
-                                    watch.refreshArticleNumber();
-                                }
+                    if (object != null) {
+                        // get the result of the query
+                        List articlesCountList = (List) object;
+                        // now get its two components: total articles and unread articles
+                        if (articlesCountList != null) {
+                            int updatedNewArticles = 0;
+                            int updatedTotalArticles = 0;
+                            for (int i = 0; i < articlesCountList.size(); i++) {
+                                List currentFeedArticlesCount = (List) articlesCountList.get(i);
+                                // total articles are on position 2
+                                updatedTotalArticles += ((Number) currentFeedArticlesCount.get(2)).intValue();
+                                // new articles are on position 1
+                                updatedNewArticles += ((Number) currentFeedArticlesCount.get(1)).intValue();
                             }
+                            if (updatedNewArticles == newArticles) {
+                                // nothing to update
+                                return;
+                            }
+                            // update the title bar with the new value
+                            newArticles = updatedNewArticles;
+                            totalArticles = updatedTotalArticles;
+                            String[] argsNewArticles = new String[1];
+                            argsNewArticles[0] = "" + newArticles;
+                            String[] argsTotalArticles = new String[1];
+                            argsTotalArticles[0] = "" + totalArticles;
+                            Window.setTitle(watch.getTranslation("productname") + ": "
+                                + watch.getTranslation("newarticles", argsNewArticles) + " / "
+                                + watch.getTranslation("articles", argsTotalArticles));
                         }
+                        // since we detected a change in the new articles count,
+                        // we might as well refresh the concerned whole UI
+                        watch.refreshArticleNumber();
                     }
                 }
             });
@@ -130,7 +145,7 @@ public class NewArticlesMonitoring {
     }
 
     public int getArticlesNumber() {
-        return currentNbArticles;
+        return totalArticles;
     }
 
     public Date lastChangeDate() {

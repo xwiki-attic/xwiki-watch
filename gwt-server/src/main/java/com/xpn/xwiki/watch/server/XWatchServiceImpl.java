@@ -110,7 +110,7 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
     public List getNewArticlesCountPerFeeds(String watchSpace) throws XWikiGWTException
     {
         try {
-            String newArticlesPerFeedQuery = "select entry.feedname, sum(1 - coalesce(entry.read, 0)) " 
+            String newArticlesPerFeedQuery = "select entry.feedname, sum(1 - coalesce(entry.read, 0)), count(*) " 
                 + "from XWiki.FeedEntryClass as entry, BaseObject as obj " 
                 + "where obj.id = entry.id and obj.name like '" + watchSpace + ".%' group by entry.feedname";
             XWikiContext context = getXWikiContext();
