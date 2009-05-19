@@ -40,13 +40,26 @@
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
       <version>1.2</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>
     <resources>
+      <!-- Copy and filter the launch4j.xml file -->
       <resource>
         <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>launch4j.xml</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <!-- Copy and don't filter the other resource files -->
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <excludes>
+          <exclude>launch4j.xml</exclude>
+        </excludes>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -68,7 +81,7 @@
         <executions>
           <execution>
             <id>copy</id>
-            <phase>prepare-package</phase>
+            <phase>package</phase>
             <goals>
               <goal>copy</goal>
             </goals>
@@ -77,19 +90,20 @@
                 <artifactItem>
                   <groupId>launch4j</groupId>
                   <artifactId>launch4j</artifactId>
-                  <version>3.0.0-pre2</version>
+                  <version>3.0.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-watch-installer-generic</artifactId>
                   <version>${pom.version}</version>
+                  <classifier>standard</classifier>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
           <execution>
             <id>unpack</id>
-            <phase>prepare-package</phase>
+            <phase>package</phase>
             <goals>
               <goal>unpack</goal>
             </goals>
@@ -98,7 +112,7 @@
                 <artifactItem>
                   <groupId>launch4j</groupId>
                   <artifactId>launch4j</artifactId>
-                  <version>3.0.0-pre2</version>
+                  <version>3.0.1</version>
                   <classifier>${launch4jOs}</classifier>
                   <type>zip</type>
                 </artifactItem>
@@ -112,7 +126,8 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <phase>prepare-package</phase>
+            <id>run-launch4j</id>
+            <phase>package</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -124,7 +139,7 @@
                 <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx" />
                 
                 <property name="classpath.compile" refid="maven.compile.classpath" />
-                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.0-pre2.jar" />
+                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.1.jar" />
                 <launch4j configFile="${project.build.directory}/classes/launch4j.xml" />
               </tasks>
             </configuration>
