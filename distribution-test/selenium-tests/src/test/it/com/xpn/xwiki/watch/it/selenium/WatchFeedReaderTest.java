@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Verify the Feed Reader features in Watch
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WatchFeedReaderTest extends AbstractXWikiTestCase
 {

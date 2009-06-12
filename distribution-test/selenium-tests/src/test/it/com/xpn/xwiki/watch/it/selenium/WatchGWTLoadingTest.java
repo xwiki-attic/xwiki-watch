@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Verify the GWT Reader loads in Watch
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WatchGWTLoadingTest extends AbstractXWikiTestCase
 {
