@@ -22,6 +22,7 @@ package com.xpn.xwiki.watch.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.gwt.api.client.XWikiServiceAsync;
 
 /**
@@ -41,4 +42,15 @@ public interface XWatchServiceAsync extends XWikiServiceAsync
     public void getTagsList(String watchSpace, String like, AsyncCallback cb);    
 
     public void getAccessLevels(List rights, String docname, AsyncCallback cb);
+
+    /**
+     * Adds a feed aggregator to the wiki, as specified by the parameters.
+     * 
+     * @param spaceName the space in which to add the feed aggregator document
+     * @param feedName the name of the feed, used as a hint to generate an unique name
+     * @param feedObject the feed object, completed with all the data
+     * @param cb asynchronous callback to handle the response from the server: <code>true</code> if the add was
+     *            successful, <code>false</code> otherwise (lack of rights or any other issue)
+     */
+    public void addFeed(String spaceName, String feedName, XObject feedObject, AsyncCallback<Boolean> cb);    
 }

@@ -22,6 +22,7 @@ package com.xpn.xwiki.watch.client;
 import java.util.List;
 import java.util.Map;
 
+import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
 import com.xpn.xwiki.gwt.api.client.XWikiService;
 
@@ -74,4 +75,16 @@ public interface XWatchService extends XWikiService
      * @return the access rights specified in the passed list for the specified resource, for the current user.
      */
     public Map getAccessLevels(List rights, String docname) throws XWikiGWTException;
+
+    /**
+     * Adds a feed aggregator to the wiki, as specified by the parameters.
+     * 
+     * @param spaceName the space in which to add the feed aggregator document
+     * @param feedName the name of the feed, used as a hint to generate an unique name
+     * @param feedObject the feed object, completed with all the data
+     * @return <code>true</code> if the add was successful, <code>false</code> otherwise (lack of rights or any other
+     *         issue)
+     * @throws XWikiGWTException in case something goes wrong during addition
+     */
+    public boolean addFeed(String spaceName, String feedName, XObject feedObject) throws XWikiGWTException;
 }

@@ -1,16 +1,21 @@
 package com.xpn.xwiki.watch.client.data;
 
-import com.xpn.xwiki.watch.client.Watch;
-import com.xpn.xwiki.watch.client.Constants;
-import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
-import com.xpn.xwiki.gwt.api.client.XObject;
-import com.xpn.xwiki.gwt.api.client.Document;
-import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.gwtwidgets.client.util.SimpleDateFormat;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.xpn.xwiki.gwt.api.client.Document;
+import com.xpn.xwiki.gwt.api.client.XObject;
+import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
+import com.xpn.xwiki.gwt.api.client.app.XWikiAsyncCallback;
+import com.xpn.xwiki.watch.client.Constants;
+import com.xpn.xwiki.watch.client.Watch;
 
 /**
  * See the NOTICE file distributed with this work for additional
@@ -42,69 +47,47 @@ public class DataManager {
         this.watch = watch;
     }
 
-    public void addFeed(final Feed feed, final AsyncCallback cb) {
-        if (feed==null)
+    @SuppressWarnings("unchecked")
+    public void addFeed(final Feed feed, final AsyncCallback cb)
+    {
+        if (feed == null) {
             cb.onFailure(null);
+        }
 
         final String feedName = feed.getName();
+        XObject feedObj = new XObject();
+        feedObj.setClassName(Constants.CLASS_AGGREGATOR_URL);
+        feedObj.setNumber(0);
+        feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_NAME, feedName);
         // If feed title is set, get the title, else, use the feed name
         final String feedTitle = (feed.getTitle().trim().length() > 0) ? feed.getTitle() : feed.getName();
-        final String feedURL = feed.getUrl();
-        final List feedGroups = feed.getGroups();
-        watch.getXWikiServiceInstance().getUniquePageName(watch.getWatchSpace(), feedName, new XWikiAsyncCallback(watch) {
-            public void onFailure(Throwable caught) {
-                super.onFailure(caught);
-                // We failed to get a unique page name
-                // This should not happen
-                cb.onFailure(caught);
-            }
+        feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_TITLE, feedTitle);
+        feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_URL, feed.getUrl());
+        feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_GROUPS, feed.getGroups());
 
-            public void onSuccess(Object result) {
-                super.onSuccess(result);
-                // Construct the full page name
-                final String pageName = watch.getWatchSpace() + "." + result;
-                XObject feedObj = new XObject();
-                feedObj.setName(pageName);
-                feedObj.setClassName(Constants.CLASS_AGGREGATOR_URL);
-                feedObj.setNumber(0);
-                feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_NAME, feedName);
-                feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_TITLE, feedTitle);
-                feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_URL, feedURL);
-                feedObj.setProperty(Constants.PROPERTY_AGGREGATOR_URL_GROUPS, feedGroups);
-                watch.getXWikiServiceInstance().saveObject(feedObj, new AsyncCallback() {
-                    public void onFailure(Throwable throwable) {
-                        cb.onFailure(throwable);
-                    }
+        watch.getXWatchServiceInstance().addFeed(watch.getWatchSpace(), feedName, feedObj,
+            new XWikiAsyncCallback(watch)
+            {
+                public void onFailure(Throwable caught)
+                {
+                    super.onFailure(caught);
+                    cb.onFailure(caught);
+                }
 
-                    public void onSuccess(Object object) {
-                        if (!((Boolean)object).booleanValue()) {
-                            String errorMessage = watch.getTranslation("addfeed.accessdenied");
-                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
-                        } else {                            
-                            //save the content of the feed -- should make sure that the sheet exists
-                            String feedDefaultContent = "#includeForm(\"" 
-                                    + Constants.DEFAULT_SHEETS_SPACE + "." + Constants.SHEET_FEED + "\")";
-                            watch.getXWikiServiceInstance().saveDocumentContent(pageName, feedDefaultContent, 
-                                new XWikiAsyncCallback(watch) {
-                                    public void onFailure(Throwable throwable) {
-                                        cb.onFailure(throwable);
-                                    }
-                                    public void onSuccess(Object object) {
-                                        super.onSuccess(object);
-                                        // We return the page name
-                                        if (!((Boolean)object).booleanValue()) {
-                                            String errorMessage = watch.getTranslation("addfeed.accessdenied");
-                                            cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
-                                        } else {
-                                            cb.onSuccess(pageName);
-                                        }
-                                    }
-                            });
-                        }
+                public void onSuccess(Object result)
+                {
+                    super.onSuccess(result);
+                    // We return the page name
+                    if (!((Boolean) result).booleanValue()) {
+                        String errorMessage = watch.getTranslation("addfeed.accessdenied");
+                        cb.onFailure(getAccessDeniedException(errorMessage, errorMessage));
+                    } else {
+                        // this is not really the page that was created, but it's good enough since noone uses this
+                        // response ftm
+                        cb.onSuccess(watch.getWatchSpace() + "." + feedName);
                     }
-                });
-            }
-        });
+                }
+            });
     }
 
     /**

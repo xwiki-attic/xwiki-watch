@@ -31,6 +31,7 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.gwt.api.client.Document;
+import com.xpn.xwiki.gwt.api.client.XObject;
 import com.xpn.xwiki.gwt.api.client.XWikiGWTException;
 import com.xpn.xwiki.gwt.api.server.XWikiServiceImpl;
 import com.xpn.xwiki.watch.client.XWatchService;
@@ -169,5 +170,54 @@ public class XWatchServiceImpl extends XWikiServiceImpl implements XWatchService
             rightsMap.put(rights.get(i), this.hasAccessLevel((String)rights.get(i), docname));
         }
         return rightsMap;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean addFeed(String spaceName, String feedName, XObject feedObject) throws XWikiGWTException
+    {
+        String uniquePageName = getUniquePageName(spaceName, feedName);
+        String pageName = spaceName + "." + uniquePageName;
+        // complete the doc name in the feed object
+        feedObject.setName(pageName);
+        boolean objectSaveResult = saveObject(feedObject);
+        if (!objectSaveResult) {
+            // something went wrong with object save, probably no rights
+            return false;
+        }
+        String feedDefaultContent = "#includeForm(\"WatchSheets.FeedSheet\")";
+        boolean docSaveResponse = saveDocumentContent(pageName, feedDefaultContent);
+        if (!docSaveResponse) {
+            // something went wrong with document save, lack of rights
+            return false;
+        }
+        // everything is fine
+        return true;
+    }
+    
+    /**
+     * {@inheritDoc}. Overwrite to set the syntax to xwiki 1.0 syntax.
+     */
+    public Boolean saveDocumentContent(String fullName, String content, String comment) throws XWikiGWTException
+    {
+        try {
+            XWikiContext context = getXWikiContext();
+            if (context.getWiki().getRightService().hasAccessLevel("edit", context.getUser(), fullName, context)) {
+                XWikiDocument doc = context.getWiki().getDocument(fullName, context);
+                doc.setContent(content);
+                doc.setSyntaxId(XWikiDocument.XWIKI10_SYNTAXID);
+                doc.setAuthor(context.getUser());
+                if (doc.isNew())
+                    doc.setCreator(context.getUser());
+                context.getWiki().saveDocument(doc,
+                    (comment == null) ? context.getMessageTool().get("core.comment.updateContent") : comment, context);
+                return Boolean.valueOf(true);
+            } else {
+                return Boolean.valueOf(false);
+            }
+        } catch (Exception e) {
+            throw getXWikiGWTException(e);
+        }
     }
 }
