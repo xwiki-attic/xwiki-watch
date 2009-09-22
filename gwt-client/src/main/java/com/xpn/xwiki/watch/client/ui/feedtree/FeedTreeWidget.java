@@ -533,6 +533,12 @@ public class FeedTreeWidget extends WatchWidget
                         + watch.getStyleName("feedtree", "editgroup"));
                     widget.add(editComposite);
                 }
+                if (widget.getWidgets().size() > 0) {
+                    // add a fake clear floats widget
+                    TextWidgetComposite fakeClearFloatsWidget = new TextWidgetComposite(null);
+                    fakeClearFloatsWidget.setStyleName("clearfloats");
+                    widget.add(fakeClearFloatsWidget);
+                }
             }
         }
     }
@@ -648,6 +654,12 @@ public class FeedTreeWidget extends WatchWidget
                     editComposite.setStyleName(watch.getStyleName("feedtree", "feedaction") + " "
                         + watch.getStyleName("feedtree", "editfeed"));
                     widget.add(editComposite);
+                }
+                if (widget.getWidgets().size() > 0) {
+                    // add a fake clear floats widget
+                    TextWidgetComposite fakeClearFloatsWidget = new TextWidgetComposite(null);
+                    fakeClearFloatsWidget.setStyleName("clearfloats");
+                    widget.add(fakeClearFloatsWidget);
                 }
             }
         }

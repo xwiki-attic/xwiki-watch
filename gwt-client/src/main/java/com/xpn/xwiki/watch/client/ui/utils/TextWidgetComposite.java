@@ -21,7 +21,9 @@ public class TextWidgetComposite extends Composite
         this.widgetsPanel = new FlowPanel();
         
         compositePanel = new FlowPanel();
-        compositePanel.add(this.mainWidget);
+        if (mainWidget != null) {
+            compositePanel.add(this.mainWidget);
+        }
         compositePanel.add(this.widgetsPanel);
         this.updateCompositePanel();
         //every composite has to call initWidget in their constructors
